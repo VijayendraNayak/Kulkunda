@@ -3,31 +3,52 @@
 import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import Link from "next/link";
+// import { useSelector } from "react-orangeux";
+// import { useNavigate } from "react-router-dom";
 
-const UserHeader = () => {
+const Header = ({ loading }) => {
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [searchstate, setSearchstate] = useState(" ");
   const [navbar, setNavbar] = useState(false);
+  // const { currentUser } = useSelector((state) => state.user);
+  // const navigate = useNavigate();
 
   const handleScroll = () => {
     const currentScrollPos = window.scrollY;
 
+    if (!loading) {
       setIsNavVisible(
         currentScrollPos < prevScrollPos || currentScrollPos < 100
       );
-  
+    }
     setPrevScrollPos(currentScrollPos);
   };
 
- 
-
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
+    setNavbar(false);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [prevScrollPos]);
+  }, [prevScrollPos, loading]);
+
+  // useEffect(() => {
+  //   const urlParams = new URLSearchParams(window.location.search);
+  //   const searchTermFromUrl = urlParams.get("name");
+  //   // console.log(searchTermFromUrl)
+  //   if (searchTermFromUrl) {
+  //     setSearchstate(searchTermFromUrl);
+  //   }
+  // }, [location.search]);
+
+  // const searchsubmit = (e) => {
+  //   e.preventDefault();
+  //   const urlParams = new URLSearchParams(window.location.search);
+  //   urlParams.set("name", searchstate);
+  //   const searchQuery = urlParams.toString();
+  //   navigate(`/search?${searchQuery}`);
+  // };
 
   const togglenavbar = () => {
     setNavbar(!navbar);
@@ -47,48 +68,52 @@ const UserHeader = () => {
               navbar ? "hidden" : "flex"
             }`}
           >
-            <span className="text-orange-300 text-3xl">Kulkunda</span>
-            <span className="text-orange-500 text-3xl">Basaweshwara</span>
+            <span className="text-orange-300 text-2xl">Kulkunda</span>
+            <span className="text-orange-500 text-2xl">Basaweshwara</span>
           </div>
         </Link>
         <ul className={`lg:flex md:flex gap-6 lg:items-center `}>
-          {/* ... (rest of the code) ... */}
-        </ul>
-        <Link href="/">
-          <li className="hover:underline text-orange-700 hidden sm:flex">
-            Home
-          </li>
-        </Link>
-        <Link href="/search">
-          <li className="hover:underline text-orange-700 hidden sm:flex">
-            Products
-          </li>
-        </Link>
-        <Link href="/about">
-          <li className="hover:underline text-orange-700 hidden sm:flex">
-            About
-          </li>
-        </Link>
-        <Link href="/contact">
-          <li className="hover:underline text-orange-700 hidden sm:flex">
-            Contact
-          </li>
-        </Link>
-        {/* {currentUser ? ( */}
-        {/* <Link href="/profile">
+          <Link href="/">
+            <li className="hover:underline text-orange-700 hidden sm:flex">
+              Home
+            </li>
+          </Link>
+          <Link href="/search">
+            <li className="hover:underline text-orange-700 hidden sm:flex">
+              Products
+            </li>
+          </Link>
+          <Link href="/about">
+            <li className="hover:underline text-orange-700 hidden sm:flex">
+              About
+            </li>
+          </Link>
+          <Link href="/contact">
+            <li className="hover:underline text-orange-700 hidden sm:flex">
+              Contact
+            </li>
+          </Link>
+          {/* {currentUser ? (
+            <Link href="/profile">
               <img
                 className=" rounded-full w-10 h-10 hidden sm:flex"
                 src={currentUser.avatar}
                 alt="profile"
               />
-            </Link> */}
-        {/* ) : ( */}
-        <Link href="/login">
-          <li className="hover:underline text-orange-700 hidden sm:flex">
-            Sign in
-          </li>
-        </Link>
-        <form className="bg-orange-200 rounded-lg items-center p-3 hidden sm:flex">
+            </Link>
+          ) : ( */}
+            <Link href="/login">
+              <li className="hover:underline text-orange-700 hidden sm:flex">
+                Sign in
+              </li>
+            </Link>
+          {/* )} */}
+        </ul>
+        {/* Search form */}
+        <form
+          className="bg-orange-200 rounded-lg items-center p-3 hidden sm:flex"
+          // onSubmit={searchsubmit}
+        >
           <input
             type="text"
             placeholder="Search..."
@@ -115,9 +140,7 @@ const UserHeader = () => {
             </Link>
             <ul className={`flex-col items-center gap-6 `}>
               <Link href="/">
-                <li className="hover:underline text-orange-700 sm:hidden">
-                  Home
-                </li>
+                <li className="hover:underline text-orange-700 sm:hidden">Home</li>
               </Link>
               <Link href="/product">
                 <li className="hover:underline text-orange-700 sm:hidden">
@@ -154,7 +177,7 @@ const UserHeader = () => {
                 value={searchstate}
               />
               <FaSearch className="text-orange-600 "></FaSearch>
-            </form>{" "}
+            </form>
           </div>
         )}
       </div>
@@ -162,4 +185,4 @@ const UserHeader = () => {
   );
 };
 
-export default UserHeader;
+export default Header;

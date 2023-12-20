@@ -1,13 +1,14 @@
-//abhishek gowda,darshith,prajwal
-
-import React from 'react'
+import React from "react";
 
 const Footer = () => {
   return (
-    <div className='bg-black p-80'>
-      Footer
+    <div className="bg-black text-white flex flex-col lg:flex-row justify-center px-10 mt-20">
+      <div className="p-2 flex flex-col gap-4 items-center justify-center">
+        <p className="text-xl font-bold text-orange-500 ">ISCODERZ</p>
+        <p>&copy; All rights reserved @ Iscoderz</p>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;
