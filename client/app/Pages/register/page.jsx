@@ -1,7 +1,9 @@
 "use client"
 import Link from "next/link";
 import React, { useState } from "react";
+import Image from "next/image";
 
+import RegisterImage from "/app/assets/image/temple.jpg"
 
 const Register = () => {
   const [formdata, setFormdata] = useState({});
@@ -21,8 +23,15 @@ const Register = () => {
           <div className="animate-spin rounded-full h-24 w-24 border-t-4 border-orange-500"></div>
         </div>
       )} */}
-      <div className="flex-1">
-{/* image here */}
+      <div className="flex-1 relative">
+      <Image
+          src={RegisterImage}
+          alt="regester background image"
+          layout="fill"
+          objectFit="cover"
+          priority
+        />
+      {/* image here */}
       </div>
       <div className="flex-1 ">
       <p className="text-4xl px-12 font-semibold text-center text-orange-500 ">
@@ -74,6 +83,22 @@ const Register = () => {
               {password ? "👁️" : "🙈"}
             </button>
           </div>
+          <div className="relative">
+            <input
+              type={password ? "password" : "text"}
+              placeholder="Confirm Password"
+              className="border p-3 rounded-lg pr-10 w-[245px] sm:w-[350px]"
+              id="confirm-password"
+              onChange={handleChange}
+            />
+            <button
+              type="button"
+              onClick={togglepassword}
+              className="absolute top-1/2 right-2 transform -translate-y-1/2"
+            >
+              {password ? "👁️" : "🙈"}
+            </button>
+          </div>
         </form>
         <button
           className="bg-orange-500 text-white p-3 rounded-lg font-semibold text-xl"
@@ -81,7 +106,7 @@ const Register = () => {
           Register
         </button>
         <div className="flex justify-end">
-          <Link href="/login">
+          <Link href="/Pages/login">
             <span className="text-green-500 font-bold cursor-pointer">
               Already Signed In?
             </span>
