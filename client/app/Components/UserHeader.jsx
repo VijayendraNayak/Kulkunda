@@ -78,17 +78,17 @@ const Header = ({ loading }) => {
               Home
             </li>
           </Link>
-          <Link href="/search">
+          <Link href="/Pages/seva">
             <li className="hover:underline text-orange-700 hidden sm:flex">
-              Products
+              Seva
             </li>
           </Link>
-          <Link href="/about">
+          <Link href="/Pages/aboutus">
             <li className="hover:underline text-orange-700 hidden sm:flex">
               About
             </li>
           </Link>
-          <Link href="/contact">
+          <Link href="/Pages/contactus">
             <li className="hover:underline text-orange-700 hidden sm:flex">
               Contact
             </li>
@@ -102,7 +102,7 @@ const Header = ({ loading }) => {
               />
             </Link>
           ) : ( */}
-            <Link href="/login">
+            <Link href="/Pages/login">
               <li className="hover:underline text-orange-700 hidden sm:flex">
                 Sign in
               </li>
@@ -142,22 +142,22 @@ const Header = ({ loading }) => {
               <Link href="/">
                 <li className="hover:underline text-orange-700 sm:hidden">Home</li>
               </Link>
-              <Link href="/product">
+              <Link href="/Pages/seva">
                 <li className="hover:underline text-orange-700 sm:hidden">
-                  Products
+                  Seva
                 </li>
               </Link>
-              <Link href="/about">
+              <Link href="/Pages/aboutus">
                 <li className="hover:underline text-orange-700 sm:hidden">
                   About
                 </li>
               </Link>
-              <Link href="/contact">
+              <Link href="/Pages/contactus">
                 <li className="hover:underline text-orange-700 sm:hidden">
                   Contact
                 </li>
               </Link>
-              <Link href="/login">
+              <Link href="/Pages/login">
                 <li className="hover:underline text-orange-700 sm:hidden">
                   Sign in
                 </li>
