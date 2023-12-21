@@ -203,7 +203,7 @@ const SevaPage = () => {
   const renderLanguageDropdown = () => {
     return (
       <div className="flex items-center ml-auto">
-        <span className="mr-2">Seva Language:</span>
+        <span className="mr-2">Language:</span>
         <select
           value={selectedLanguage}
           onChange={(e) => handleLanguageChange(e.target.value)}
@@ -219,17 +219,17 @@ const SevaPage = () => {
 
   const renderSevaList = () => {
     const languageKey = `name${selectedLanguage.charAt(0).toUpperCase()}${selectedLanguage.slice(1)}`;
+    const title = selectedLanguage === "english"
+      ? "Seva's offered here"
+      : selectedLanguage === "Kannada"
+      ? "ಇಲ್ಲಿ ಸೇವೆಗಳು ನೀಡಲಾಗುತ್ತವೆ"
+      : selectedLanguage === "hindi"
+      ? "यहाँ सेवाएं प्रदान की जा रही हैं"
+      : "Seva's offered here";
+
     return (
       <div>
-        <h2 className="text-xl font-semibold mb-2">
-          {selectedLanguage === "english"
-            ? "Seva's offered here"
-            : selectedLanguage === "Kannada"
-            ? "ಇಲ್ಲಿ ಸೇವೆಗಳು ನೀಡಲಾಗುತ್ತವೆ"
-            : selectedLanguage === "hindi"
-            ? "यहाँ सेवाएं प्रदान की जा रही हैं"
-            : "Seva's offered here"}
-        </h2>
+        <h2 className="text-xl font-semibold mb-2">{title}</h2>
         <ul>
           {sevaList.map((seva) => (
             <li key={seva.id} className="p-4 border rounded-md shadow-md">
@@ -244,7 +244,15 @@ const SevaPage = () => {
 
   return (
     <div className="container mx-auto mt-8">
-      <h1 className="text-3xl font-bold mb-4" style={{ marginTop: '100px' }}>Seva List</h1>
+      <h1 className="text-3xl font-bold mb-4 text-center" style={{ marginTop: '100px' }}>
+        {selectedLanguage === "english"
+          ? "Shree Basaveshwara Temple"
+          : selectedLanguage === "Kannada"
+          ? "ಶ್ರೀ ಬಸವೇಶ್ವರ ದೇವಸ್ಥಾನ"
+          : selectedLanguage === "hindi"
+          ? "श्री बसवेश्वर मंदिर"
+          : "Seva List"}
+      </h1>
 
       <div className="flex items-center justify-between mb-4">
         {renderLanguageDropdown()}
@@ -260,3 +268,6 @@ const SevaPage = () => {
 };
 
 export default SevaPage;
+
+
+
