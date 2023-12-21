@@ -232,7 +232,7 @@ const SevaPage = () => {
         <h2 className="text-xl font-semibold mb-2">{title}</h2>
         <ul>
           {sevaList.map((seva) => (
-            <li key={seva.id} className="p-4 border rounded-md shadow-md">
+            <li key={seva.id} className="p-4 border rounded-md shadow-md hover:scale-105">
               <h3 className="text-xl font-semibold mb-2">{seva[languageKey]}</h3>
               <p className="text-green-600 font-bold">Price: Rs. {seva.price}</p>
             </li>
