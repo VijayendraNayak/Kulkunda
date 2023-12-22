@@ -1,0 +1,16 @@
+.social-icons {
+    display: flex ;
+    justify-content: space-between;
+    display: flex; 
+    justify-content: space-around;
+    
+}
+
+.social-icons {
+    margin-right: 10px; /* Optional margin between icons */
+}
+.icon-container {
+    background-color: black;
+    padding: 5px; /* Adjust padding as needed */
+    border-radius: 50%; /* Optional: Apply rounded corners */
+}
