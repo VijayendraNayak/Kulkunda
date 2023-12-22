@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="bg-black text-white flex flex-col lg:flex-row justify-center px-10 mt-20 absolute bottom-0 w-full">
+    <div className="bg-black text-white flex flex-col lg:flex-row justify-center px-10 mt-20">
       <div className="p-2 flex flex-col gap-4 items-center justify-center">
         <p className="text-xl font-bold text-orange-500 ">ISCODERZ</p>
         <div class="social-icons flex flex-row gap-4">
