@@ -102,7 +102,7 @@ const Header = ({ loading }) => {
               />
             </Link>
           ) : ( */}
-            <Link href="/Pages/verifyotp">
+            <Link href="/Pages/login">
               <li className="hover:underline text-orange-700 hidden sm:flex">
                 Sign in
               </li>

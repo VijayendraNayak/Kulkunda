@@ -81,7 +81,7 @@ const Register = () => {
           Login
         </button>
         <div className="flex justify-end">
-          <Link href="/Pages/register">
+          <Link href="/Pages/verifyotp">
             <span className="text-green-500 font-bold cursor-pointer">
               Create an Account?
             </span>
