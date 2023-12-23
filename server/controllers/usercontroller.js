@@ -16,8 +16,8 @@ exports.register = asyncErrHandler(async (req, res, next) => {
 })
 
 exports.login = asyncErrHandler(async (req, res, next) => {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email }).select('+password');
+    const { phonenumber, password } = req.body;
+    const user = await User.findOne({ phonenumber }).select('+password');
 
     if (!user) {
         return next(errorHandler(404, 'User not found'));
