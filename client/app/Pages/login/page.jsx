@@ -31,7 +31,7 @@ const Register = () => {
         return;
       }
       data.role === "admin"
-        ? router.replace("admin/home")
+        ? router.replace("/Pages/Admin/home")
         : router.replace("/");
     } catch (error) {
       console.log("catcherr", error);
