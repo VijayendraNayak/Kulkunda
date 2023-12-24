@@ -4,8 +4,11 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { IoIosEye } from "react-icons/io";
 import { IoIosEyeOff } from "react-icons/io";
+import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+import { app } from "../../firebase";
 import RegisterImage from "/app/assets/image/temple2.webp";
 import { useRouter } from "next/navigation";
+import { FcGoogle } from "react-icons/fc";
 import {
   signInStart,
   signInSuccess,
@@ -16,7 +19,7 @@ import { useDispatch } from "react-redux";
 const Login = () => {
   const [formdata, setFormdata] = useState({});
   const [password, showPassword] = useState(true);
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const router = useRouter();
   const handleChange = (e) => {
     setFormdata({ ...formdata, [e.target.id]: e.target.value });
@@ -27,7 +30,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      dispatch(signInStart())
+      dispatch(signInStart());
       const res = await fetch("/api/user/login", {
         method: "POST",
         headers: {
@@ -38,16 +41,51 @@ const Login = () => {
       const data = await res.json();
       if (data.success === false) {
         console.log(data.message);
-        dispatch(signInFailure(data.message))
+        dispatch(signInFailure(data.message));
         return;
       }
-      dispatch(signInSuccess(data))
+      dispatch(signInSuccess(data));
       data.role === "admin"
         ? router.replace("/Pages/Admin/home")
         : router.replace("/");
     } catch (error) {
       console.log("catcherr", error);
-      dispatch(signInFailure(error))
+      dispatch(signInFailure(error));
+    }
+  };
+  const handlegoogleSubmit = async (e) => {
+    e.preventDefault();
+    const provider = new GoogleAuthProvider();
+    const auth = getAuth(app);
+    const result = await signInWithPopup(auth, provider);
+    e.preventDefault();
+    try {
+      dispatch(signInStart());
+      const res = await fetch("/api/user/google", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: result.user.displayName,
+          email: result.user.email,
+          avatar: result.user.photoURL,
+        }),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(signInFailure(data.message));
+        return;
+      }
+      dispatch(signInSuccess(data));
+      console.log("heer");
+      data.role === "admin"
+        ? router.replace("Pages/admin/home")
+        : router.replace("/");
+      setLoadings(false);
+    } catch (error) {
+      console.log({ error });
+      dispatch(signInFailure(error));
     }
   };
 
@@ -98,6 +136,12 @@ const Login = () => {
             onClick={handleSubmit}
           >
             Login
+          </button>
+          <button
+            className=" flex bg-white text-black p-3 hover:scale-105 rounded-lg font-semibold text-xl items-center justify-center gap-2"
+            onClick={handlegoogleSubmit}
+          >
+            <FcGoogle /> Login with Google
           </button>
           <div className="flex justify-end">
             <Link href="/Pages/verifyotp">

@@ -60,3 +60,15 @@ exports.google = asyncErrHandler(async (req, res, next) => {
         res.cookie('access_token', token, { httpOnly: true }).status(200).json(rest);
     }
 })
+exports.logout = asyncErrHandler(async (req, res, next) => {
+    res.clearCookie('access_token')
+    res.status(200).json({ success: true, message: "User logged out successfully" })
+})
+exports.updateProfile = asyncErrHandler(async (req, res, next) => {
+    const { name, email, avatar } = req.body
+    req.user.name = name
+    req.user.email = email
+    req.user.avatar = avatar
+    const user = await User.findByIdAndUpdate(req.user._id, req.user, { new: true })
+    res.status(200).json({ message: "User updated Successfully", user })
+})

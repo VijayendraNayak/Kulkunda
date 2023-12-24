@@ -95,8 +95,7 @@ const Header = ({ loading }) => {
             </li>
           </Link>
           {currentUser ? (  
-
-            <Link href="/profile">
+            <Link href="/Pages/profile">
               <img
                 className=" rounded-full w-10 h-10 hidden sm:flex"
                 src={currentUser.avatar}
@@ -159,11 +158,21 @@ const Header = ({ loading }) => {
                   Contact
                 </li>
               </Link>
-              <Link href="/Pages/login">
-                <li className="hover:underline text-orange-700 sm:hidden">
-                  Sign in
-                </li>
-              </Link>
+              {currentUser ? (  
+            <Link href="/Pages/profile">
+              <img
+                className=" rounded-full w-10 h-10 hidden sm:flex"
+                src={currentUser.avatar}
+                alt="profile"
+              />
+            </Link>
+          ) : (
+            <Link href="/Pages/login">
+              <li className="hover:underline text-orange-700 hidden sm:flex">
+                Sign in
+              </li>
+            </Link>
+           )} 
             </ul>
             <form
               className=" flex px-3 bg-orange-200 rounded-lg items-center justify-between sm:hidden"
