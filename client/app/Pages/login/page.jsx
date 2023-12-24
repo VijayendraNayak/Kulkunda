@@ -2,19 +2,21 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import Image from "next/image";
-
+import { IoIosEye } from "react-icons/io";
+import { IoIosEyeOff } from "react-icons/io";
 import RegisterImage from "/app/assets/image/temple2.webp";
 import { useRouter } from "next/navigation";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../../Redux/Features/counter/counterslice";
+import { useDispatch } from "react-redux";
 
-import {Icon} from 'react-icons-kit';
-import {eyeOff} from 'react-icons-kit/feather/eyeOff';
-import {eye} from 'react-icons-kit/feather/eye'
-
-const Register = () => {
+const Login = () => {
   const [formdata, setFormdata] = useState({});
-
-  const [passwordType, setPasswordType] = useState('text');
-  const [passwordIcon, setPasswordIcon] = useState(eyeOff);
+  const [password, showPassword] = useState(true);
+  const dispatch=useDispatch()
   const router = useRouter();
   const handleChange = (e) => {
     setFormdata({ ...formdata, [e.target.id]: e.target.value });
@@ -22,21 +24,10 @@ const Register = () => {
   const togglepassword = () => {
     showPassword(!password);
   };
-
-  const handlePasswordToggle = () => {
-    setPasswordType((prevPasswordType) => (prevPasswordType === 'password' ? 'text' : 'password'));
-    setPasswordIcon((prevPasswordIcon) => (prevPasswordIcon === eyeOff ? eye : eyeOff));
-    if (passwordType === 'password') {
-      setPasswordIcon(eye);
-      setPasswordType('text');
-    } else {
-      setPasswordIcon(eyeOff);
-      setPasswordType('password');
-    }
-  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      dispatch(signInStart())
       const res = await fetch("/api/user/login", {
         method: "POST",
         headers: {
@@ -47,15 +38,17 @@ const Register = () => {
       const data = await res.json();
       if (data.success === false) {
         console.log(data.message);
+        dispatch(signInFailure(data.message))
         return;
       }
+      dispatch(signInSuccess(data))
       data.role === "admin"
         ? router.replace("/Pages/Admin/home")
         : router.replace("/");
     } catch (error) {
       console.log("catcherr", error);
+      dispatch(signInFailure(error))
     }
-    
   };
 
   return (
@@ -85,17 +78,19 @@ const Register = () => {
             />
             <div className="relative">
               <input
-                  type={passwordType}
-                  id="password"
-                  placeholder="Password"
-                  className="border p-3 rounded-lg pr-10 w-[245px] sm:w-[350px] hover:shadow-lg hover:scale-105"
-                  value={formdata.password}
-                  onChange={(e) => setPasswordType(e.target.value)}
-                  autoComplete="current-password"
+                type={password ? "password" : "text"}
+                placeholder="Password"
+                className="border p-3 rounded-lg pr-10 w-[245px] sm:w-[350px] hover:shadow-lg hover:scale-105"
+                id="password"
+                onChange={handleChange}
               />
-              <span className="flex justify-around items-center" onClick={handlePasswordToggle}>
-                <Icon className="absolute top-1/2 left-80 transform -translate-y-1/2 hover:shadow-lg hover:scale-105" icon={passwordIcon} size={25}/>
-              </span>
+              <button
+                type="button"
+                onClick={togglepassword}
+                className="absolute top-1/2 left-80 transform -translate-y-1/2 hover:shadow-lg hover:scale-105"
+              >
+                {password ? <IoIosEye /> : <IoIosEyeOff />}
+              </button>
             </div>
           </form>
           <button
@@ -117,4 +112,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;

@@ -1,6 +1,7 @@
-
+"use client"
+// redux-config.js
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import userReducer from './User/userSlice';
+import userReducer from './Features/counter/counterslice';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 

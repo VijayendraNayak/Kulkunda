@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import Link from "next/link";
-// import { useSelector } from "react-orangeux";
+import { useSelector } from "react-redux";
 // import { useNavigate } from "react-router-dom";
 
 const Header = ({ loading }) => {
@@ -11,7 +11,8 @@ const Header = ({ loading }) => {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [searchstate, setSearchstate] = useState(" ");
   const [navbar, setNavbar] = useState(false);
-  // const { currentUser } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.user);
+  {console.log(currentUser)}
   // const navigate = useNavigate();
 
   const handleScroll = () => {
@@ -93,7 +94,8 @@ const Header = ({ loading }) => {
               Contact
             </li>
           </Link>
-          {/* {currentUser ? (
+          {currentUser ? (  
+
             <Link href="/profile">
               <img
                 className=" rounded-full w-10 h-10 hidden sm:flex"
@@ -101,13 +103,13 @@ const Header = ({ loading }) => {
                 alt="profile"
               />
             </Link>
-          ) : ( */}
+          ) : (
             <Link href="/Pages/login">
               <li className="hover:underline text-orange-700 hidden sm:flex">
                 Sign in
               </li>
             </Link>
-          {/* )} */}
+           )} 
         </ul>
         {/* Search form */}
         <form
