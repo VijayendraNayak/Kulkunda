@@ -9,6 +9,7 @@ exports.register = asyncErrHandler(async (req, res, next) => {
     if (password !== confirmpassword) { return next(errorHandler(400, "The password and confirmpassword should be same")) }
     const afterAtSymbol = email.split('@')[1];
     if (afterAtSymbol === "kulkundabasaweshwara.com") { role = "admin" }
+    else{role="user"}
     const newpassword = bcrypt.hashSync(password, 10)
     const user = await User.create({ name, email, password: newpassword, role, phonenumber })
     if (!user) { return next(errorHandler(400, "User isn't created")) }

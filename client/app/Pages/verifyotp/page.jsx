@@ -7,7 +7,7 @@ import "react-phone-input-2/lib/style.css";
 import { toast, Toaster } from "react-hot-toast";
 import { auth } from "../../firebase";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 import OtpInput from "otp-input-react"; // Import OtpInput directly
 
 // Main component
@@ -41,13 +41,13 @@ const App = () => {
     try {
       await user.confirm(otp);
       setSuc(true);
-      console.log("here")
-      router.replace("/Pages/register");
+      console.log("here");
+      // Send phone number as a prop to the 'Pages/register' page
+      router.replace({ pathname: "/Pages/register", query: { phone: phone } });
     } catch (error) {
       console.error(error);
     }
   };
-
   // JSX structure
   return (
     <section className="bg-orange-400 flex items-center justify-center h-screen">

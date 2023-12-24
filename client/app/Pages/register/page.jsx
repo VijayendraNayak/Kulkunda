@@ -2,23 +2,19 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import RegisterImage from "/app/assets/image/temple.jpg";
-import {
-  registerStart,
-  registerSuccess,
-  registerFailure,
-} from "../../Redux/User/userSlice";
+import { useSearchParams } from 'next/navigation';
+
 
 const Register = () => {
   const [formdata, setFormdata] = useState({});
   const [password, showPassword] = useState(true);
-  const router = useRouter();
+  const search = useSearchParams();
+  const  phone  = search.get("phone");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      dispatch(registerStart());
       const res = await fetch("/api/user/register", {
         method: "POST",
         headers: {
@@ -29,11 +25,9 @@ const Register = () => {
       const data = await res.json();
       console.log(data);
       if (data.success === false) {
-        dispatch(registerFailure(data.message));
         return;
       }
       router.replace("/login");
-      dispatch(registerSuccess());
     } catch (error) {
       console.log("catcherr", error);
     }
@@ -76,8 +70,9 @@ const Register = () => {
               type="text"
               placeholder="Phone number"
               className="border p-3 rounded-lg hover:shadow-lg hover:scale-105"
-              id="mobile"
+              id="phonenumber"
               onChange={handleChange}
+              defaultValue={phone}
             />
             <input
               type="email"
@@ -107,7 +102,7 @@ const Register = () => {
                 type={password ? "password" : "text"}
                 placeholder="Confirm Password"
                 className="border p-3 rounded-lg pr-10 w-[245px] sm:w-[350px] hover:shadow-lg hover:scale-105"
-                id="confirm-password"
+                id="confirmpassword"
                 onChange={handleChange}
               />
               <button
@@ -121,7 +116,7 @@ const Register = () => {
           </form>
           <button
             className="bg-gradient-to-r from-yellow-500  to-orange-500 text-white p-3 font-semibold text-xl hover:shadow-lg hover:scale-105"
-            onSubmit={handleSubmit}
+            onClick={handleSubmit}
           >
             Register
           </button>

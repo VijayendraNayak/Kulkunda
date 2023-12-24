@@ -18,11 +18,6 @@ const Register = () => {
 
   return (
     <div className="pt-40 p-10 flex ">
-      {/* {loading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white bg-opacity-50">
-          <div className="animate-spin rounded-full h-24 w-24 border-t-4 border-orange-500"></div>
-        </div>
-      )} */}
       <div className="flex-1 relative">
       <Image
           src={RegisterImage}
@@ -33,9 +28,8 @@ const Register = () => {
           
           priority
         />
-      {/* image here */}
       </div>
-      <div className="flex flex-col w-[700px] p-6 mx-auto justify-center p-6 gap-4 border-2 p-6 border-orange-500 gap-4 bg-orange-100 rounded-lg ml-5 ">
+      <div className="flex flex-col w-[700px] p-6 mx-auto justify-center border-2  border-orange-500 gap-4 bg-orange-100 rounded-lg ml-5 ">
       <p className="text-4xl px-12 font-semibold text-center text-orange-500 ">
         Login
       </p>
@@ -49,14 +43,6 @@ const Register = () => {
             id="mobile"
             onChange={handleChange}
           />
-          <input
-            type="text"
-            placeholder="OTP"
-            className="border p-3 rounded-lg hover:shadow-lg hover:scale-105"
-            id="otp"
-            onChange={handleChange}
-          />
-          
           <div className="relative">
             <input
               type={password ? "password" : "text"}
