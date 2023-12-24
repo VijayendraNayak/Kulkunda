@@ -6,12 +6,23 @@ import RegisterImage from "/app/assets/image/temple.jpg";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
+import {Icon} from 'react-icons-kit';
+import {eyeOff} from 'react-icons-kit/feather/eyeOff';
+import {eye} from 'react-icons-kit/feather/eye'
+
 const Register = () => {
   const [formdata, setFormdata] = useState({});
-  const [password, showPassword] = useState(true);
   const search = useSearchParams();
   const router = useRouter();
   const phone = search.get("phone");
+
+  const [passwordType, setPasswordType] = useState('text');
+  const [passwordIcon, setPasswordIcon] = useState(eyeOff);
+
+  const [confirmPasswordType, setConfirmPasswordType] = useState('text');
+  const [confirmPasswordIcon, setConfirmPasswordIcon] = useState(eyeOff);
+
+  const [icon, setIcon] = useState(eyeOff);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,9 +48,31 @@ const Register = () => {
   const handleChange = (e) => {
     setFormdata({ ...formdata, [e.target.id]: e.target.value });
   };
+
+
   const togglepassword = () => {
-    showPassword(!password);
+    // Toggle the password visibility (if needed)
   };
+
+  const handlePasswordToggle = () => {
+    if (passwordType === 'password') {
+      setPasswordIcon(eye);
+      setPasswordType('text');
+    } else {
+      setPasswordIcon(eyeOff);
+      setPasswordType('password');
+    }
+  };
+
+  const handleConfirmPasswordToggle = () => {
+    if (confirmPasswordType === 'password') {
+      setConfirmPasswordIcon(eye);
+      setConfirmPasswordType('text');
+    } else {
+      setConfirmPasswordIcon(eyeOff);
+      setConfirmPasswordType('password');
+    }
+}
 
   return (
     <div className="pt-20 p-10 flex ">
@@ -84,35 +117,31 @@ const Register = () => {
             />
             <div className="relative">
               <input
-                type={password ? "password" : "text"}
-                placeholder="Password"
-                className="border p-3 rounded-lg pr-10 w-[245px] sm:w-[350px] hover:shadow-lg hover:scale-105"
-                id="password"
-                onChange={handleChange}
+                  type={passwordType}
+                  id="password"
+                  placeholder="Password"
+                  className="border p-3 rounded-lg pr-10 w-[245px] sm:w-[350px] hover:shadow-lg hover:scale-105"
+                  value={formdata.password}
+                  onChange={(e) => setPasswordType(e.target.value)}
+                  autoComplete="current-password"
               />
-              <button
-                type="button"
-                onClick={togglepassword}
-                className="absolute top-1/2 left-80 transform -translate-y-1/2 hover:shadow-lg hover:scale-105"
-              >
-                {password ? "👁️" : "🙈"}
-              </button>
+              <span className="flex justify-around items-center" onClick={handlePasswordToggle}>
+                <Icon className="absolute top-1/2 left-80 transform -translate-y-1/2 hover:shadow-lg hover:scale-105" icon={passwordIcon} size={25}/>
+              </span>
             </div>
             <div className="relative">
               <input
-                type={password ? "password" : "text"}
-                placeholder="Confirm Password"
-                className="border p-3 rounded-lg pr-10 w-[245px] sm:w-[350px] hover:shadow-lg hover:scale-105"
-                id="confirmpassword"
-                onChange={handleChange}
+                  type={confirmPasswordType}
+                  id="confirm-password"
+                  placeholder="Confirm-Password"
+                  className="border p-3 rounded-lg pr-10 w-[245px] sm:w-[350px] hover:shadow-lg hover:scale-105"
+                  value={formdata.confirmpassword}
+                  onChange={(e) => setConfirmPasswordType(e.target.value)}
+                  autoComplete="current-password"
               />
-              <button
-                type="button"
-                onClick={togglepassword}
-                className="absolute top-1/2 left-80 transform -translate-y-1/2 hover:shadow-lg hover:scale-105"
-              >
-                {password ? "👁️" : "🙈"}
-              </button>
+              <span className="flex justify-around items-center" onClick={handleConfirmPasswordToggle}>
+                <Icon className="absolute top-1/2 left-80 transform -translate-y-1/2 hover:shadow-lg hover:scale-105" icon={confirmPasswordIcon} size={25}/>
+              </span>
             </div>
           </form>
           <button

@@ -5,15 +5,34 @@ import Image from "next/image";
 
 import RegisterImage from "/app/assets/image/temple2.webp";
 import { useRouter } from "next/navigation";
+
+import {Icon} from 'react-icons-kit';
+import {eyeOff} from 'react-icons-kit/feather/eyeOff';
+import {eye} from 'react-icons-kit/feather/eye'
+
 const Register = () => {
   const [formdata, setFormdata] = useState({});
-  const [password, showPassword] = useState(true);
+
+  const [passwordType, setPasswordType] = useState('text');
+  const [passwordIcon, setPasswordIcon] = useState(eyeOff);
   const router = useRouter();
   const handleChange = (e) => {
     setFormdata({ ...formdata, [e.target.id]: e.target.value });
   };
   const togglepassword = () => {
     showPassword(!password);
+  };
+
+  const handlePasswordToggle = () => {
+    setPasswordType((prevPasswordType) => (prevPasswordType === 'password' ? 'text' : 'password'));
+    setPasswordIcon((prevPasswordIcon) => (prevPasswordIcon === eyeOff ? eye : eyeOff));
+    if (passwordType === 'password') {
+      setPasswordIcon(eye);
+      setPasswordType('text');
+    } else {
+      setPasswordIcon(eyeOff);
+      setPasswordType('password');
+    }
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,6 +55,7 @@ const Register = () => {
     } catch (error) {
       console.log("catcherr", error);
     }
+    
   };
 
   return (
@@ -65,19 +85,17 @@ const Register = () => {
             />
             <div className="relative">
               <input
-                type={password ? "password" : "text"}
-                placeholder="Password"
-                className="border p-3 rounded-lg pr-10 w-[245px] sm:w-[350px] hover:shadow-lg hover:scale-105"
-                id="password"
-                onChange={handleChange}
+                  type={passwordType}
+                  id="password"
+                  placeholder="Password"
+                  className="border p-3 rounded-lg pr-10 w-[245px] sm:w-[350px] hover:shadow-lg hover:scale-105"
+                  value={formdata.password}
+                  onChange={(e) => setPasswordType(e.target.value)}
+                  autoComplete="current-password"
               />
-              <button
-                type="button"
-                onClick={togglepassword}
-                className="absolute top-1/2 left-80 transform -translate-y-1/2 hover:shadow-lg hover:scale-105"
-              >
-                {password ? "👁️" : "🙈"}
-              </button>
+              <span className="flex justify-around items-center" onClick={handlePasswordToggle}>
+                <Icon className="absolute top-1/2 left-80 transform -translate-y-1/2 hover:shadow-lg hover:scale-105" icon={passwordIcon} size={25}/>
+              </span>
             </div>
           </form>
           <button

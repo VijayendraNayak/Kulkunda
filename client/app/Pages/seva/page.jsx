@@ -228,7 +228,7 @@ const SevaPage = () => {
       : "Seva's offered here";
 
     return (
-      <div>
+      <div > 
         <h2 className="text-xl font-semibold mb-2">{title}</h2>
         <ul>
           {sevaList.map((seva) => (
@@ -243,8 +243,8 @@ const SevaPage = () => {
   };
 
   return (
-    <div className="container mx-auto mt-8">
-      <h1 className="text-3xl font-bold mb-4 text-center" style={{ marginTop: '100px' }}>
+    <div className="container mx-auto p-10">
+      <h1 className="text-3xl font-bold mb-4 text-center" style={{ marginTop: '50px' }}>
         {selectedLanguage === "english"
           ? "Shree Basaveshwara Temple"
           : selectedLanguage === "Kannada"
