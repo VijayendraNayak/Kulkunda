@@ -3,14 +3,15 @@ import Link from "next/link";
 import React, { useState } from "react";
 import Image from "next/image";
 import RegisterImage from "/app/assets/image/temple.jpg";
-import { useSearchParams } from 'next/navigation';
-
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const Register = () => {
   const [formdata, setFormdata] = useState({});
   const [password, showPassword] = useState(true);
   const search = useSearchParams();
-  const  phone  = search.get("phone");
+  const router = useRouter();
+  const phone = search.get("phone");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,7 +28,7 @@ const Register = () => {
       if (data.success === false) {
         return;
       }
-      router.replace("/login");
+      router.replace("/Pages/login");
     } catch (error) {
       console.log("catcherr", error);
     }
