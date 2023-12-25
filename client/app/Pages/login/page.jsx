@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { IoIosEye } from "react-icons/io";
 import { IoIosEyeOff } from "react-icons/io";
@@ -14,7 +14,7 @@ import {
   signInSuccess,
   signInFailure,
 } from "../../Redux/Features/counter/counterslice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Login = () => {
   const [formdata, setFormdata] = useState({});
@@ -24,6 +24,14 @@ const Login = () => {
   const handleChange = (e) => {
     setFormdata({ ...formdata, [e.target.id]: e.target.value });
   };
+  const { phoneNumber } = useSelector((state) => state.phone);
+  useEffect(() => {
+    // Set phonenumber in formdata if phoneNumber exists
+    if (phoneNumber) {
+      setFormdata((prevData) => ({ ...prevData, phonenumber: phoneNumber }));
+    }
+  }, [phoneNumber]);
+
   const togglepassword = () => {
     showPassword(!password);
   };
@@ -112,8 +120,17 @@ const Login = () => {
               placeholder="Phone number"
               className="border p-3 rounded-lg hover:shadow-lg hover:scale-105"
               id="phonenumber"
-              onChange={handleChange}
+              value={phoneNumber ? phoneNumber : ""}
+              onChange={(e) => {
+                const enteredDigits = e.target.value;
+                setPhoneNumber(enteredDigits);
+                setFormdata((prevData) => ({
+                  ...prevData,
+                  phonenumber: enteredDigits,
+                }));
+              }}
             />
+
             <div className="relative">
               <input
                 type={password ? "password" : "text"}

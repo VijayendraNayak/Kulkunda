@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Image from "next/image";
 import { IoIosEye } from "react-icons/io";
 import { IoIosEyeOff } from "react-icons/io";
@@ -12,7 +12,6 @@ const Register = () => {
   const [formdata, setFormdata] = useState({});
   const [password, showPassword] = useState(true);
   const { phoneNumber } = useSelector((state) => state.phone);
-  console.log(phoneNumber);
 
   const router = useRouter();
 
@@ -43,6 +42,13 @@ const Register = () => {
       console.log("catcherr", error);
     }
   };
+
+   useEffect(() => {
+    // Set phonenumber in formdata if phoneNumber exists
+    if (phoneNumber) {
+      setFormdata((prevData) => ({ ...prevData, phonenumber: phoneNumber }));
+    }
+  }, [phoneNumber]);
 
   return (
     <div className="pt-20 p-10 flex ">

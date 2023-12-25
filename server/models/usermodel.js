@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "User should enter the phone number"],
     unique: true, // Assuming phone numbers should be unique
-    maxLength:10,
+    maxLength:13,
     minLength:10
   },
   email: {
