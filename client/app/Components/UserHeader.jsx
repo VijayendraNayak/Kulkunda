@@ -85,9 +85,9 @@ const Header = ({ loading }) => {
             </li>
           </Link>
           <Link href="/Pages/aboutus">
-            <li className="hover:underline text-orange-700 hidden sm:flex">
-              About
-            </li>
+          <li className="hover:underline text-orange-700 hidden sm:flex">
+            About
+          </li>
           </Link>
           <Link href="/Pages/contactus">
             <li className="hover:underline text-orange-700 hidden sm:flex">
