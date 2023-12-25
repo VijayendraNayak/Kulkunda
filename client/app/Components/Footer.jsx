@@ -30,7 +30,7 @@ const Footer = () => {
         
          <p>&copy; All rights reserved @ Iscoderz</p>
          
-         <p>Phone: <a href="tel:+1234567890">+1234567890</a></p>
+         <p>Phone: <a href="mob:9482624747">9482624747</a></p>
         <div className="flex gap-4 mt-2">
           
           
