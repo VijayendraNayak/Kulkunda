@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import OtpInput from "otp-input-react"; // Import OtpInput directly
 import { useDispatch, useSelector } from 'react-redux';
 import { setPhoneNumber } from '../../Redux/Features/counter/phoneslice';
+import Loader from "@/app/Components/Loader";
 
 // Main component
 const App = () => {
@@ -24,8 +25,10 @@ const App = () => {
   const [otp, setOTP] = useState("");
   const [suc, setSuc] = useState(false);
 
+
   const sendOTP = async () => {
     try {
+      setLoading(true)
       const formatPhoneNumber = `+${phone}`;
       const recaptha = new RecaptchaVerifier(auth, "recaptcha", {});
       const confirmation = await signInWithPhoneNumber(
@@ -35,27 +38,33 @@ const App = () => {
       );
       setUser(confirmation);
       setShowOTP(true); // Set showOTP to true once OTP is sent
+      setLoading(false)
     } catch (error) {
       console.error(error);
+      setLoading(false)
     }
   };
 
   const verifyOTP = async () => {
     try {
+      setLoading(true)
       await user.confirm(otp);
       setSuc(true);
       console.log("here");
       dispatch(setPhoneNumber(phone))
       // Send phone number as a prop to the 'Pages/register' page
       router.replace("/Pages/register");
+      setLoading(false)
     } catch (error) {
       console.error(error);
+      setLoading(false)
     }
   };
   // JSX structure
   return (
     <section className="bg-orange-400 flex items-center justify-center h-screen">
       <div>
+        {loading&&<Loader/>}
         <Toaster toastOptions={{ duration: 4000 }} />
         <div className="w-80 flex flex-col gap-4 rounded-lg p-4">
           <h1 className="text-center leading-normal text-white font-medium text-3xl mb-6">

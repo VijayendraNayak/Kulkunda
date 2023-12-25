@@ -4,9 +4,11 @@ import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import Link from "next/link";
 import { useSelector } from "react-redux";
+import dynamic from "next/dynamic";
+
 // import { useNavigate } from "react-router-dom";
 
-const Header = ({ loading }) => {
+const UserHeader = ({ loading }) => {
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [searchstate, setSearchstate] = useState(" ");
@@ -196,4 +198,4 @@ const Header = ({ loading }) => {
   );
 };
 
-export default Header;
+export default dynamic (() => Promise.resolve(UserHeader), {ssr: false})

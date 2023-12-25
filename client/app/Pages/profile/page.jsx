@@ -1,6 +1,7 @@
-"use client"
+"use client";
+
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { IoLogOutOutline } from "react-icons/io5";
 import Link from "next/link";
 import {
@@ -17,17 +18,20 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-import  {app}  from "../../firebase";
-import { useDispatch } from "react-redux";
+import { app } from "../../firebase";
 import { useRef } from "react";
+import { useRouter } from "next/navigation";
+import Loader from "@/app/Components/Loader";
+import dynamic from "next/dynamic";
+
 
 const Profile = () => {
+  const { currentUser, loading, error } = useSelector((state) => state.user);
   const [formdata, setFormdata] = useState({});
   const [file, setFile] = useState(null);
-  const { currentUser, loading, error } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const fileref = useRef(null);
-
+  const router = useRouter();
   useEffect(() => {
     setFormdata({
       name: currentUser?.name || "", // Use optional chaining here
@@ -75,7 +79,8 @@ const Profile = () => {
         return;
       }
       dispatch(updateSuccess(data.user));
-      navigate("/");
+      console.log("here");
+      router.replace("/");
     } catch (error) {
       dispatch(updateFailure(error));
     }
@@ -91,7 +96,7 @@ const Profile = () => {
         return;
       }
       dispatch(signoutSuccess(data));
-      navigate("/Pages/login");
+      router.replace("/Pages/login");
     } catch (error) {
       dispatch(signoutFailure(error));
     }
@@ -99,6 +104,7 @@ const Profile = () => {
 
   return (
     <div className=" flex sm:flex-row flex-col pt-28">
+      {loading && <Loader />}
       <div className="flex-1 p-10 ">
         <div className="flex flex-col lg:flex-row gap-4 items-center ">
           <div className="">
@@ -147,16 +153,21 @@ const Profile = () => {
             >
               <IoLogOutOutline /> Logout
             </button>
-            <Link className="text-blue-500 font-semibold ml-auto cursor-pointer" href="/changepassword">
-            <span >Change passoword?</span>
+            <Link
+              className="text-blue-500 font-semibold ml-auto cursor-pointer"
+              href="/changepassword"
+            >
+              <span>Change passoword?</span>
             </Link>
           </div>
         </div>
       </div>
-      {error && <p className="text-red-500">{error}</p>}
+      {error && (
+        <p className="text-red-500 text-center font-semibold">{error}</p>
+      )}
       <div className="flex-1">My sevas</div>
     </div>
   );
 };
 
-export default Profile;
+export default dynamic (() => Promise.resolve(Profile), {ssr: false})

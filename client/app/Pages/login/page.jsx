@@ -15,6 +15,9 @@ import {
   signInFailure,
 } from "../../Redux/Features/counter/counterslice";
 import { useDispatch, useSelector } from "react-redux";
+import Loader from "@/app/Components/Loader";
+import dynamic from "next/dynamic";
+
 
 const Login = () => {
   const [formdata, setFormdata] = useState({});
@@ -25,6 +28,8 @@ const Login = () => {
     setFormdata({ ...formdata, [e.target.id]: e.target.value });
   };
   const { phoneNumber } = useSelector((state) => state.phone);
+  const { loading, error } = useSelector((state) => state.user);
+
   useEffect(() => {
     // Set phonenumber in formdata if phoneNumber exists
     if (phoneNumber) {
@@ -82,6 +87,7 @@ const Login = () => {
       });
       const data = await res.json();
       if (data.success === false) {
+        console.log(data.message);
         dispatch(signInFailure(data.message));
         return;
       }
@@ -90,7 +96,6 @@ const Login = () => {
       data.role === "admin"
         ? router.replace("Pages/admin/home")
         : router.replace("/");
-      setLoadings(false);
     } catch (error) {
       console.log({ error });
       dispatch(signInFailure(error));
@@ -99,6 +104,7 @@ const Login = () => {
 
   return (
     <div className="pt-40 p-10 flex ">
+      {loading && <Loader />}
       <div className="flex-1 relative">
         <Image
           src={RegisterImage}
@@ -110,9 +116,9 @@ const Login = () => {
         />
       </div>
       <div className="flex flex-col w-[700px] p-6 mx-auto justify-center border-2  border-orange-500 gap-4 bg-orange-100 rounded-lg ml-5 ">
-        <p className="text-4xl px-12 font-semibold text-center text-orange-500 ">
-          Login
-        </p>
+        <div className="text-4xl px-12 font-semibold text-center text-orange-500 ">
+          {loading ? "loading..." : "Login"}
+        </div>
         <div className="flex flex-col ml-10 gap-4 justify-center bg-orange-100">
           <form className="flex flex-col gap-4 ">
             <input
@@ -120,15 +126,8 @@ const Login = () => {
               placeholder="Phone number"
               className="border p-3 rounded-lg hover:shadow-lg hover:scale-105"
               id="phonenumber"
-              value={phoneNumber ? phoneNumber : ""}
-              onChange={(e) => {
-                const enteredDigits = e.target.value;
-                setPhoneNumber(enteredDigits);
-                setFormdata((prevData) => ({
-                  ...prevData,
-                  phonenumber: enteredDigits,
-                }));
-              }}
+              defaultValue={+91}
+              onChange={handleChange}
             />
 
             <div className="relative">
@@ -167,10 +166,13 @@ const Login = () => {
               </span>
             </Link>
           </div>
+          {error && (
+            <p className="text-red-500 text-center font-semibold">{error}</p>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default dynamic (() => Promise.resolve(Login), {ssr: false})
