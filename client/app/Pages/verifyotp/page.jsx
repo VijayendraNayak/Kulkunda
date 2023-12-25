@@ -9,10 +9,13 @@ import { auth } from "../../firebase";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import OtpInput from "otp-input-react"; // Import OtpInput directly
+import { useDispatch, useSelector } from 'react-redux';
+import { setPhoneNumber } from '../../Redux/Features/counter/phoneslice';
 
 // Main component
 const App = () => {
   const router = useRouter();
+  const dispatch=useDispatch();
   // State variables
   const [loading, setLoading] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
@@ -42,8 +45,9 @@ const App = () => {
       await user.confirm(otp);
       setSuc(true);
       console.log("here");
+      dispatch(setPhoneNumber(phone))
       // Send phone number as a prop to the 'Pages/register' page
-      router.replace({ pathname: "/Pages/register", query: { phone: phone } });
+      router.replace("/Pages/register");
     } catch (error) {
       console.error(error);
     }

@@ -12,7 +12,7 @@ const Header = ({ loading }) => {
   const [searchstate, setSearchstate] = useState(" ");
   const [navbar, setNavbar] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
-  {console.log(currentUser)}
+  // {console.log(currentUser)}
   // const navigate = useNavigate();
 
   const handleScroll = () => {

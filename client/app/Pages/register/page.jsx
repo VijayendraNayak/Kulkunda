@@ -6,11 +6,15 @@ import { IoIosEye } from "react-icons/io";
 import { IoIosEyeOff } from "react-icons/io";
 import RegisterImage from "/app/assets/image/temple.jpg";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 
 const Register = () => {
   const [formdata, setFormdata] = useState({});
   const [password, showPassword] = useState(true);
-  const router=useRouter()
+  const { phoneNumber } = useSelector((state) => state.phone);
+  console.log(phoneNumber);
+
+  const router = useRouter();
 
   const handleChange = (e) => {
     setFormdata({ ...formdata, [e.target.id]: e.target.value });
@@ -69,9 +73,10 @@ const Register = () => {
             <input
               type="text"
               placeholder="Phone number"
-              className="border p-3 rounded-lg hover:shadow-lg hover:scale-105"
+              className="border p-3 rounded-lg bg-white hover:shadow-lg hover:scale-105"
               id="phonenumber"
-              onChange={handleChange}
+              value={phoneNumber ? `+${phoneNumber}` : " "}
+              disabled
             />
             <input
               type="email"
