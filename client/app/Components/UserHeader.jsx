@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import Link from "next/link";
-// import { useSelector } from "react-orangeux";
+import { useSelector } from "react-redux";
 // import { useNavigate } from "react-router-dom";
 
 const Header = ({ loading }) => {
@@ -11,7 +11,8 @@ const Header = ({ loading }) => {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [searchstate, setSearchstate] = useState(" ");
   const [navbar, setNavbar] = useState(false);
-  // const { currentUser } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.user);
+  // {console.log(currentUser)}
   // const navigate = useNavigate();
 
   const handleScroll = () => {
@@ -93,21 +94,21 @@ const Header = ({ loading }) => {
               Contact
             </li>
           </Link>
-          {/* {currentUser ? (
-            <Link href="/profile">
+          {currentUser ? (  
+            <Link href="/Pages/profile">
               <img
                 className=" rounded-full w-10 h-10 hidden sm:flex"
                 src={currentUser.avatar}
                 alt="profile"
               />
             </Link>
-          ) : ( */}
-            <Link href="/Pages/verifyotp">
+          ) : (
+            <Link href="/Pages/login">
               <li className="hover:underline text-orange-700 hidden sm:flex">
                 Sign in
               </li>
             </Link>
-          {/* )} */}
+           )} 
         </ul>
         {/* Search form */}
         <form
@@ -157,11 +158,21 @@ const Header = ({ loading }) => {
                   Contact
                 </li>
               </Link>
-              <Link href="/Pages/login">
-                <li className="hover:underline text-orange-700 sm:hidden">
-                  Sign in
-                </li>
-              </Link>
+              {currentUser ? (  
+            <Link href="/Pages/profile">
+              <img
+                className=" rounded-full w-10 h-10 hidden sm:flex"
+                src={currentUser.avatar}
+                alt="profile"
+              />
+            </Link>
+          ) : (
+            <Link href="/Pages/login">
+              <li className="hover:underline text-orange-700 hidden sm:flex">
+                Sign in
+              </li>
+            </Link>
+           )} 
             </ul>
             <form
               className=" flex px-3 bg-orange-200 rounded-lg items-center justify-between sm:hidden"

@@ -1,97 +1,176 @@
-"use client"
+"use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { IoIosEye } from "react-icons/io";
+import { IoIosEyeOff } from "react-icons/io";
+import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+import { app } from "../../firebase";
+import RegisterImage from "/app/assets/image/temple2.webp";
+import { useRouter } from "next/navigation";
+import { FcGoogle } from "react-icons/fc";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../../Redux/Features/counter/counterslice";
+import { useDispatch, useSelector } from "react-redux";
 
-import RegisterImage from "/app/assets/image/temple2.webp"
-
-const Register = () => {
+const Login = () => {
   const [formdata, setFormdata] = useState({});
   const [password, showPassword] = useState(true);
-
+  const dispatch = useDispatch();
+  const router = useRouter();
   const handleChange = (e) => {
     setFormdata({ ...formdata, [e.target.id]: e.target.value });
   };
+  const { phoneNumber } = useSelector((state) => state.phone);
+  useEffect(() => {
+    // Set phonenumber in formdata if phoneNumber exists
+    if (phoneNumber) {
+      setFormdata((prevData) => ({ ...prevData, phonenumber: phoneNumber }));
+    }
+  }, [phoneNumber]);
+
   const togglepassword = () => {
     showPassword(!password);
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch(signInStart());
+      const res = await fetch("/api/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formdata),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        dispatch(signInFailure(data.message));
+        return;
+      }
+      dispatch(signInSuccess(data));
+      data.role === "admin"
+        ? router.replace("/Pages/Admin/home")
+        : router.replace("/");
+    } catch (error) {
+      console.log("catcherr", error);
+      dispatch(signInFailure(error));
+    }
+  };
+  const handlegoogleSubmit = async (e) => {
+    e.preventDefault();
+    const provider = new GoogleAuthProvider();
+    const auth = getAuth(app);
+    const result = await signInWithPopup(auth, provider);
+    e.preventDefault();
+    try {
+      dispatch(signInStart());
+      const res = await fetch("/api/user/google", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: result.user.displayName,
+          email: result.user.email,
+          avatar: result.user.photoURL,
+        }),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(signInFailure(data.message));
+        return;
+      }
+      dispatch(signInSuccess(data));
+      console.log("heer");
+      data.role === "admin"
+        ? router.replace("Pages/admin/home")
+        : router.replace("/");
+      setLoadings(false);
+    } catch (error) {
+      console.log({ error });
+      dispatch(signInFailure(error));
+    }
   };
 
   return (
     <div className="pt-40 p-10 flex ">
-      {/* {loading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white bg-opacity-50">
-          <div className="animate-spin rounded-full h-24 w-24 border-t-4 border-orange-500"></div>
-        </div>
-      )} */}
       <div className="flex-1 relative">
-      <Image
+        <Image
           src={RegisterImage}
           alt="regester background image"
           layout="fill"
           objectFit="cover"
           objectPosition="left"
-          
           priority
         />
-      {/* image here */}
       </div>
-      <div className="flex flex-col w-[700px] p-6 mx-auto justify-center p-6 gap-4 border-2 p-6 border-orange-500 gap-4 bg-orange-100 rounded-lg ml-5 ">
-      <p className="text-4xl px-12 font-semibold text-center text-orange-500 ">
-        Login
-      </p>
-      <div className="flex flex-col ml-10 gap-4 justify-center bg-orange-100">
-        <form className="flex flex-col gap-4 ">
-          
-          <input
-            type="text"
-            placeholder="Phone number"
-            className="border p-3 rounded-lg hover:shadow-lg hover:scale-105"
-            id="mobile"
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            placeholder="OTP"
-            className="border p-3 rounded-lg hover:shadow-lg hover:scale-105"
-            id="otp"
-            onChange={handleChange}
-          />
-          
-          <div className="relative">
-            <input
-              type={password ? "password" : "text"}
-              placeholder="Password"
-              className="border p-3 rounded-lg pr-10 w-[245px] sm:w-[350px] hover:shadow-lg hover:scale-105"
-              id="password"
-              onChange={handleChange}
-            />
-            <button
-              type="button"
-              onClick={togglepassword}
-              className="absolute top-1/2 left-80 transform -translate-y-1/2 hover:shadow-lg hover:scale-105"
-            >
-              {password ? "👁️" : "🙈"}
-            </button>
-          </div>
-        
-        </form>
-        <button
-          className="bg-gradient-to-r from-yellow-500  to-orange-500 text-white p-3 font-semibold text-xl hover:shadow-lg hover:scale-105"
->
+      <div className="flex flex-col w-[700px] p-6 mx-auto justify-center border-2  border-orange-500 gap-4 bg-orange-100 rounded-lg ml-5 ">
+        <p className="text-4xl px-12 font-semibold text-center text-orange-500 ">
           Login
-        </button>
-        <div className="flex justify-end">
-          <Link href="/Pages/register">
-            <span className="text-green-500 font-bold cursor-pointer">
-              Create an Account?
-            </span>
-          </Link>
+        </p>
+        <div className="flex flex-col ml-10 gap-4 justify-center bg-orange-100">
+          <form className="flex flex-col gap-4 ">
+            <input
+              type="text"
+              placeholder="Phone number"
+              className="border p-3 rounded-lg hover:shadow-lg hover:scale-105"
+              id="phonenumber"
+              value={phoneNumber ? phoneNumber : ""}
+              onChange={(e) => {
+                const enteredDigits = e.target.value;
+                setPhoneNumber(enteredDigits);
+                setFormdata((prevData) => ({
+                  ...prevData,
+                  phonenumber: enteredDigits,
+                }));
+              }}
+            />
+
+            <div className="relative">
+              <input
+                type={password ? "password" : "text"}
+                placeholder="Password"
+                className="border p-3 rounded-lg pr-10 w-[245px] sm:w-[350px] hover:shadow-lg hover:scale-105"
+                id="password"
+                onChange={handleChange}
+              />
+              <button
+                type="button"
+                onClick={togglepassword}
+                className="absolute top-1/2 left-80 transform -translate-y-1/2 hover:shadow-lg hover:scale-105"
+              >
+                {password ? <IoIosEye /> : <IoIosEyeOff />}
+              </button>
+            </div>
+          </form>
+          <button
+            className="bg-gradient-to-r from-yellow-500  to-orange-500 text-white p-3 font-semibold text-xl hover:shadow-lg hover:scale-105"
+            onClick={handleSubmit}
+          >
+            Login
+          </button>
+          <button
+            className=" flex bg-white text-black p-3 hover:scale-105 rounded-lg font-semibold text-xl items-center justify-center gap-2"
+            onClick={handlegoogleSubmit}
+          >
+            <FcGoogle /> Login with Google
+          </button>
+          <div className="flex justify-end">
+            <Link href="/Pages/verifyotp">
+              <span className="text-green-500 font-bold cursor-pointer">
+                Create an Account?
+              </span>
+            </Link>
+          </div>
         </div>
       </div>
-      </div>
-      
     </div>
   );
 };
 
-export default Register;
+export default Login;

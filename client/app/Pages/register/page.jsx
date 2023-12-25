@@ -1,51 +1,57 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Image from "next/image";
-
+import { IoIosEye } from "react-icons/io";
+import { IoIosEyeOff } from "react-icons/io";
 import RegisterImage from "/app/assets/image/temple.jpg";
+import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 
 const Register = () => {
-  
   const [formdata, setFormdata] = useState({});
   const [password, showPassword] = useState(true);
+  const { phoneNumber } = useSelector((state) => state.phone);
 
+  const router = useRouter();
 
   const handleChange = (e) => {
     setFormdata({ ...formdata, [e.target.id]: e.target.value });
   };
-  console.log(formdata)
   const togglepassword = () => {
     showPassword(!password);
   };
-  const onphoclick = async () => {
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const result = await fetch('/api/user/verifyPhoneNumber', {
-        method: 'POST',
+      const res = await fetch("/api/user/register", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ formdata }),
+        body: JSON.stringify(formdata),
       });
-      const data = await result.json();
-      if(data.success===false){
-        console.log(data.message)
+      const data = await res.json();
+      console.log(data);
+      if (data.success === false) {
+        return;
       }
-      console.log("here")
-      setVerificationId(data.verificationRequest);
+      router.replace("/Pages/login");
     } catch (error) {
-      console.error('Error sending code:', error);
+      console.log("catcherr", error);
     }
   };
-  const onotpclick = async () => {};
+
+   useEffect(() => {
+    // Set phonenumber in formdata if phoneNumber exists
+    if (phoneNumber) {
+      setFormdata((prevData) => ({ ...prevData, phonenumber: phoneNumber }));
+    }
+  }, [phoneNumber]);
 
   return (
     <div className="pt-20 p-10 flex ">
-      {/* {loading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white bg-opacity-50">
-          <div className="animate-spin rounded-full h-24 w-24 border-t-4 border-orange-500"></div>
-        </div>
-      )} */}
       <div className="flex-1 relative">
         <Image
           src={RegisterImage}
@@ -55,8 +61,9 @@ const Register = () => {
           objectPosition="left"
           priority
         />
+        {/* image here */}
       </div>
-      <div className="flex flex-col w-[700px] p-6 mx-auto justify-center border-2 border-orange-500 gap-4 bg-orange-100 rounded-lg ml-5 ">
+      <div className="flex flex-col w-[700px] p-6 mx-auto justify-center border-2 p-6 border-orange-500 gap-4 bg-orange-100 rounded-lg ml-5 ">
         <p className="text-4xl px-12 font-semibold text-center text-orange-500 ">
           Register
         </p>
@@ -69,38 +76,14 @@ const Register = () => {
               id="name"
               onChange={handleChange}
             />
-            <div className="flex gap-3">
-              <input
-                type="text"
-                placeholder="Phone number"
-                className="border p-3 rounded-lg hover:shadow-lg hover:scale-105"
-                id="mobile"
-                onChange={handleChange}
-              />
-              <button
-                className="bg-orange-400 p-3 text-white rounded-lg font-semibold hover:bg-orange-500"
-                type="button"
-                onClick={onphoclick}
-              >
-                Send OTP
-              </button>
-            </div>
-            <div className="flex gap-3">
-              <input
-                type="text"
-                placeholder="OTP"
-                className="border p-3 rounded-lg hover:shadow-lg hover:scale-105"
-                id="otp"
-                onChange={handleChange}
-              />
-              <button
-                className="bg-green-400 p-3 px-7 text-white rounded-lg font-semibold hover:bg-green-500"
-                type="button"
-                onClick={onotpclick}
-              >
-                Verify
-              </button>
-            </div>
+            <input
+              type="text"
+              placeholder="Phone number"
+              className="border p-3 rounded-lg bg-white hover:shadow-lg hover:scale-105"
+              id="phonenumber"
+              value={phoneNumber ? `+${phoneNumber}` : " "}
+              disabled
+            />
             <input
               type="email"
               placeholder="Email"
@@ -121,7 +104,7 @@ const Register = () => {
                 onClick={togglepassword}
                 className="absolute top-1/2 left-80 transform -translate-y-1/2 hover:shadow-lg hover:scale-105"
               >
-                {password ? "👁️" : "🙈"}
+                {password ? <IoIosEye /> : <IoIosEyeOff />}
               </button>
             </div>
             <div className="relative">
@@ -129,7 +112,7 @@ const Register = () => {
                 type={password ? "password" : "text"}
                 placeholder="Confirm Password"
                 className="border p-3 rounded-lg pr-10 w-[245px] sm:w-[350px] hover:shadow-lg hover:scale-105"
-                id="confirm-password"
+                id="confirmpassword"
                 onChange={handleChange}
               />
               <button
@@ -137,11 +120,14 @@ const Register = () => {
                 onClick={togglepassword}
                 className="absolute top-1/2 left-80 transform -translate-y-1/2 hover:shadow-lg hover:scale-105"
               >
-                {password ? "👁️" : "🙈"}
+                {password ? <IoIosEye /> : <IoIosEyeOff />}
               </button>
             </div>
           </form>
-          <button className="bg-gradient-to-r from-yellow-500  to-orange-500 text-white p-3 font-semibold text-xl hover:shadow-lg hover:scale-105">
+          <button
+            className="bg-gradient-to-r from-yellow-500  to-orange-500 text-white p-3 font-semibold text-xl hover:shadow-lg hover:scale-105"
+            onClick={handleSubmit}
+          >
             Register
           </button>
           <div className="flex justify-end">
