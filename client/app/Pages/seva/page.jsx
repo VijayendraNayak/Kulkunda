@@ -1,6 +1,7 @@
   "use client";
   import React, { useState } from "react";
   import Image from "next/image";
+  import Link from "next/link";
 
   import RegisterImage from "/app/assets/image/temple.jpg";
 
@@ -275,7 +276,7 @@
   
           return (
             <div className={`md:w-1/2 p-4 overflow-y-auto ${isDrawerOpen ? 'hidden' : ''}`} style={{ maxHeight: 'calc(100vh - 100px)' }}>
-              <h2 className="text-2xl font-semibold mb-4 text-center">{title}</h2>
+              <h2 className="text-2xl font-semibold mb-4 text-center underline">{title}</h2>
               <ul className="space-y-4">
                 {sevaList.map((seva) => (
                   <li
@@ -336,6 +337,11 @@
               >
                 Close
               </button>
+              <Link href="/Pages/sevaform">
+                <span className="mt-4 bg-green-500 text-white px-5 py-2.5 rounded-md hover:bg-green-600 ml-2">
+                  Book
+                </span>
+              </Link>
             </div>
           </div>
         </div>
@@ -345,7 +351,7 @@
   
     return (
     <div className="container mx-auto md:p-10">
-      <h1 className="text-3xl font-bold mb-4 text-center" style={{ marginTop: '50px' }}>
+      <h1 className="text-3xl font-bold mb-4 text-center underline" style={{ marginTop: '50px' }}>
         {selectedLanguage === "english"
           ? "Shree Basaveshwara Temple"
           : selectedLanguage === "Kannada"
@@ -379,6 +385,7 @@
             >
               {isDrawerOpen ? 'Close' : 'Open'} Seva List
             </button>
+            
           </div>
         </div>
         {renderSelectedSevaModal()}

@@ -147,7 +147,7 @@ const Register = () => {
           </button>
           <div className="flex justify-end">
             <Link href="/Pages/login">
-              <span className="text-green-500 font-bold cursor-pointer">
+              <span className="text-green-500 font-bold cursor-pointer hover:scale-110">
                 Have an Account?
               </span>
             </Link>
