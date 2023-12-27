@@ -28,11 +28,8 @@ const App = () => {
 
   const sendOTP = async () => {
     try {
-      setLoading(true)
       const formatPhoneNumber = `+${phone}`;
-      setLoading(false)
       const recaptha = new RecaptchaVerifier(auth, "recaptcha", {});
-      setLoading(true)
       const confirmation = await signInWithPhoneNumber(
         auth,
         formatPhoneNumber,

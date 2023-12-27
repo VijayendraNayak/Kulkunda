@@ -167,7 +167,7 @@ const Login = () => {
           </div>
           {!error && (
             <div className="text-yellow-500 font-semibold text-center">
-              Warning:The user should be register to use the Login with google
+              Warning:The user should be registerd to use the Login with google
               option
             </div>
           )}
