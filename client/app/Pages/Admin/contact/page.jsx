@@ -7,7 +7,7 @@ const AdminContactPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/admin/contact');
+        const response = await fetch('/api/contact/forms');
         if (!response.ok) {
           throw new Error('Failed to fetch contact forms');
         }

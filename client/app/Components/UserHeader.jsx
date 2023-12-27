@@ -96,11 +96,6 @@ const UserHeader = ({ loading }) => {
               Contact
             </li>
           </Link>
-          <Link href="/Pages/contactadmin">
-            <li className="hover:underline text-orange-700 hidden sm:flex">
-              Contact Admin
-            </li>
-          </Link>
           {currentUser ? (  
             <Link href="/Pages/profile">
               <img

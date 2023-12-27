@@ -26,12 +26,7 @@ const Page = () => {
         },
         body: JSON.stringify(formData),
       });
-      setFormData({
-        name: '',
-        email: '',
-        phoneNumber: '',
-        message: '',
-      });
+      
       const data = await res.json();
       if (data.success === true) {
         setShowAlert(true); // Set showAlert to true after successful form submission
