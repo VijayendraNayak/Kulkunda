@@ -286,7 +286,7 @@
                     onClick={() => handleCardClick(seva)}
                   >
                     <h3 className="text-xl font-semibold mb-2">{seva[languageKey]}</h3>
-                    <p className="text-gray-700 mb-2">Price: Rs. {seva.price}</p>
+                    <p className="text-green-700 font-semibold mb-2">Price: Rs. {seva.price}</p>
                   </li> 
                 )
                 )
