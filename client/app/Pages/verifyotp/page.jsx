@@ -30,15 +30,17 @@ const App = () => {
     try {
       setLoading(true)
       const formatPhoneNumber = `+${phone}`;
+      setLoading(false)
       const recaptha = new RecaptchaVerifier(auth, "recaptcha", {});
+      setLoading(true)
       const confirmation = await signInWithPhoneNumber(
         auth,
         formatPhoneNumber,
         recaptha
       );
+      setLoading(false)
       setUser(confirmation);
       setShowOTP(true); // Set showOTP to true once OTP is sent
-      setLoading(false)
     } catch (error) {
       console.error(error);
       setLoading(false)

@@ -18,7 +18,6 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "@/app/Components/Loader";
 import dynamic from "next/dynamic";
 
-
 const Login = () => {
   const [formdata, setFormdata] = useState({});
   const [password, showPassword] = useState(true);
@@ -161,11 +160,17 @@ const Login = () => {
           </button>
           <div className="flex justify-end">
             <Link href="/Pages/verifyotp">
-              <span className="text-green-500 font-bold cursor-pointer">
-                Create an Account?
-              </span>
+              <p className="text-green-500 font-bold cursor-pointer hover:scale-110">
+                Create an Account
+              </p>
             </Link>
           </div>
+          {!error && (
+            <div className="text-yellow-500 font-semibold text-center">
+              Warning:The user should be register to use the Login with google
+              option
+            </div>
+          )}
           {error && (
             <p className="text-red-500 text-center font-semibold">{error}</p>
           )}
@@ -175,4 +180,4 @@ const Login = () => {
   );
 };
 
-export default dynamic (() => Promise.resolve(Login), {ssr: false})
+export default dynamic(() => Promise.resolve(Login), { ssr: false });
