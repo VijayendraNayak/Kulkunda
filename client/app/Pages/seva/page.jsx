@@ -252,7 +252,7 @@
           <select
             value={selectedLanguage}
             onChange={(e) => handleLanguageChange(e.target.value)}
-            className="bg-gray-300 px-4 py-2 rounded"
+            className="bg-orange-100 px-4 py-2 rounded"
           >
             <option value="english">English</option>
             <option value="Kannada">Kannada</option>
@@ -280,8 +280,8 @@
                 {sevaList.map((seva) => (
                   <li
                     key={seva.id}
-                    className={`p-5 border rounded-md shadow-md cursor-pointer hover:scale-105 bg-orange-100 ${
-                      selectedSeva?.id === seva.id ? "bg-blue-100 " : "hover:bg-gray-100"
+                    className={`p-5 rounded-md shadow-md cursor-pointer hover:scale-105 bg-orange-100 border-2 ${
+                      selectedSeva?.id === seva.id ? "bg-blue-100 " : "hover:bg-orange-200"
                     }`}
                     onClick={() => handleCardClick(seva)}
                   >
