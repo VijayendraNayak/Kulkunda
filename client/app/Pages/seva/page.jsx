@@ -1,5 +1,10 @@
   "use client";
   import React, { useState } from "react";
+  import Image from "next/image";
+
+  import RegisterImage from "/app/assets/image/temple.jpg";
+
+
 
   const SevaPage = () => {
     const sevaList = [
@@ -221,8 +226,9 @@
       },
     ];
 
+
     const [selectedLanguage, setSelectedLanguage] = useState("english");
-    const [selectedSeva, setSelectedSeva] = useState(sevaList[0]);
+    const [selectedSeva, setSelectedSeva] = useState();
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
     const handleCardClick = (seva) => {
@@ -274,15 +280,17 @@
                 {sevaList.map((seva) => (
                   <li
                     key={seva.id}
-                    className={`p-5 border rounded-md shadow-md cursor-pointer hover:scale-105 ${
+                    className={`p-5 border rounded-md shadow-md cursor-pointer hover:scale-105 bg-orange-100 ${
                       selectedSeva?.id === seva.id ? "bg-blue-100 " : "hover:bg-gray-100"
                     }`}
                     onClick={() => handleCardClick(seva)}
                   >
                     <h3 className="text-xl font-semibold mb-2">{seva[languageKey]}</h3>
-                    <p className="text-gray-700 mb-2">Price: Rs. {seva.price}</p>
-                  </li>
-                ))}
+                    <p className="text-green-700 font-semibold mb-2">Price: Rs. {seva.price}</p>
+                  </li> 
+                )
+                )
+              }
               </ul>
               <div className="flex justify-end p-4 md:hidden">
                 <button
@@ -303,9 +311,9 @@
     
       return (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-8 rounded-md shadow-md md:w-1/2">
+          <div className="p-8 rounded-md shadow-md md:w-1/2 bg-orange-100 border-2 border-orange-500">
             {/* Mobile view */}
-            <div className="md:hidden p-4 overflow-y-auto">
+            <div className="md:hidden p-4 overflow-y-auto bg-orange-100">
               <h2 className="text-2xl font-semibold mb-4 text-center">{selectedSeva[languageKey]}</h2>
               <p className="text-gray-700 mb-4">{selectedSeva.content}</p>
               <p className="text-green-600 font-bold">Price: Rs. {selectedSeva.price}</p>
@@ -318,7 +326,7 @@
             </div>
     
             {/* Desktop view */}
-            <div className="hidden md:block p-4 overflow-y-auto ">
+            <div className="hidden md:block p-4 overflow-y-auto bg-orange-100">
               <h2 className="text-2xl font-semibold mb-4 text-center">{selectedSeva[languageKey]}</h2>
               <p className="text-gray-700 mb-4">{selectedSeva.content}</p>
               <p className="text-green-600 font-bold">Price: Rs. {selectedSeva.price}</p>
@@ -353,6 +361,16 @@
 
       <div className="md:flex">
         {renderSevaList()}
+        <div className="p-5 hidden md:block md:w-1/2 overflow-hidden">
+          <Image
+            src={RegisterImage}
+            alt="Temple Image"
+            layout="responsive"
+            width={400}
+            height={300}
+            objectFit="cover"
+          />
+        </div>
         <div className={`md:w-1/2 ${isDrawerOpen ? '' : 'hidden'}`}>
           <div className="flex justify-end p-4">
             <button
