@@ -24,7 +24,6 @@ import { useRouter } from "next/navigation";
 import Loader from "@/app/Components/Loader";
 import dynamic from "next/dynamic";
 
-
 const Profile = () => {
   const { currentUser, loading, error } = useSelector((state) => state.user);
   const [formdata, setFormdata] = useState({});
@@ -45,6 +44,12 @@ const Profile = () => {
       handlefileupload(file);
     }
   }, [file]);
+
+  useEffect(() => {
+    const isLoggedIn = !!localStorage.getItem('userToken');
+    if(!isLoggedIn){router.replace("/Pages/login")}
+  }, []);
+  
 
   const handleChange = (e) => {
     setFormdata({ ...formdata, [e.target.id]: e.target.value });
@@ -97,6 +102,7 @@ const Profile = () => {
       }
       dispatch(signoutSuccess(data));
       router.replace("/Pages/login");
+      localStorage.removeItem("userToken");
     } catch (error) {
       dispatch(signoutFailure(error));
     }

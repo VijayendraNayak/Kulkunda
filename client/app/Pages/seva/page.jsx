@@ -4,9 +4,6 @@
   import Link from "next/link";
 
   import RegisterImage from "/app/assets/image/temple.jpg";
-
-
-
   const SevaPage = () => {
     const sevaList = [
       {
@@ -318,12 +315,21 @@
               <h2 className="text-2xl font-semibold mb-4 text-center">{selectedSeva[languageKey]}</h2>
               <p className="text-gray-700 mb-4">{selectedSeva.content}</p>
               <p className="text-green-600 font-bold">Price: Rs. {selectedSeva.price}</p>
-              <button
-                className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-                onClick={() => setSelectedSeva(null)}
-              >
-                Close
-              </button>
+              <div className="flex justify-center mt-4">
+                <button
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                  onClick={() => setSelectedSeva(null)}
+                >
+                  Close
+                </button>
+                <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 ml-2 ">
+                  <Link href="/Pages/sevaform">
+                    <span>
+                      Book
+                    </span>
+                  </Link>
+                </button>
+              </div>
             </div>
     
             {/* Desktop view */}
@@ -331,17 +337,21 @@
               <h2 className="text-2xl font-semibold mb-4 text-center">{selectedSeva[languageKey]}</h2>
               <p className="text-gray-700 mb-4">{selectedSeva.content}</p>
               <p className="text-green-600 font-bold">Price: Rs. {selectedSeva.price}</p>
-              <button
-                className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-                onClick={() => setSelectedSeva(null)}
-              >
-                Close
-              </button>
-              <Link href="/Pages/sevaform">
-                <span className="mt-4 bg-green-500 text-white px-5 py-2.5 rounded-md hover:bg-green-600 ml-2">
-                  Book
-                </span>
-              </Link>
+              <div className="flex justify-center mt-4 ">
+                <button
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                  onClick={() => setSelectedSeva(null)}
+                >
+                  Close
+                </button>
+                <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 ml-2 ">
+                  <Link href="/Pages/sevaform">
+                    <span>
+                      Book
+                    </span>
+                  </Link>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -350,7 +360,7 @@
     
   
     return (
-    <div className="container mx-auto md:p-10">
+    <div className="container mx-auto p-5 md:p-10">
       <h1 className="text-3xl font-bold mb-4 text-center underline" style={{ marginTop: '50px' }}>
         {selectedLanguage === "english"
           ? "Shree Basaveshwara Temple"
@@ -361,13 +371,13 @@
           : "Shree Basaveshwara Temple"}
       </h1>
 
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex flex-col md:flex-row items-center justify-between mb-4">
         {renderLanguageDropdown()}
       </div>
 
-      <div className="md:flex">
+      <div className="md:flex flex-wrap">
         {renderSevaList()}
-        <div className="p-5 hidden md:block md:w-1/2 overflow-hidden">
+        <div className="p-5 w-full md:w-1/2 overflow-hidden">
           <Image
             src={RegisterImage}
             alt="Temple Image"
@@ -377,7 +387,7 @@
             objectFit="cover"
           />
         </div>
-        <div className={`md:w-1/2 ${isDrawerOpen ? '' : 'hidden'}`}>
+        <div className={`w-full md:w-1/2 ${isDrawerOpen ? '' : 'hidden'}`}>
           <div className="flex justify-end p-4">
             <button
               className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"

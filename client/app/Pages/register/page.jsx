@@ -31,6 +31,7 @@ const Register = () => {
   const togglepassword = () => {
     showPassword(!password);
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -147,7 +148,7 @@ const Register = () => {
           </button>
           <div className="flex justify-end">
             <Link href="/Pages/login">
-              <span className="text-green-500 font-bold cursor-pointer hover:scale-110">
+              <span className="text-green-500 font-bold cursor-pointer hover:scale-110 hover:underline">
                 Have an Account?
               </span>
             </Link>
