@@ -1,6 +1,7 @@
   "use client";
   import React, { useState } from "react";
   import Image from "next/image";
+  import Link from "next/link";
 
   import RegisterImage from "/app/assets/image/temple.jpg";
   const SevaPage = () => {
@@ -333,6 +334,11 @@
               >
                 Close
               </button>
+              <Link href="/Pages/sevaform">
+                <span className="mt-4 bg-green-500 text-white px-5 py-2.5 rounded-md hover:bg-green-600 ml-2">
+                  Book
+                </span>
+              </Link>
             </div>
           </div>
         </div>
@@ -376,6 +382,7 @@
             >
               {isDrawerOpen ? 'Close' : 'Open'} Seva List
             </button>
+            
           </div>
         </div>
         {renderSelectedSevaModal()}

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 const AdminContactPage = () => {
   const [contactForms, setContactForms] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,6 +16,7 @@ const AdminContactPage = () => {
         setContactForms(data.contactForms);
       } catch (error) {
         console.error('Error fetching contact forms:', error);
+        setError('Failed to fetch contact forms. Please try again.'); // Set error state
       }
     };
 
@@ -24,6 +26,7 @@ const AdminContactPage = () => {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Contact Form Submissions (Admin Panel)</h1>
+      {error && <p className="text-red-600">{error}</p>} {/* Display error message if error exists */}
       {contactForms.length > 0 ? (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {contactForms.map((form) => (
