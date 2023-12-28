@@ -3,9 +3,6 @@
   import Image from "next/image";
 
   import RegisterImage from "/app/assets/image/temple.jpg";
-
-
-
   const SevaPage = () => {
     const sevaList = [
       {

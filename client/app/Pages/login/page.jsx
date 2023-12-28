@@ -18,8 +18,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "@/app/Components/Loader";
 import dynamic from "next/dynamic";
 
+
 const Login = () => {
-  const [formdata, setFormdata] = useState({});
+  const [formdata, setFormdata] = useState();
   const [password, showPassword] = useState(true);
   const dispatch = useDispatch();
   const router = useRouter();
@@ -28,7 +29,6 @@ const Login = () => {
   };
   const { phoneNumber } = useSelector((state) => state.phone);
   const { loading, error } = useSelector((state) => state.user);
-
   useEffect(() => {
     // Set phonenumber in formdata if phoneNumber exists
     if (phoneNumber) {
@@ -125,7 +125,7 @@ const Login = () => {
               placeholder="Phone number"
               className="border p-3 rounded-lg hover:shadow-lg hover:scale-105"
               id="phonenumber"
-              defaultValue={+91}
+              defaultValue={91}
               onChange={handleChange}
             />
 
@@ -160,8 +160,8 @@ const Login = () => {
           </button>
           <div className="flex justify-end">
             <Link href="/Pages/verifyotp">
-              <p className="text-green-500 font-bold cursor-pointer hover:scale-110">
-                Create an Account
+              <p className="text-green-500 font-bold cursor-pointer hover:scale-110 hover:underline">
+                New User?
               </p>
             </Link>
           </div>
