@@ -82,7 +82,7 @@ const Page = () => {
   return (
     <div className="flex flex-col md:flex-row items-start justify-center min-h-screen bg-gray-100 text-gray-800">
       {/* Contact Information and Map */}
-      <div className="w-full md:w-3/4 p-8 mb-8 md:mb-0 bg-white rounded-lg shadow-lg mt-5">
+      <div className="w-full md:w-3/4 p-8 mb-8 md:mb-0 bg-white rounded-lg mt-5">
       <div className="bg-orange-100 mt-10 p-8 rounded-lg">
   <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Contact Information</h2>
   
@@ -118,7 +118,7 @@ const Page = () => {
   </div>
 </div>
 
-        _{/*map*/}
+        {/*map*/}
         <div className="flex mt-8 p-4 justify-center bg-white rounded-lg ">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3892.3518917216397!2d75.6071434!3d12.690440299999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba4e6a6152c4c59%3A0x848a6ae907e47652!2sShree%20Basaveshwara%20Temple!5e0!3m2!1sen!2sin!4v1703072760786!5m2!1sen!2sin"
@@ -135,7 +135,7 @@ const Page = () => {
       <div className="w-full md:w-1/2 p-8  min-h-screen ">
         <h2 className="text-3xl font-bold tracking-tight mb-6">Enquire form</h2>
         {/*enquire form*/}
-       <form action="#" method="POST" onSubmit={handleSubmit} className="w-full max-w-md p-8 bg-orange-100 rounded-lg shadow-lg">
+       <form action="#" method="POST" onSubmit={handleSubmit} className="w-full max-w-md p-8 bg-orange-100 rounded-lg ">
        <h2 className="text-3xl font-bold tracking-tight mb-6">Enquire form</h2>
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div className="sm:col-span-2">

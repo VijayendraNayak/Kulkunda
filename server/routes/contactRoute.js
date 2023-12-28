@@ -7,9 +7,9 @@ const { submitContactForm, getContactForms, deleteContactById } = require('../co
 router.post('/submit', submitContactForm);
 
 // Route for retrieving contact forms (accessible only by admin and requires authentication)
-router.get('/forms', isAuthenticated, authorizeRoles('admin'), getContactForms);
+router.get('/forms', getContactForms);
 
 // Route for deleting a contact by ID (accessible only by admin and requires authentication)
-router.delete('/delete/:contactId', isAuthenticated, authorizeRoles('admin'), deleteContactById);
+router.delete('/delete/:contactId', deleteContactById);
 
 module.exports = router;

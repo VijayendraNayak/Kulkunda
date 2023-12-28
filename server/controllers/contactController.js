@@ -27,24 +27,18 @@ exports.submitContactForm = asyncErrHandler(async (req, res, next) => {
 // Controller for retrieving submitted contact forms (accessible only by admin)
 exports.getContactForms = asyncErrHandler(async (req, res, next) => {
   // Check if the user is an admin (ensure your authentication/authorization middleware sets this)
-  if (req.user.role !== 'admin') {
-    return next(errorHandler(403, 'You are not authorized to access this resource'));
-  }
-
   try {
     const contactForms = await Contact.find();
     res.status(200).json({ success: true, contactForms });
   } catch (error) {
+    console.error('Error fetching contact forms:', error);
     next(errorHandler(500, 'Error fetching contact forms'));
-  }
+  }  
 });
 
 // Function to delete contact by ID (accessible only by admin)
 exports.deleteContactById = async (req, res, next) => {
   // Check if the user is an admin (ensure your authentication/authorization middleware sets this)
-  if (req.user.role !== 'admin') {
-    return next(errorHandler(403, 'You are not authorized to delete contacts'));
-  }
 
   const { contactId } = req.params;
 
