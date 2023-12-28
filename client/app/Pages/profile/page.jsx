@@ -109,7 +109,7 @@ const Profile = () => {
   };
 
   return (
-    <div className=" flex sm:flex-row flex-col pt-28">
+    <div className=" flex sm:flex-row flex-col pt-28 ">
       {loading && <Loader />}
       <div className="flex-1 p-10 ">
         <div className="flex flex-col lg:flex-row gap-4 items-center ">
@@ -160,8 +160,8 @@ const Profile = () => {
               <IoLogOutOutline /> Logout
             </button>
             <Link
-              className="text-blue-500 font-semibold ml-auto cursor-pointer"
-              href="/changepassword"
+              className="text-blue-500 font-semibold ml-auto cursor-pointer hover:scale-110"
+              href="/Pages/changepass"
             >
               <span>Change passoword?</span>
             </Link>
