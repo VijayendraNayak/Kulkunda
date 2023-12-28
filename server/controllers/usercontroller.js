@@ -72,3 +72,13 @@ exports.updateProfile = asyncErrHandler(async (req, res, next) => {
     const user = await User.findByIdAndUpdate(req.user._id, req.user, { new: true })
     res.status(200).json({ message: "User updated Successfully", user })
 })
+
+exports.updatePassword = asyncErrHandler(async (req, res, next) => {
+    const { oldpass, newpass } = req.body
+    const isverfied = bcrypt.compareSync(oldpass, req.user.password)
+    if (!isverfied) { return next(errorHandler(403, "Wrong password try again")) }
+    const hashnewpass = bcrypt.hashSync(newpass, 10)
+    req.user.password = hashnewpass
+    const user = await User.findByIdAndUpdate(req.user._id, req.user, { new: true })
+    res.status(200).json({ message: "Password updated successfully", user })
+})
