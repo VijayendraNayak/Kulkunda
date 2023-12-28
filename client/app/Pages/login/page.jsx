@@ -122,11 +122,11 @@ const Login = () => {
           priority
         />
       </div>
-      <div className="flex flex-col w-[700px] p-6 mx-auto justify-center border-2  border-orange-500 gap-4 bg-orange-100 rounded-lg ml-5 ">
-        <div className="text-4xl px-12 font-semibold text-center text-orange-500 ">
+      <div className="flex flex-col p-6 mx-auto justify-center border-2  border-orange-500 gap-4 bg-orange-100 rounded-lg w-full md:w-1/2 order-2 md:order-1 md:ml-10">
+        <div className="text-4xl px-12 md:items-center font-semibold text-center text-orange-500 ">
           {loading ? "loading..." : "Login"}
         </div>
-        <div className="flex flex-col ml-10 gap-4 justify-center bg-orange-100">
+        <div className="flex flex-col gap-4 justify-center bg-orange-100">
           <form className="flex flex-col gap-4 ">
             <input
               type="text"
@@ -141,14 +141,14 @@ const Login = () => {
               <input
                 type={password ? "password" : "text"}
                 placeholder="Password"
-                className="border p-3 rounded-lg pr-10 w-[245px] sm:w-[350px] hover:shadow-lg hover:scale-105"
+                className="border p-3 rounded-lg pr-10 w-full md:w-[70%] lg:w-full xl:w-full hover:shadow-lg hover:scale-105"
                 id="password"
                 onChange={handleChange}
               />
               <button
                 type="button"
-                onClick={togglepassword}
-                className="absolute top-1/2 left-80 transform -translate-y-1/2 hover:shadow-lg hover:scale-105"
+                onClick={togglepassword} 
+                className="absolute top-1/2 right-5 transform -translate-y-1/2 hover:shadow-lg hover:scale-105"
               >
                 {password ? <IoIosEye /> : <IoIosEyeOff />}
               </button>
