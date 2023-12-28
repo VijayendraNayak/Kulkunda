@@ -18,7 +18,6 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "@/app/Components/Loader";
 import dynamic from "next/dynamic";
 
-
 const Login = () => {
   const [formdata, setFormdata] = useState();
   const [password, showPassword] = useState(true);
@@ -60,8 +59,8 @@ const Login = () => {
       data.role === "admin"
         ? router.replace("/Pages/Admin/home")
         : router.replace("/");
-        const userToken = "someToken"; // Replace with the actual token received from the server
-        localStorage.setItem("userToken", userToken);
+      const userToken = "someToken"; // Replace with the actual token received from the server
+      localStorage.setItem("userToken", userToken);
     } catch (error) {
       console.log("catcherr", error);
       dispatch(signInFailure(error));
@@ -93,16 +92,17 @@ const Login = () => {
         return;
       }
       dispatch(signInSuccess(data));
-      if(data.role==="admin"){
-        router.replace("Pages/admin/home")
+      if (data.role === "admin") {
+        router.replace("Pages/admin/home");
         const userToken = "someToken"; // Replace with the actual token received from the server
         localStorage.setItem("userToken", userToken);
+        localStorage.setItem("userRole", "admin"); // or 'user'
+      } else {
+        router.replace("/");
+        const userToken = "someToken"; // Replace with the actual token received from the server
+        localStorage.setItem("userToken", userToken);
+        localStorage.setItem("userRole", "user"); // or 'user'
       }
-      data.role === "admin"
-        ? router.replace("Pages/admin/home")
-        : router.replace("/");
-        const userToken = "someToken"; // Replace with the actual token received from the server
-        localStorage.setItem("userToken", userToken);
     } catch (error) {
       console.log({ error });
       dispatch(signInFailure(error));
