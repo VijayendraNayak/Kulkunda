@@ -60,6 +60,8 @@ const Login = () => {
       data.role === "admin"
         ? router.replace("/Pages/Admin/home")
         : router.replace("/");
+        const userToken = "someToken"; // Replace with the actual token received from the server
+        localStorage.setItem("userToken", userToken);
     } catch (error) {
       console.log("catcherr", error);
       dispatch(signInFailure(error));
@@ -91,10 +93,16 @@ const Login = () => {
         return;
       }
       dispatch(signInSuccess(data));
-      console.log("heer");
+      if(data.role==="admin"){
+        router.replace("Pages/admin/home")
+        const userToken = "someToken"; // Replace with the actual token received from the server
+        localStorage.setItem("userToken", userToken);
+      }
       data.role === "admin"
         ? router.replace("Pages/admin/home")
         : router.replace("/");
+        const userToken = "someToken"; // Replace with the actual token received from the server
+        localStorage.setItem("userToken", userToken);
     } catch (error) {
       console.log({ error });
       dispatch(signInFailure(error));
