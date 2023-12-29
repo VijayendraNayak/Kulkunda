@@ -55,3 +55,9 @@ exports.deleteContactById = async (req, res, next) => {
     next(errorHandler(500, 'Error deleting contact'));
   }
 };
+exports.noofcontacts = asyncErrHandler(async (req, res, next) => {
+  const length = await Contact.countDocuments()
+  const contacts = await Contact.find()
+  if (!length) { return next(errorHandler(403, "There are no contacts in the database")) }
+  res.status(200).json({ message: "Num of contacts:", length, contacts })
+})

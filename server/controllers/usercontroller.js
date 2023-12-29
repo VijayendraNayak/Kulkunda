@@ -82,3 +82,10 @@ exports.updatePassword = asyncErrHandler(async (req, res, next) => {
     const user = await User.findByIdAndUpdate(req.user._id, req.user, { new: true })
     res.status(200).json({ message: "Password updated successfully", user })
 })
+
+exports.numberOfUsers = asyncErrHandler(async (req, res, next) => {
+    const length = await User.countDocuments()
+    const users = await User.find()
+    if (!length) { return next(errorHandler(403, "There are no users in the database")) }
+    res.status(200).json({ message: "Num of users:", length, users })
+})

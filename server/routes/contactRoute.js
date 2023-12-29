@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { isAuthenticated, authorizeRoles } = require('../middleware/Authenticated');
-const { submitContactForm, getContactForms, deleteContactById } = require('../controllers/contactController');
+const { submitContactForm, getContactForms, deleteContactById,noofcontacts } = require('../controllers/contactController');
 
 // Route for submitting the contact form (no authentication required)
 router.post('/submit', submitContactForm);
@@ -11,5 +11,6 @@ router.get('/forms', isAuthenticated, authorizeRoles('admin'), getContactForms);
 
 // Route for deleting a contact by ID (accessible only by admin and requires authentication)
 router.delete('/delete/:contactId', isAuthenticated, authorizeRoles('admin'), deleteContactById);
+router.get('/admin/noofcontacts', isAuthenticated, authorizeRoles('admin'), noofcontacts);
 
 module.exports = router;

@@ -57,7 +57,7 @@ const Login = () => {
       }
       dispatch(signInSuccess(data));
       data.role === "admin"
-        ? router.replace("/Pages/Admin/home")
+        ? router.replace("/Admin/dashboard")
         : router.replace("/");
       const userToken = "someToken"; // Replace with the actual token received from the server
       localStorage.setItem("userToken", userToken);
@@ -93,7 +93,7 @@ const Login = () => {
       }
       dispatch(signInSuccess(data));
       if (data.role === "admin") {
-        router.replace("Pages/Admin/dashboard");
+        router.replace("/Pages/Admin/dashboard");
         const userToken = "someToken"; // Replace with the actual token received from the server
         localStorage.setItem("userToken", userToken);
         localStorage.setItem("userRole", "admin"); // or 'user'
