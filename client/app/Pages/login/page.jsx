@@ -56,13 +56,19 @@ const Login = () => {
         return;
       }
       dispatch(signInSuccess(data));
-      data.role === "admin"
-        ? router.replace("/Pages/Admin/dashboard")
-        : router.replace("/");
-      const userToken = "someToken"; // Replace with the actual token received from the server
-      localStorage.setItem("userToken", userToken);
+      if (data.role === "admin") {
+        router.replace("/Pages/Admin/dashboard");
+        const userToken = "someToken"; // Replace with the actual token received from the server
+        localStorage.setItem("userToken", userToken);
+        localStorage.setItem("userRole", "admin"); // or 'user'
+      } else {
+        router.replace("/");
+        const userToken = "someToken"; // Replace with the actual token received from the server
+        localStorage.setItem("userToken", userToken);
+        localStorage.setItem("userRole", "user"); // or 'user'
+      }
     } catch (error) {
-      console.log("catcherr", error);
+      console.log({ error });
       dispatch(signInFailure(error));
     }
   };
@@ -71,7 +77,6 @@ const Login = () => {
     const provider = new GoogleAuthProvider();
     const auth = getAuth(app);
     const result = await signInWithPopup(auth, provider);
-    e.preventDefault();
     try {
       dispatch(signInStart());
       const res = await fetch("/api/user/google", {
@@ -108,6 +113,9 @@ const Login = () => {
       dispatch(signInFailure(error));
     }
   };
+
+
+
 
   return (
     <div className="pt-40 p-10 flex ">
