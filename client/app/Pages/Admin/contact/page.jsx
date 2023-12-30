@@ -65,7 +65,7 @@ const AdminContactPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">
+      <h1 className="text-3xl font-bold mb-8 mt-12">
         Contact Form Submissions (Admin Panel)
       </h1>
       {alert && (
@@ -79,7 +79,7 @@ const AdminContactPage = () => {
       )}
       {error && <p className="text-red-600 mb-4">{error}</p>}
       {contactForms && contactForms.length > 0 ? (
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {contactForms.map((form) => (
             <div
               key={form._id}

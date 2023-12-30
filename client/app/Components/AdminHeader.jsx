@@ -147,7 +147,7 @@ const UserHeader = ({ loading }) => {
                   Sevas
                 </li>
               </Link>
-              <Link href="//Pages/Admin/contact">
+              <Link href="/Pages/Admin/contact">
                 <li className="hover:underline text-orange-700 sm:hidden">
                   Contact Querries
                 </li>

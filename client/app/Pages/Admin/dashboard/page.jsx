@@ -56,7 +56,7 @@ const page = () => {
   return (
     <div className="grid xl:grid-cols-[17.5rem_1fr] lg:grid-cols-[15rem_1fr] h-[calc(100vh-5rem)] overflow-y-scroll pt-16">
       {/* Profile image column */}
-      <div className="lg:flex hidden flex-col gap-5 py-4 px-5 bg-orange-200">
+      <div className="flex flex-col gap-5 py-4 px-5 bg-orange-200">
         <header className="text-[1.5em] text-center font-bold">ADMIN</header>
         <div className="xl:h-[11rem] lg:h-[9.7rem] xl:w-[11rem] lg:w-[9.7rem] mx-auto relative object-cover">
           <img
@@ -67,7 +67,7 @@ const page = () => {
             className="rounded-full"
           />
         </div>
-        <div className="grid gap-5 mt-5">
+        <div className="grid gap-3 mt-3">
           <div className="grid">
             <span className="font-bold">Admin Name:</span>
             <span>{currentUser.name}</span>

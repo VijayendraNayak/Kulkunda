@@ -308,7 +308,7 @@
       const languageKey = `name${selectedLanguage.charAt(0).toUpperCase()}${selectedLanguage.slice(1)}`;
     
       return (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center overflow-y-auto">
           <div className="p-8 rounded-md shadow-md md:w-1/2 bg-orange-100 border-2 border-orange-500">
             {/* Mobile view */}
             <div className="md:hidden p-4 overflow-y-auto bg-orange-100">
