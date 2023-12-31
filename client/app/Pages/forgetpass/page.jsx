@@ -68,11 +68,11 @@ const Changepass = () => {
     }
   };
   return (
-    <div className="py-28 px-10">
+    <div className="py-28 px-10 md:py-16 md:px-8 lg:py-20 lg:px-16 xl:py-28 xl:px-20 mt-5">
       <p className="pb-10 text-center text-5xl font-semibold text-orange-500">
         Forget Password
       </p>
-      <div className="flex flex-col justify-center border-2 border-orange-500 max-w-lg mx-auto rounded-lg bg-orange-50">
+      <div className="flex flex-col justify-center border-2 border-orange-500 max-w-lg mx-auto rounded-lg bg-orange-50 hover:scale-105 hover:shadow-lg">
         <form className="flex flex-col gap-4 p-6">
           <input
             type="text"
@@ -87,7 +87,7 @@ const Changepass = () => {
               type={showpassword ? "text" : "password"}
               placeholder="Enter your new password here"
               id="password"
-              className=" p-3 border rounded-lg w-full"
+              className=" p-3 border rounded-lg w-full hover:scale-105 hover:shadow-lg"
               onChange={handleonchange}
             />
             <button
@@ -103,7 +103,7 @@ const Changepass = () => {
               type={showpassword1 ? "text" : "password"}
               placeholder="Confirm new password"
               id="confirmpassword"
-              className="p-3 border rounded-lg w-full"
+              className="p-3 border rounded-lg w-full hover:scale-105 hover:shadow-lg"
               onChange={handleonchange}
             />
             <button
@@ -115,7 +115,7 @@ const Changepass = () => {
             </button>
           </div>
           <button
-            className="bg-orange-500 text-center font-semibold p-3 text-white text-xl rounded-lg hover:bg-orange-600"
+            className="bg-orange-500 text-center font-semibold p-3 text-white text-xl rounded-lg hover:bg-orange-600 hover:scale-105 hover:shadow-lg"
             onClick={handleforgetpass}
           >
             {loading ? "Loading..." : "Set Password"}
