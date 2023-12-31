@@ -50,34 +50,34 @@ const Changepass = () => {
     }
   };
   return (
-    <div className="py-28 px-10">
-      <p className="pb-10 text-center text-5xl font-semibold text-orange-500">
+    <div className="py-8 px-4 md:py-16 md:px-8 lg:py-20 lg:px-16 xl:py-28 xl:px-20">
+      <p className="pb-10 text-center text-4xl md:text-5xl lg:text-6xl font-semibold text-orange-500 mt-7 underline">
         Change Password
       </p>
-      <div className="flex flex-col justify-center border-2 border-orange-500 max-w-lg mx-auto rounded-lg bg-orange-50">
-        <form className="flex flex-col gap-4 p-6">
-          <div className="relative ">
+      <div className="flex flex-col justify-center border-2 border-orange-500 max-w-md mx-auto rounded-lg bg-orange-50 hover:scale-105">
+        <form className="flex flex-col gap-4 p-6 ">
+          <div className="relative">
             <input
-              type={showpassword ? "text" : "password"}
+              type={showpassword ? 'text' : 'password'}
               placeholder="Enter your old password here"
               id="oldpass"
-              className=" p-3 border rounded-lg w-full"
+              className="p-3 border rounded-lg w-full hover:scale-105"
               onChange={handleonchange}
             />
             <button
               type="button"
               onClick={togglepass}
-              className="absolute top-1/4 right-2"
+              className="absolute top-1/4 right-2 "
             >
               {!showpassword ? <IoIosEye /> : <IoIosEyeOff />}
             </button>
           </div>
           <div className="relative">
             <input
-              type={showpassword1 ? "text" : "password"}
+              type={showpassword1 ? 'text' : 'password'}
               placeholder="Enter your new password here"
               id="newpass"
-              className="p-3 border rounded-lg w-full"
+              className="p-3 border rounded-lg w-full hover:scale-105"
               onChange={handleonchange}
             />
             <button
@@ -89,10 +89,10 @@ const Changepass = () => {
             </button>
           </div>
           <button
-            className="bg-orange-500 text-center font-semibold p-3 text-white text-xl rounded-lg hover:bg-orange-600"
+            className="bg-orange-500 text-center font-semibold p-3 text-white text-xl rounded-lg hover:bg-orange-600 hover:scale-105"
             onClick={handlechangepass}
           >
-            {loading ? "Loading..." : "Update password"}
+            {loading ? 'Loading...' : 'Update password'}
           </button>
         </form>
       </div>
@@ -100,5 +100,4 @@ const Changepass = () => {
     </div>
   );
 };
-
 export default Changepass;
