@@ -82,10 +82,36 @@ exports.updatePassword = asyncErrHandler(async (req, res, next) => {
     const user = await User.findByIdAndUpdate(req.user._id, req.user, { new: true })
     res.status(200).json({ message: "Password updated successfully", user })
 })
+exports.updatePassword = asyncErrHandler(async (req, res, next) => {
+    const { oldpass, newpass } = req.body
+    const isverfied = bcrypt.compareSync(oldpass, req.user.password)
+    if (!isverfied) { return next(errorHandler(403, "Wrong password try again")) }
+    const hashnewpass = bcrypt.hashSync(newpass, 10)
+    req.user.password = hashnewpass
+    const user = await User.findByIdAndUpdate(req.user._id, req.user, { new: true })
+    res.status(200).json({ message: "Password updated successfully", user })
+})
 
 exports.numberOfUsers = asyncErrHandler(async (req, res, next) => {
     const length = await User.countDocuments()
     const users = await User.find()
     if (!length) { return next(errorHandler(403, "There are no users in the database")) }
     res.status(200).json({ message: "Num of users:", length, users })
+})
+
+exports.forgetpass = asyncErrHandler(async (req, res, next) => {
+    const { newpassword, newconfirmpassword, phonenumber } = req.body
+    if (newpassword !== newconfirmpassword) { return next(errorHandler(400, "The password and confirmpassword should be same")) }
+    const user = await User.findOne({ phonenumber });
+    if (!user) {
+        return next(errorHandler(404, 'User not found'));
+    }
+    const upuser = await User.findByIdAndUpdate(req.params.id,
+        {
+            $set: {
+                password: req.body.newpassword
+            },
+        },
+        { new: true })
+    res.status(200).json({ success: true, message: "Password updated sucessfully", upuser })
 })

@@ -113,10 +113,6 @@ const Login = () => {
       dispatch(signInFailure(error));
     }
   };
-
-
-
-
   return (
     <div className="pt-40 p-10 flex ">
       {loading && <Loader />}
@@ -174,7 +170,12 @@ const Login = () => {
           >
             <FcGoogle /> Login with Google
           </button>
-          <div className="flex justify-end">
+          <div className="flex justify-around">
+            <Link href="/Pages/passwordotp">
+              <p className="text-red-500 font-bold cursor-pointer hover:scale-110 hover:underline">
+                forgot password?
+              </p>
+            </Link>
             <Link href="/Pages/verifyotp">
               <p className="text-green-500 font-bold cursor-pointer hover:scale-110 hover:underline">
                 New User?
