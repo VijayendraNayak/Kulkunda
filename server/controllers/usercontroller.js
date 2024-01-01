@@ -127,5 +127,5 @@ exports.deleteUser = asyncErrHandler(async (req, res, next) => {
     const user = await User.findById(id)
     if (!user) { return next(errorHandler(404, "The user doesnot exist")) }
     await User.findByIdAndDelete(id)
-    res.status(200).json({ message: "User deleted successfully" })
+    res.status(200).json({ success:true,message: "User deleted successfully" })
 })

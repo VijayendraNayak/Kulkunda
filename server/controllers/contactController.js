@@ -40,7 +40,7 @@ exports.getContactForms = asyncErrHandler(async (req, res, next) => {
 });
 
 // Function to delete contact by ID (accessible only by admin)
-exports.deleteContactById = async (req, res, next) => {
+exports.deletecontact = async (req, res, next) => {
   // Check if the user is an admin (ensure your authentication/authorization middleware sets this)
   if (req.user.role !== 'admin') {
     return next(errorHandler(403, 'You are not authorized to delete contacts'));
@@ -60,4 +60,19 @@ exports.noofcontacts = asyncErrHandler(async (req, res, next) => {
   const contacts = await Contact.find()
   if (!length) { return next(errorHandler(403, "There are no contacts in the database")) }
   res.status(200).json({ message: "Num of contacts:", length, contacts })
+})
+
+exports.getSingleContact = asyncErrHandler(async (req, res, next) => {
+  const {id}=req.body;
+  const contact = await Contact.findById(id)
+  if (!contact) { return next(errorHandler(404, "Contact not found")) }
+  res.status(200).json({ message: "Contact found successfully", contact })
+})
+
+exports.deleteContact = asyncErrHandler(async (req, res, next) => {
+  const {id}=req.body;
+  const contact = await Contact.findById(id)
+  if (!contact) { return next(errorHandler(404, "The contact doesnot exist")) }
+  await Contact.findByIdAndDelete(id)
+  res.status(200).json({ success:true,message: "Contact deleted successfully" })
 })

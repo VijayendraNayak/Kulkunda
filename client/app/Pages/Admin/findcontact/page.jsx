@@ -3,18 +3,19 @@ import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 
 const page = () => {
-  const [userid, setUserid] = useState();
+  const [contactid, setcontactid] = useState();
   const [formdata, setFormdata] = useState();
   const [found, setFound] = useState(false);
   const [remove, setRemove] = useState(false);
+
   const handleclick = async (e) => {
     e.preventDefault();
-    const res = await fetch("/api/user/admin/singleuser", {
+    const res = await fetch("/api/contact/admin/singlecontact", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(userid),
+      body: JSON.stringify(contactid),
     });
     const data = await res.json();
     if (data.success === false) {
@@ -22,17 +23,17 @@ const page = () => {
       setFound(false);
       return;
     }
-    setFormdata(data.user);
+    setFormdata(data.contact);
     setFound(true);
   };
   const handledeleteclick = async (e) => {
     e.preventDefault();
-    const res = await fetch("/api/user/admin/delete", {
+    const res = await fetch("/api/contact/admin/delete", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(userid),
+      body: JSON.stringify(contactid),
     });
     const data = await res.json();
     if (data.success === false) {
@@ -62,11 +63,11 @@ const page = () => {
       <form className=" flex p-3 bg-orange-200 rounded-full items-center justify-between max-w-lg mx-auto ">
         <input
           type="text"
-          placeholder="Enter the Id of the user"
+          placeholder="Enter the Contact Id"
           className="bg-transparent focus:outline-none max-w-lg mx-auto"
           id="id"
           onChange={(e) => {
-            setUserid({ ...userid, [e.target.id]: e.target.value });
+            setcontactid({ ...contactid, [e.target.id]: e.target.value });
           }}
         />
         <button onClick={handleclick}>
@@ -76,16 +77,16 @@ const page = () => {
       <div className="pt-4">
         {remove && !found &&(
           <p className="text-red-500 font-semibold text-5xl text-center">
-            User deleted Successfully!!!!
+            Contact Querry deleted Successfully!!!!
           </p>
         )}
         {found && formdata && (
           <div className="text-center flex flex-col gap-4">
             <p className="text-green-500 text-2xl font-semibold">
-              User Found Successfully!!!!!!!!
+              Querry Found Successfully!!!!!!!!
             </p>
             <p className="text-orange-500 text-5xl font-semibold pb-5">
-              User Details
+              Querry Details
             </p>
             <div className="flex flex-col lg:flex-row gap-4 items-center justify-center p-8 bg-orange-100 mx-auto rounded-lg">
               <img
@@ -97,7 +98,8 @@ const page = () => {
                 <div className="flex flex-col gap-4 w-80 font-semibold">
                   <div>Name: {formdata ? formdata.name : "username"}</div>
                   <div>Email: {formdata ? formdata.email : "useremail"}</div>
-                  <div>Role: {formdata ? formdata.role : "userrole"}</div>
+                  <div>Phone Number: {formdata ? formdata.phoneNumber : "userrole"}</div>
+                  <div>Description: {formdata ? formdata.message : "userrole"}</div>
                 </div>
                 <div className="flex justify-center gap-4">
                   <button
@@ -107,7 +109,7 @@ const page = () => {
                     type="button"
                     onClick={handledeleteclick}
                   >
-                    Delete User
+                    Delete Querry
                   </button>
                 </div>
               </div>
