@@ -115,3 +115,17 @@ exports.forgetpass = asyncErrHandler(async (req, res, next) => {
         { new: true })
     res.status(200).json({ success: true, message: "Password updated sucessfully", upuser })
 })
+
+exports.getSingleUser = asyncErrHandler(async (req, res, next) => {
+    const {id}=req.body;
+    const user = await User.findById(id)
+    if (!user) { return next(errorHandler(404, "User not found")) }
+    res.status(200).json({ message: "User found successfully", user })
+})
+exports.deleteUser = asyncErrHandler(async (req, res, next) => {
+    const {id}=req.body;
+    const user = await User.findById(id)
+    if (!user) { return next(errorHandler(404, "The user doesnot exist")) }
+    await User.findByIdAndDelete(id)
+    res.status(200).json({ message: "User deleted successfully" })
+})

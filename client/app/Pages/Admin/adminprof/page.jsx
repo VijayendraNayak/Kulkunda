@@ -46,10 +46,21 @@ const Profile = () => {
   }, [file]);
 
   useEffect(() => {
-    const isLoggedIn = !!localStorage.getItem('userToken');
-    if(!isLoggedIn){router.replace("/Pages/login")}
-  }, []);
-  
+    const auth = () => {
+      const isLoggedIn = !!localStorage.getItem("userToken");
+      const userRole = localStorage.getItem("userRole");
+      const isAdmin =
+        userRole === "admin" && userRole !== null && userRole !== undefined;
+      if (!isLoggedIn) {
+        router.replace("/Pages/login");
+      }
+      if (!isAdmin) {
+        router.replace("/Pages/login");
+        console.log("The user should be admin to access this page");
+      }
+    };
+    auth();
+  });
 
   const handleChange = (e) => {
     setFormdata({ ...formdata, [e.target.id]: e.target.value });
@@ -176,4 +187,4 @@ const Profile = () => {
   );
 };
 
-export default dynamic (() => Promise.resolve(Profile), {ssr: false})
+export default dynamic(() => Promise.resolve(Profile), { ssr: false });
