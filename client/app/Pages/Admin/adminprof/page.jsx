@@ -11,14 +11,14 @@ import {
   signoutStart,
   signoutSuccess,
   signoutFailure,
-} from "../../Redux/Features/counter/counterslice";
+} from "../../../Redux/Features/counter/counterslice";
 import {
   ref,
   getStorage,
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-import { app } from "../../firebase";
+import { app } from "../../../firebase";
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
 import Loader from "@/app/Components/Loader";
@@ -120,9 +120,8 @@ const Profile = () => {
   };
 
   return (
-    <div className=" flex sm:flex-row flex-col pt-28 ">
+    <div className=" flex sm:flex-row flex-col pt-28 p-10 justify-center">
       {loading && <Loader />}
-      <div className="flex-1 p-10 ">
         <div className="flex flex-col lg:flex-row gap-4 items-center ">
           <div className="">
             <input
@@ -178,11 +177,9 @@ const Profile = () => {
             </Link>
           </div>
         </div>
-      </div>
       {error && (
         <p className="text-red-500 text-center font-semibold">{error}</p>
       )}
-      <div className="flex-1">My sevas</div>
     </div>
   );
 };

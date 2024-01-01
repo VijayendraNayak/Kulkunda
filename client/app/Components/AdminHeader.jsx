@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
@@ -87,22 +87,22 @@ const UserHeader = ({ loading }) => {
             </li>
           </Link>
           <Link href="/Pages/Admin/sevas">
-          <li className="hover:underline text-orange-700 hidden sm:flex">
-            Sevas
-          </li>
+            <li className="hover:underline text-orange-700 hidden sm:flex">
+              Sevas
+            </li>
           </Link>
           <Link href="/Pages/Admin/contact">
             <li className="hover:underline text-orange-700 hidden sm:flex">
               Contact Querries
             </li>
           </Link>
-            <Link href="/Pages/profile">
-              <img
-                className=" rounded-full w-10 h-10 hidden sm:flex"
-                src={currentUser.avatar}
-                alt="profile"
-              />
-            </Link>
+          <Link href="/Pages//Admin/adminprof">
+            <img
+              className=" rounded-full w-10 h-10 hidden sm:flex"
+              src={currentUser.avatar}
+              alt="profile"
+            />
+          </Link>
         </ul>
         {/* Search form */}
         <form
@@ -135,7 +135,9 @@ const UserHeader = ({ loading }) => {
             </Link>
             <ul className={`flex-col items-center gap-6 `}>
               <Link href="/Pages/Admin/dashboard">
-                <li className="hover:underline text-orange-700 sm:hidden">Dashboard</li>
+                <li className="hover:underline text-orange-700 sm:hidden">
+                  Dashboard
+                </li>
               </Link>
               <Link href="/Pages/Admin/users">
                 <li className="hover:underline text-orange-700 sm:hidden">
@@ -152,13 +154,13 @@ const UserHeader = ({ loading }) => {
                   Contact Querries
                 </li>
               </Link>
-            <Link href="/Pages/Admin/adminprof">
-              <img
-                className=" rounded-full w-10 h-10 hidden sm:flex"
-                src={currentUser.avatar}
-                alt="profile"
-              />
-            </Link>
+              <Link href="/Pages/Admin/adminprof">
+                <img
+                  className=" rounded-full w-10 h-10 hidden sm:flex"
+                  src={currentUser.avatar}
+                  alt="profile"
+                />
+              </Link>
             </ul>
             <form
               className=" flex px-3 bg-orange-200 rounded-lg items-center justify-between sm:hidden"
@@ -182,4 +184,4 @@ const UserHeader = ({ loading }) => {
   );
 };
 
-export default dynamic (() => Promise.resolve(UserHeader), {ssr: false})
+export default dynamic(() => Promise.resolve(UserHeader), { ssr: false });
