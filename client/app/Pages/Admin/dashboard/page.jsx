@@ -10,6 +10,7 @@ const page = () => {
   const router = useRouter();
   const [userlength, setuserLength] = useState(0);
   const [contactlength, setcontactLength] = useState(0);
+  const [sevalength, setsevaLength] = useState(0);
   const { currentUser } = useSelector((state) => state.user);
   useEffect(() => {
     const auth = () => {
@@ -37,9 +38,16 @@ const page = () => {
       const len = data.length;
       setcontactLength(len);
     };
+    const fetchsevadata = async () => {
+      const res = await fetch("/api/contact/admin/noofsevas");
+      const data = await res.json();
+      const len = data.length;
+      setsevaLength(len);
+    };
     auth();
     fetchdata();
     fetchcontactdata();
+    fetchsevadata();
   }, []);
 
   const usernumberAnimation = useSpring({
@@ -50,6 +58,11 @@ const page = () => {
   const contactnumberAnimation = useSpring({
     from: { number: 0 },
     to: { number: contactlength },
+    config: { duration: 1000 },
+  });
+  const sevanumberAnimation = useSpring({
+    from: { number: 0 },
+    to: { number: sevalength },
     config: { duration: 1000 },
   });
   return (
@@ -91,9 +104,11 @@ const page = () => {
                 <br />
                 Users
               </span>
+              <span className="text-[4em] font-bold">
               <animated.span className="text-6xl text-white bg-transparent rounded-full p-4">
                 {usernumberAnimation.number.to((val) => Math.floor(val))}
               </animated.span>
+              </span>
             </div>
           </Link>
           <Link href="/Pages/Admin/sevas">
@@ -104,7 +119,9 @@ const page = () => {
                 Sevas
               </span>
               <span className="text-[4em] font-bold">
-                {/* {statusFrequency?.poor ? statusFrequency.poor : 0} */}
+              <animated.span className="text-6xl text-white bg-transparent rounded-full p-4">
+                {sevanumberAnimation.number.to((val) => Math.floor(val))}
+              </animated.span>
               </span>
             </div>
           </Link>
@@ -115,9 +132,11 @@ const page = () => {
                 <br />
                 Contact querries
               </span>
+              <span className="text-[4em] font-bold">
               <animated.span className="text-6xl text-white bg-transparent rounded-full p-4">
                 {contactnumberAnimation.number.to((val) => Math.floor(val))}
               </animated.span>
+              </span>
             </div>
           </Link>
         </div>

@@ -1,4 +1,6 @@
+const { asyncErrHandler } = require('../middleware/asyncerrorHandler');
 const Seva = require('../models/sevaModel');
+const { errorHandler } = require('../utils/errorHandler');
 
 exports.getSevas = async (req, res) => {
   try {
@@ -12,7 +14,7 @@ exports.getSevas = async (req, res) => {
 
 exports.createSeva = async (req, res) => {
     const { sevaName, dateOfSeva } = req.body;
-  
+
     try {
       const newSeva = new Seva({ sevaName, dateOfSeva });
       await newSeva.save();
@@ -25,7 +27,6 @@ exports.createSeva = async (req, res) => {
 
 exports.getSeva = async (req, res) => {
   const { id } = req.params;
-
   try {
     const seva = await Seva.findById(id);
     if (!seva) {
@@ -42,7 +43,6 @@ exports.getSeva = async (req, res) => {
 exports.updateSeva = async (req, res) => {
   const { id } = req.params;
   const { sevaName, dateOfSeva } = req.body;
-
   try {
     const updatedSeva = await Seva.findByIdAndUpdate(id, { sevaName, dateOfSeva }, { new: true });
     if (!updatedSeva) {
@@ -58,7 +58,6 @@ exports.updateSeva = async (req, res) => {
 
 exports.deleteSeva = async (req, res) => {
   const { id } = req.params;
-
   try {
     const deletedSeva = await Seva.findByIdAndDelete(id);
     if (!deletedSeva) {
@@ -71,3 +70,10 @@ exports.deleteSeva = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+exports.numberOfSevas = asyncErrHandler(async (req, res, next) => {
+  const length = await Seva.countDocuments()
+  const sevas = await Seva.find()
+  if (!length) { return next(errorHandler(403, "There are no sevas in the database")) }
+  res.status(200).json({ message: "Num of users:", length, sevas })
+})
