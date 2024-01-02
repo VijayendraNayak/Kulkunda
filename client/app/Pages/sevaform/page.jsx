@@ -1,3 +1,4 @@
+// Import statements
 "use client";
 import Link from 'next/link';
 import React, { useState } from 'react';
@@ -5,17 +6,47 @@ import Image from 'next/image';
 import RegisterImage from "/app/assets/image/temple2.webp";
 
 const SevaForm = () => {
-  // State variables to hold form data
   const [seva, setSeva] = useState('');
   const [name, setName] = useState('');
   const [date, setDate] = useState('');
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Function to handle form submission
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Process or submit form data as needed
-    console.log('Form submitted:', { seva, name, date });
+    if (!seva || !name || !date) {
+      console.error('Please fill in all required fields');
+      return;
+    }
+
+    const formData = { sevaName: seva, name, dateOfSeva: date };
+
+    try {
+      setIsLoading(true); // Set loading to true when submitting
+
+      const response = await fetch('/api/seva', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        console.log('Seva created successfully:', formData);
+        setShowSuccess(true);
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        console.error('Failed to create Seva:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error creating Seva:', error.message);
+    } finally {
+      setIsLoading(false); // Reset loading state regardless of success or failure
+    }
   };
 
   return (
@@ -68,11 +99,20 @@ const SevaForm = () => {
           <button
             type="submit"
             className="bg-gradient-to-r from-yellow-300 to-orange-300 text-white px-4 py-2 rounded-full hover:scale-105 hover:shadow-md "
+            disabled={isLoading} // Disable the button when loading
           >
-            Submit
+            {isLoading ? 'Submitting...' : 'Submit'}
           </button>
         </div>
       </form>
+
+      {showSuccess && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-70">
+          <div className="bg-white p-6 rounded-md">
+            <p className="text-green-500 text-xl font-semibold mb-4">Seva created successfully!</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

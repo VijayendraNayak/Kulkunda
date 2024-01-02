@@ -39,7 +39,7 @@ const page = () => {
       setcontactLength(len);
     };
     const fetchsevadata = async () => {
-      const res = await fetch("/api/contact/admin/noofsevas");
+      const res = await fetch("/api/seva/admin/noofsevas");
       const data = await res.json();
       const len = data.length;
       setsevaLength(len);
