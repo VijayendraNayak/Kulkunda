@@ -7,7 +7,7 @@ const page = () => {
   const [formdata, setFormdata] = useState();
   const [found, setFound] = useState(false);
   const [remove, setRemove] = useState(false);
-  const [searchCategory, setSearchCategory] = useState('id');
+  const [searchCategory, setSearchCategory] = useState("id");
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -23,9 +23,10 @@ const page = () => {
     try {
       const requestBody = {
         [searchCategory]: searchParams.id,
-        name: searchCategory === 'name' ? searchParams.id : undefined,
-        email: searchCategory === 'email' ? searchParams.id : undefined,
-        phoneNumber: searchCategory === 'phoneNumber' ? searchParams.id : undefined,
+        name: searchCategory === "name" ? searchParams.id : undefined,
+        email: searchCategory === "email" ? searchParams.id : undefined,
+        phoneNumber:
+          searchCategory === "phoneNumber" ? searchParams.id : undefined,
       };
 
       const res = await fetch("/api/contact/admin/singlecontact", {
@@ -94,30 +95,38 @@ const page = () => {
   return (
     <div className="pt-28 h-screen">
       <form className="flex items-center justify-between max-w-lg mx-auto bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-4 rounded-full">
-  <select
-    value={searchCategory}
-    onChange={handleCategoryChange}
-    className="bg-transparent focus:outline-none text-white max-w-lg mx-auto"
-  >
-    <option value="id" className="text-black">ID</option>
-    <option value="name" className="text-black">Name</option>
-    <option value="email" className="text-black">Email</option>
-    <option value="phoneNumber" className="text-black">Phone Number</option>
-  </select>
-  <input
-    type="text"
-    placeholder={`Enter ${searchCategory}`}
-    className="bg-transparent focus:outline-none text-white max-w-lg mx-auto"
-    id="id"
-    onChange={handleInputChange}
-  />
-  <button onClick={handleSearch} className="ml-2 focus:outline-none">
-    <FaSearch className="text-white"></FaSearch>
-  </button>
-</form>
+        <select
+          value={searchCategory}
+          onChange={handleCategoryChange}
+          className="bg-transparent focus:outline-none text-white max-w-lg mx-auto"
+        >
+          <option value="id" className="text-black">
+            ID
+          </option>
+          <option value="name" className="text-black">
+            Name
+          </option>
+          <option value="email" className="text-black">
+            Email
+          </option>
+          <option value="phoneNumber" className="text-black">
+            Phone Number
+          </option>
+        </select>
+        <input
+          type="text"
+          placeholder={`Enter ${searchCategory}`}
+          className="bg-transparent focus:outline-none text-white max-w-lg mx-auto"
+          id="id"
+          onChange={handleInputChange}
+        />
+        <button onClick={handleSearch} className="ml-2 focus:outline-none">
+          <FaSearch className="text-white"></FaSearch>
+        </button>
+      </form>
 
       <div className="pt-4">
-        {remove && !found &&(
+        {remove && !found && (
           <p className="text-red-500 font-semibold text-5xl text-center">
             Contact Querry deleted Successfully!!!!
           </p>
@@ -140,8 +149,12 @@ const page = () => {
                 <div className="flex flex-col gap-4 w-80 font-semibold">
                   <div>Name: {formdata ? formdata.name : "username"}</div>
                   <div>Email: {formdata ? formdata.email : "useremail"}</div>
-                  <div>Phone Number: {formdata ? formdata.phoneNumber : "userrole"}</div>
-                  <div>Description: {formdata ? formdata.message : "userrole"}</div>
+                  <div>
+                    Phone Number: {formdata ? formdata.phoneNumber : "userrole"}
+                  </div>
+                  <div>
+                    Description: {formdata ? formdata.message : "userdesc"}
+                  </div>
                 </div>
                 <div className="flex justify-center gap-4">
                   <button
@@ -154,11 +167,11 @@ const page = () => {
                     Delete Querry
                   </button>
                   <button
-      onClick={handleClearSearch}
-      className="p-3 bg-gray-500 rounded-lg text-white text-xl font-semibold hover:opacity-90"
-    >
-      Back
-    </button>
+                    onClick={handleClearSearch}
+                    className="p-3 bg-gray-500 rounded-lg text-white text-xl font-semibold hover:opacity-90"
+                  >
+                    Back
+                  </button>
                 </div>
               </div>
             </div>

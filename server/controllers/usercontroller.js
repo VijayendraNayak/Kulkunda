@@ -129,3 +129,12 @@ exports.deleteUser = asyncErrHandler(async (req, res, next) => {
     await User.findByIdAndDelete(id)
     res.status(200).json({ success:true,message: "User deleted successfully" })
 })
+
+exports.updateRole = asyncErrHandler(async (req, res, next) => {
+    const { id,role } = req.body
+    let user = await User.findById(id)
+    if (!user) { return next(errorHandler(404, "User not found")) }
+    user.role = role
+    const upuser = await User.findByIdAndUpdate(id, user, { new: true })
+    res.status(200).json({ message: "User updated Successfully", upuser })
+})
