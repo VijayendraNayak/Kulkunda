@@ -3,28 +3,62 @@ import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 
 const page = () => {
-  const [userid, setUserid] = useState();
+  const [searchParams, setSearchParams] = useState({});
   const [formdata, setFormdata] = useState();
   const [found, setFound] = useState(false);
   const [remove, setRemove] = useState(false);
-  const handleclick = async (e) => {
+
+  const handleSearch = async () => {
     e.preventDefault();
-    const res = await fetch("/api/user/admin/singleuser", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userid),
-    });
-    const data = await res.json();
-    if (data.success === false) {
-      console.log(data.message);
-      setFound(false);
-      return;
+    try {
+      const res = await fetch("/api/user/admin/singleuser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(searchParams),
+      });
+      const data = await res.json();
+
+      if (data.success === false) {
+        console.log(data.message);
+        setFound(false);
+        return;
+      }
+      setFormdata(data.user);
+      setFound(true);
+
+      // Handle success state (setFormdata, setFound, etc.)
+    } catch (error) {
+      console.error("Error:", error);
     }
-    setFormdata(data.user);
-    setFound(true);
   };
+
+
+  // const handleclick = async (e) => {
+  //   e.preventDefault();
+  //   const res = await fetch("/api/user/admin/singleuser", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(userid),
+  //   });
+  //   const data = await res.json();
+  //   if (data.success === false) {
+  //     console.log(data.message);
+  //     setFound(false);
+  //     return;
+  //   }
+  //   setFormdata(data.user);
+  //   setFound(true);
+  // };
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setSearchParams({ ...searchParams, [id]: value });
+  };
+
   const handledeleteclick = async (e) => {
     e.preventDefault();
     const res = await fetch("/api/user/admin/delete", {
@@ -62,14 +96,12 @@ const page = () => {
       <form className=" flex p-3 bg-orange-200 rounded-full items-center justify-between max-w-lg mx-auto ">
         <input
           type="text"
-          placeholder="Enter the Id of the user"
+          placeholder="Enter ID, Name, Email, or Phone Number"
           className="bg-transparent focus:outline-none max-w-lg mx-auto"
           id="id"
-          onChange={(e) => {
-            setUserid({ ...userid, [e.target.id]: e.target.value });
-          }}
+          onChange={handleInputChange}
         />
-        <button onClick={handleclick}>
+        <button onClick={handleSearch}>
           <FaSearch className="text-orange-600 "></FaSearch>
         </button>
       </form>

@@ -3,28 +3,53 @@ import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 
 const page = () => {
-  const [contactid, setcontactid] = useState();
+  const [searchParams, setSearchParams] = useState({});
   const [formdata, setFormdata] = useState();
   const [found, setFound] = useState(false);
   const [remove, setRemove] = useState(false);
+  const [searchCategory, setSearchCategory] = useState('id');
 
-  const handleclick = async (e) => {
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setSearchParams({ ...searchParams, [id]: value });
+  };
+
+  const handleCategoryChange = (e) => {
+    setSearchCategory(e.target.value);
+  };
+
+  const handleSearch = async (e) => {
     e.preventDefault();
-    const res = await fetch("/api/contact/admin/singlecontact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(contactid),
-    });
-    const data = await res.json();
-    if (data.success === false) {
-      console.log(data.message);
-      setFound(false);
-      return;
+    try {
+      const requestBody = {
+        [searchCategory]: searchParams.id,
+        name: searchCategory === 'name' ? searchParams.id : undefined,
+        email: searchCategory === 'email' ? searchParams.id : undefined,
+        phoneNumber: searchCategory === 'phoneNumber' ? searchParams.id : undefined,
+      };
+
+      const res = await fetch("/api/contact/admin/singlecontact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+      const data = await res.json();
+
+      if (data.success === false) {
+        console.log(data.message);
+        setFound(false);
+        setFormdata(null); // Clear previous data if not found
+        return;
+      }
+
+      setFormdata(data.contact);
+      setFound(true);
+      setRemove(false); // Reset remove state
+    } catch (error) {
+      console.error("Error:", error);
     }
-    setFormdata(data.contact);
-    setFound(true);
   };
   const handledeleteclick = async (e) => {
     e.preventDefault();
@@ -42,6 +67,14 @@ const page = () => {
     setFound(false);
     setRemove(true);
   };
+
+  const handleClearSearch = () => {
+    setSearchParams({});
+    setFound(false);
+    setFormdata(null);
+    setRemove(false);
+  };
+
   useEffect(() => {
     const auth = () => {
       const isLoggedIn = !!localStorage.getItem("userToken");
@@ -60,20 +93,29 @@ const page = () => {
   });
   return (
     <div className="pt-28 h-screen">
-      <form className=" flex p-3 bg-orange-200 rounded-full items-center justify-between max-w-lg mx-auto ">
-        <input
-          type="text"
-          placeholder="Enter the Contact Id"
-          className="bg-transparent focus:outline-none max-w-lg mx-auto"
-          id="id"
-          onChange={(e) => {
-            setcontactid({ ...contactid, [e.target.id]: e.target.value });
-          }}
-        />
-        <button onClick={handleclick}>
-          <FaSearch className="text-orange-600 "></FaSearch>
-        </button>
-      </form>
+      <form className="flex items-center justify-between max-w-lg mx-auto bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-4 rounded-full">
+  <select
+    value={searchCategory}
+    onChange={handleCategoryChange}
+    className="bg-transparent focus:outline-none text-white max-w-lg mx-auto"
+  >
+    <option value="id" className="text-black">ID</option>
+    <option value="name" className="text-black">Name</option>
+    <option value="email" className="text-black">Email</option>
+    <option value="phoneNumber" className="text-black">Phone Number</option>
+  </select>
+  <input
+    type="text"
+    placeholder={`Enter ${searchCategory}`}
+    className="bg-transparent focus:outline-none text-white max-w-lg mx-auto"
+    id="id"
+    onChange={handleInputChange}
+  />
+  <button onClick={handleSearch} className="ml-2 focus:outline-none">
+    <FaSearch className="text-white"></FaSearch>
+  </button>
+</form>
+
       <div className="pt-4">
         {remove && !found &&(
           <p className="text-red-500 font-semibold text-5xl text-center">
@@ -111,6 +153,12 @@ const page = () => {
                   >
                     Delete Querry
                   </button>
+                  <button
+      onClick={handleClearSearch}
+      className="p-3 bg-gray-500 rounded-lg text-white text-xl font-semibold hover:opacity-90"
+    >
+      Back
+    </button>
                 </div>
               </div>
             </div>

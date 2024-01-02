@@ -63,11 +63,28 @@ exports.noofcontacts = asyncErrHandler(async (req, res, next) => {
 })
 
 exports.getSingleContact = asyncErrHandler(async (req, res, next) => {
-  const {id}=req.body;
-  const contact = await Contact.findById(id)
-  if (!contact) { return next(errorHandler(404, "Contact not found")) }
-  res.status(200).json({ message: "Contact found successfully", contact })
-})
+  const { _id, name, email, phoneNumber } = req.body;
+  
+  let query = {};
+
+  if (_id) {
+    // If _id is provided, prioritize the search by ID
+    query._id = _id;
+  } else {
+    // If _id is not provided, construct a query based on available fields
+    if (name) query.name = name;
+    if (email) query.email = email;
+    if (phoneNumber) query.phoneNumber = phoneNumber;
+  }
+
+  const contact = await Contact.findOne(query);
+
+  if (!contact) {
+    return next(errorHandler(404, "Contact not found"));
+  }
+
+  res.status(200).json({ message: "Contact found successfully", contact });
+});
 
 exports.deleteContact = asyncErrHandler(async (req, res, next) => {
   const {id}=req.body;
