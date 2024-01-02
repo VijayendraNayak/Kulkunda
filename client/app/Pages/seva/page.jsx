@@ -2,7 +2,7 @@
   import React, { useState } from "react";
   import Image from "next/image";
   import Link from "next/link";
-
+  import { setSevaName } from '../../Redux/Features/counter/sevaslice';
   import RegisterImage from "/app/assets/image/temple.jpg";
   const SevaPage = () => {
     const sevaList = [
