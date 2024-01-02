@@ -125,13 +125,14 @@ const AdminContactPage = () => {
             {contactForms.map((form) => (
               <div
                 key={form._id}
-                className={`bg-white rounded-lg shadow-md p-6 transition-transform transform-gpu ${
+                className={`bg-white rounded-lg shadow-md p-4 transition-transform transform-gpu ${
                   expandedId === form._id ? "scale-105" : ""
                 }`}
                 onMouseEnter={() => setExpandedId(form._id)}
                 onMouseLeave={() => setExpandedId(null)}
               >
                 <p className="text-lg font-semibold mb-2">Name: {form.name}</p>
+                <p className="text-gray-600 mb-2">User ID: {form._id}</p>
                 <p className="text-gray-600 mb-2">Email: {form.email}</p>
                 <p className="text-gray-600 mb-4">Message: {form.message}</p>
                 <button
