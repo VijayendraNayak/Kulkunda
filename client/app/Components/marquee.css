@@ -1,0 +1,26 @@
+#maindiv {
+    border: 2px solid black;
+    overflow: hidden;
+    height: 100px; /* Set the desired height */
+  }
+
+  #div1 {
+    display: block;
+    animation-duration: 15s;
+    animation-iteration-count: infinite;
+  }
+
+  #div1 {
+    animation-name: marquee;
+  }
+
+
+  @keyframes marquee {
+    from {
+      transform: translateY(500%);
+    }
+    to {
+      transform: translateY(-500%);
+    }
+  }
+
