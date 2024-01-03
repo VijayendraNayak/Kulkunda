@@ -1,6 +1,7 @@
 // MarqueeComponent.js
 
 import { useEffect } from 'react';
+import Link from 'next/link';
 
 const MarqueeComponent = () => {
   useEffect(() => {
@@ -8,21 +9,37 @@ const MarqueeComponent = () => {
     if (typeof window !== 'undefined') {
       // Check if we are in the browser environment
       const $ = require('jquery');
-      $('#maindiv').width($('#div1').width());
+      const mainDiv = $('#maindiv');
+      const links = $('.marquee-content a');
+
+      mainDiv.width($('#div1').width());
+
+      // Add hover event handlers to pause and resume links
+      links.on('mouseenter', () => {
+        links.css('animation-play-state', 'paused');
+      });
+
+      links.on('mouseleave', () => {
+        links.css('animation-play-state', 'running');
+      });
     }
   }, []);
 
   return (
     <div id="maindiv">
-      <div className="marquee-content">
-        <a href="your-link-url">
-          &nbsp;Test-1 Test-2 Test-3 Test-4 Test-5 Test-6 Test-7 Test-8 Test-9 Test-10 Test-11
-        </a>
-      </div>
-      <div className="marquee-content">
-        <a href="your-second-link-url">
-          &nbsp;Test-1 Test-2 Test-3 Test-4 Test-5 Test-6 Test-7 Test-8 Test-9 Test-10 Test-11
-        </a>
+        <div id="div1" className="marquee-content">
+            <Link href="/Pages/news">
+                <p className="text-black-500 cursor-pointer hover:scale-100 hover:underline">
+                Seva and Darshana
+              </p>
+            </Link>
+        </div>
+        <div id="div2" className="marquee-content">
+            <Link href="/Pages/news">
+                <p className="text-black-500 cursor-pointer hover:scale-100 hover:underline">
+                   New User?
+                </p>
+            </Link>
       </div>
       <style jsx>{`
         #maindiv {
@@ -39,11 +56,20 @@ const MarqueeComponent = () => {
 
         @keyframes marquee {
           from {
-            transform: translateY(500%);
+            transform: translateY(300%);
           }
           to {
-            transform: translateY(-500%);
+            transform: translateY(-300%);
           }
+        }
+
+        .marquee-content a {
+          color: inherit; /* Use the default link color */
+          text-decoration: none; /* Remove default underline */
+        }
+
+        .marquee-content:hover a {
+          animation-play-state: paused;
         }
       `}</style>
     </div>

@@ -6,7 +6,7 @@ import { IoIosEye } from "react-icons/io";
 import { IoIosEyeOff } from "react-icons/io";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { app } from "../../firebase";
-// import RegisterBackground from "/app/assets/image/temple2.webp";
+import RegisterBackground from "/app/assets/image/temple.jpg";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import {
@@ -118,7 +118,7 @@ const Login = () => {
       {loading && <Loader />}
       <div className="flex-1 relative">
         <Image
-          // src={RegisterBackground}
+          src={RegisterBackground}
           alt="regester background image"
           layout="fill"
           objectFit="cover"

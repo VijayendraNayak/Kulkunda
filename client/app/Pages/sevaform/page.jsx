@@ -2,8 +2,7 @@
 "use client";
 import Link from 'next/link';
 import React, { useState } from 'react';
-import Image from 'next/image';
-import RegisterImage from "/app/assets/image/temple2.webp";
+
 
 const SevaForm = () => {
   const [seva, setSeva] = useState('');
