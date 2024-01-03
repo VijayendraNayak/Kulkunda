@@ -1,68 +1,12 @@
-// Import necessary libraries
 "use client";
 import { useEffect, useState } from "react";
-import { FaSearch } from "react-icons/fa";
+import { useSpring, animated } from "react-spring";
+import { useRouter } from "next/navigation";
 
 const page = () => {
-  // State variables
-  const [sevaId, setSevaId] = useState();
-  const [sevaData, setSevaData] = useState();
-  const [found, setFound] = useState(false);
-  const [remove, setRemove] = useState(false);
-
-  // Function to handle search button click
-  const handleSearchClick = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await fetch(`/api/seva/${encodeURIComponent(sevaId)}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await res.json();
-      if (data.error) {
-        console.error(data.error);
-        setFound(false);
-      } else {
-        setSevaData(data);
-        setFound(true);
-      }
-    } catch (error) {
-      console.error(error);
-      setFound(false);
-    }
-  };
-
-  // Function to handle delete button click
-  const handleDeleteClick = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await fetch(`/api/seva/${encodeURIComponent(sevaId)}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await res.json();
-      if (data.success === false) {
-        return;
-      }
-      setFound(false);
-      setRemove(true);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  // Function to format date without time
-  const formatDate = (dateString) => {
-    const options = { year: "numeric", month: "long", day: "numeric" };
-    return new Date(dateString).toLocaleDateString(undefined, options);
-  };
-
+  const [length, setLength] = useState(0);
+  const router = useRouter();
   useEffect(() => {
-    // Authentication logic
     const auth = () => {
       const isLoggedIn = !!localStorage.getItem("userToken");
       const userRole = localStorage.getItem("userRole");
@@ -73,65 +17,68 @@ const page = () => {
       }
       if (!isAdmin) {
         router.replace("/Pages/login");
-        console.log("The user should be an admin to access this page");
+        console.log("The user should be admin to access this page");
       }
     };
+    const fetchdata = async () => {
+      const res = await fetch("/api/seva/admin/noofsevas");
+      const data = await res.json();
+      const len = data.length;
+      console.log(length)
+      setLength(len);
+    };
     auth();
+    fetchdata();
   }, []);
 
+  const numberAnimation = useSpring({
+    from: { number: 0 },
+    to: { number: length },
+    config: { duration: 1000 },
+  });
+
+  const handleclick=()=>{
+    router.replace("/Pages/Admin/findseva")
+  }
+  const handleaddclick=()=>{
+    router.replace("Pages/Admin/addseva")
+  }
+
   return (
-    <div className="pt-28 h-screen">
-      <form className="flex p-3 bg-orange-200 rounded-full items-center justify-between max-w-lg mx-auto">
-        <input
-          type="text"
-          placeholder="Enter the Id of the seva"
-          className="bg-transparent focus:outline-none max-w-lg mx-auto border-b-2 border-orange-500 py-2 px-4"
-          id="id"
-          onChange={(e) => setSevaId(e.target.value)}
-        />
-        <button
-          onClick={handleSearchClick}
-          className="bg-orange-500 text-white px-4 py-2 rounded-full hover:opacity-90"
-        >
-          <FaSearch />
-        </button>
-      </form>
-      <div className="pt-4">
-        {remove && !found && (
-          <p className="text-red-500 font-semibold text-5xl text-center">
-            Seva deleted Successfully!!!!
-          </p>
-        )}
-        {found && sevaData && (
-          <div className="text-center flex flex-col gap-4">
-            <p className="text-green-500 text-2xl font-semibold">
-              Seva Found Successfully!!!!!!!!
-            </p>
-            <p className="text-orange-500 text-5xl font-semibold pb-5">
-              Seva Details
-            </p>
-            <div className="flex flex-col lg:flex-row gap-4 items-center justify-center p-8 bg-orange-100 mx-auto rounded-lg">
-              <div className="text-lg font-semibold">
-                Seva Name: {sevaData ? sevaData.sevaName : "seva name"}
-              </div>
-              <div className="text-lg font-semibold">
-                Date of Seva: {sevaData ? formatDate(sevaData.dateOfSeva) : "date of seva"}
-              </div>
-              <div className="text-lg font-semibold">
-                Name: {sevaData ? sevaData.name : "name"}
-              </div>
-              <div className="flex justify-center gap-4 mt-4">
-                <button
-                  className={`p-3 bg-red-500 rounded-lg text-white text-xl font-semibold hover:opacity-90`}
-                  type="button"
-                  onClick={handleDeleteClick}
-                >
-                  Delete Seva
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+    <div className="pt-24 pb-20">
+      <div className="flex flex-col">
+        <div className="flex justify-center items-center py-16 gap-4">
+          <animated.span className="text-8xl text-white bg-orange-500 rounded-full p-8">
+            {numberAnimation.number.to((val) => Math.floor(val))}
+          </animated.span>
+          <p className="text-6xl font-bold text-orange-500">Number of Sevas</p>
+        </div>
+        <div className="text-orange-500 text-5xl font-semibold flex justify-center underline pb-20">
+          Functions
+        </div>
+        <div className="flex gap-4 justify-around px-12">
+          <button
+            type="button"
+            className="bg-orange-500 text-2xl font-semibold text-white p-4 rounded-lg hover:opacity-75 hover:scale-105"
+            onClick={handleclick}
+          >
+            Find a pending seva
+          </button>
+          <button
+            type="button"
+            className="bg-orange-500 text-2xl font-semibold text-white p-4 rounded-lg hover:opacity-75 hover:scale-105"
+            onClick={handleaddclick}
+          >
+            Add new seva
+          </button>
+          <button
+            type="button"
+            className="bg-orange-500 text-2xl font-semibold text-white p-4 rounded-lg hover:opacity-75 hover:scale-105"
+            onClick={handleclick}
+          >
+            Delete a seva
+          </button>          
+        </div>
       </div>
     </div>
   );

@@ -96,7 +96,7 @@ const UserHeader = ({ loading }) => {
               Contact Querries
             </li>
           </Link>
-          <Link href="/Pages//Admin/adminprof">
+          <Link href="/Pages/Admin/adminprof">
             <img
               className=" rounded-full w-10 h-10 hidden sm:flex"
               src={currentUser.avatar}

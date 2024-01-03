@@ -77,3 +77,18 @@ exports.numberOfSevas = asyncErrHandler(async (req, res, next) => {
   if (!length) { return next(errorHandler(403, "There are no sevas in the database")) }
   res.status(200).json({ message: "Num of users:", length, sevas })
 });
+
+exports.getSingleSeva = asyncErrHandler(async (req, res, next) => {
+  const {id}=req.body;
+  const seva = await Seva.findById(id)
+  if (!seva) { return next(errorHandler(404, "Seva not found")) }
+  res.status(200).json({ message: "Seva found successfully", seva })
+})
+
+exports.deleteSeva = asyncErrHandler(async (req, res, next) => {
+  const {id}=req.body;
+  const seva = await Seva.findById(id)
+  if (!seva) { return next(errorHandler(404, "The seva doesnot exist")) }
+  await Seva.findByIdAndDelete(id)
+  res.status(200).json({ success:true,message: "Seva deleted successfully" })
+})
