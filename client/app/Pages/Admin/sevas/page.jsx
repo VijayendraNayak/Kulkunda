@@ -41,7 +41,7 @@ const page = () => {
     router.replace("/Pages/Admin/findseva")
   }
   const handleaddclick=()=>{
-    router.replace("Pages/Admin/addseva")
+    router.replace("/Pages/Admin/addseva")
   }
 
   return (

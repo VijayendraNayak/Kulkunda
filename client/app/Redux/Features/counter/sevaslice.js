@@ -29,6 +29,7 @@ const sevaSlice = createSlice({
 });
 
 export const {
+  setSevaName,
   setSevaData,
   clearSevaData,
   setSevaError,
