@@ -2,9 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Slide1 from "/app/assets/image/lake.jpg";
-import Slide2 from "/app/assets/image/ship.webp";
+import Slide2 from "/app/assets/image/ship.jpg";
+import Slide3 from "/app/assets/image/slider2.jpg";
 
-const images = [Slide1, Slide2];
+
+const images = [Slide1, Slide2,Slide3];
 
 const ImageSlider = () => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -37,10 +39,6 @@ const ImageSlider = () => {
             alt={`Image ${currentPage + 1}`}
             src={images[currentPage]}
           />
-          <div className='absolute bottom-8 left-10 py-3 px-6 bg-black rounded-lg'>
-            <h2 className='text-4xl text-white'>Temple {currentPage + 1}</h2>
-            <p className='text-2xl mt-4 text-purple-200'>Peace</p>
-          </div>
         </div>
       </div>
 
