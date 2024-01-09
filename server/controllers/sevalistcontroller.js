@@ -11,3 +11,9 @@ exports.Addseva=asyncErrHandler(async(req,res,next)=>{
     }
     res.status(200).json({success:true,message:"Seva created successfully",newseva})
 })
+
+exports.Getdata=asyncErrHandler(async(req,res,next)=>{
+    const sevas=await Sevalist.find()
+    if (!sevas){return next(errorHandler(404,"Sevas not found"))}
+    res.status(200).json({success:true,message:"Sevas displayed successfully",sevas})
+})
