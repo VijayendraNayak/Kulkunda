@@ -1,6 +1,5 @@
 // Import statements
 "use client";
-import Link from 'next/link';
 import React, { useState } from 'react';
 
 
@@ -53,7 +52,7 @@ const SevaForm = () => {
       <form className="max-w-md w-full p-6 m-4 md:mx-auto  rounded-xl bg-white md:w-96 lg:w-1/3  hover:scale-105 shadow-xl" onSubmit={handleSubmit}>
         <h1 className="text-3xl font-bold mb-6 text-black text-center underline ">Seva Form</h1>
         <div className="mb-4">
-          <label htmlFor="seva" className="block text-black-700 text-sm font-bold mb-2 text-lg">
+          <label htmlFor="seva" className="block text-black-700 text-sm font-bold mb-2 ">
             Seva Name
           </label>
           <input
