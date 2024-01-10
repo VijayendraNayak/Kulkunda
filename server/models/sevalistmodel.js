@@ -7,7 +7,6 @@ const sevalistSchema = new mongoose.Schema({
     },
     sevanamee: {
       type: String,
-      unique: true,
       required: true,
     },
     sevanameh: {
