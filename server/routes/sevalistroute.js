@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Addseva, Getdata, noofsevalist, DeleteSeva, UpdateSeva } = require('../controllers/sevalistcontroller');
+const { Addseva, Getdata, noofsevalist, DeleteSeva, UpdateSeva, GetSevaById } = require('../controllers/sevalistcontroller');
 const { isAuthenticated, authorizeRoles } = require('../middleware/Authenticated');
 
 // AddSeva route
@@ -17,5 +17,8 @@ router.delete("/admin/deleteseva/:id", isAuthenticated, authorizeRoles("admin"),
 
 // UpdateSeva route
 router.put("/admin/updateseva/:id", isAuthenticated, authorizeRoles("admin"), UpdateSeva);
+
+// GetSevaById route
+router.get("/sevalist/:id", GetSevaById);
 
 module.exports = router;

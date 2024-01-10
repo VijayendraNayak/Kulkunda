@@ -17,7 +17,25 @@ exports.Getdata=asyncErrHandler(async(req,res,next)=>{
     if (!sevas){return next(errorHandler(404,"Sevas not found"))}
     res.status(200).json({success:true,message:"Sevas displayed successfully",sevas})
 })
+exports.GetSevaById = asyncErrHandler(async (req, res, next) => {
+    try {
+        const sevaId = req.params.id;
 
+        if (!sevaId) {
+            return next(errorHandler(400, "Invalid Seva ID"));
+        }
+
+        const seva = await Sevalist.findById(sevaId);
+
+        if (!seva) {
+            return next(errorHandler(404, "Seva not found"));
+        }
+
+        res.status(200).json({ success: true, message: "Seva found successfully", seva });
+    } catch (error) {
+        next(error);
+    }
+});
 exports.noofsevalist=asyncErrHandler(async(req,res,next)=>{
     const length = await Sevalist.countDocuments()
     const sevas = await Sevalist.find()
