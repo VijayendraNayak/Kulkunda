@@ -31,6 +31,7 @@ const Profile = () => {
   const dispatch = useDispatch();
   const fileref = useRef(null);
   const router = useRouter();
+
   useEffect(() => {
     setFormdata({
       name: currentUser?.name || "", // Use optional chaining here
@@ -47,8 +48,6 @@ const Profile = () => {
 
   useEffect(() => {
     const auth = () => {
-      const iscookie = document.cookie.split(';').some((item) => item.trim().startsWith('access_token='));
-      console.log(document.cookie)
       const isLoggedIn = !!localStorage.getItem("userToken");
       const userRole = localStorage.getItem("userRole");
       const isAdmin =
