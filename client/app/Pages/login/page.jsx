@@ -15,7 +15,7 @@ import {
   signInFailure,
 } from "../../Redux/Features/counter/counterslice";
 import { useDispatch, useSelector } from "react-redux";
-import Loader from "@/app/Components/Loader";
+import Loader from "../../Components/Loader";
 import dynamic from "next/dynamic";
 
 const Login = () => {
