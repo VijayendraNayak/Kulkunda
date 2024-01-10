@@ -21,7 +21,7 @@ import {
 import { app } from "../../../firebase";
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
-import Loader from "@/app/Components/Loader";
+import Loader from "../../../Components/Loader";
 import dynamic from "next/dynamic";
 
 const Profile = () => {
@@ -31,6 +31,7 @@ const Profile = () => {
   const dispatch = useDispatch();
   const fileref = useRef(null);
   const router = useRouter();
+
   useEffect(() => {
     setFormdata({
       name: currentUser?.name || "", // Use optional chaining here
@@ -113,7 +114,7 @@ const Profile = () => {
       }
       dispatch(signoutSuccess(data));
       router.replace("/Pages/login");
-      localStorage.removeItem("userToken");
+      localStorage.clear();
     } catch (error) {
       dispatch(signoutFailure(error));
     }

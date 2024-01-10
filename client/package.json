@@ -31,7 +31,8 @@
     "react-router-dom": "^6.21.1",
     "react-spring": "^9.7.3",
     "redux-persist": "^6.0.0",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "universal-cookie": "^7.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",

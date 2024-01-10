@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import OtpInput from "otp-input-react"; // Import OtpInput directly
 import { useDispatch, useSelector } from 'react-redux';
 import { setPhoneNumber } from '../../Redux/Features/counter/phoneslice';
-import Loader from "@/app/Components/Loader";
+import Loader from "../../Components/Loader";
 
 // Main component
 const App = () => {
