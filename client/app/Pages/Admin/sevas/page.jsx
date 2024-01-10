@@ -128,6 +128,13 @@ const page = () => {
           >
             Delete a seva
           </button>
+          <button
+            type="button"
+            className="bg-orange-500 text-xl font-semibold text-white p-3 rounded-lg hover:opacity-75 hover:scale-105"
+            onClick={handlesevalistclick}
+          >
+            Update a seva
+          </button>
         </div>
       </div>
         </div>
