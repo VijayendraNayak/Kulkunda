@@ -3,6 +3,8 @@ const User = require('../models/usermodel')
 const { errorHandler } = require('../utils/errorHandler')
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
+const expiresInDays = 5;
+const cookieMaxAge = 24 * 60 * 60 * 1000;
 
 exports.register = asyncErrHandler(async (req, res, next) => {
     const { name, email, password, confirmpassword, phonenumber } = req.body
@@ -16,36 +18,31 @@ exports.register = asyncErrHandler(async (req, res, next) => {
     res.status(200).json({ success: true, user })
 })
 
+
 exports.login = asyncErrHandler(async (req, res, next) => {
     const { phonenumber, password } = req.body;
     const user = await User.findOne({ phonenumber }).select('+password');
-
     if (!user) {
         return next(errorHandler(404, 'User not found'));
     }
-
     const validPassword = bcrypt.compareSync(password, user.password);
-
     if (!validPassword) {
         return next(errorHandler(400, 'Wrong password, try again'));
     }
-
-    // Create a JWT for the user
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRE });
-
+    // Create a JWT for the user with a 5-day expiration
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 24 * expiresInDays });
     // Exclude sensitive information from the response
     const { password: pass, ...rest } = user._doc;
-
     // Set a cookie with the access token
-    res.cookie('access_token', token, { httpOnly: true });
-
+    res.cookie('access_token', token, { httpOnly: true,maxAge: cookieMaxAge });
     // Send the response with user details (excluding sensitive information)
     res.status(200).json(rest);
 });
+
 exports.google = asyncErrHandler(async (req, res, next) => {
     const user = await User.findOne({ email: req.body.email })
     if (user) {
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRE })
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 24 * expiresInDays })
         const { password: pass, ...rest } = user._doc
         return res.cookie("access_token", token, { httpOnly: true }).status(200).json(rest)
     }
@@ -57,7 +54,7 @@ exports.google = asyncErrHandler(async (req, res, next) => {
         await newUser.save();
         const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
         const { password: pass, ...rest } = newUser._doc;
-        res.cookie('access_token', token, { httpOnly: true }).status(200).json(rest);
+        res.cookie('access_token', token, { httpOnly: true,maxAge: cookieMaxAge }).status(200).json(rest);
     }
 })
 exports.logout = asyncErrHandler(async (req, res, next) => {

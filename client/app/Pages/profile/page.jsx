@@ -21,7 +21,7 @@ import {
 import { app } from "../../firebase";
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
-import Loader from "@/app/Components/Loader";
+import Loader from "../../Components/Loader";
 import dynamic from "next/dynamic";
 
 const Profile = () => {
@@ -102,7 +102,7 @@ const Profile = () => {
       }
       dispatch(signoutSuccess(data));
       router.replace("/Pages/login");
-      localStorage.removeItem("userToken");
+      localStorage.clear();
     } catch (error) {
       dispatch(signoutFailure(error));
     }
@@ -110,7 +110,7 @@ const Profile = () => {
 
   return (
     <div className=" flex sm:flex-row flex-col pt-28 ">
-      {loading && <Loader />}
+      {loading && <Loader/>}
       <div className="flex-1 p-10 ">
         <div className="flex flex-col lg:flex-row gap-4 items-center ">
           <div className="">

@@ -21,7 +21,7 @@ import {
 import { app } from "../../../firebase";
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
-import Loader from "@/app/Components/Loader";
+import Loader from "../../../Components/Loader";
 import dynamic from "next/dynamic";
 
 const Profile = () => {
@@ -47,6 +47,8 @@ const Profile = () => {
 
   useEffect(() => {
     const auth = () => {
+      const iscookie = document.cookie.split(';').some((item) => item.trim().startsWith('access_token='));
+      console.log(document.cookie)
       const isLoggedIn = !!localStorage.getItem("userToken");
       const userRole = localStorage.getItem("userRole");
       const isAdmin =
@@ -113,7 +115,7 @@ const Profile = () => {
       }
       dispatch(signoutSuccess(data));
       router.replace("/Pages/login");
-      localStorage.removeItem("userToken");
+      localStorage.clear();
     } catch (error) {
       dispatch(signoutFailure(error));
     }

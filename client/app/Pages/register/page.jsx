@@ -13,7 +13,7 @@ import {
   registerFailure,
 } from "../../Redux/Features/counter/counterslice";
 import dynamic from "next/dynamic";
-import Loader from "@/app/Components/Loader";
+import Loader from "../../Components/Loader";
 
 
 const Register = () => {
