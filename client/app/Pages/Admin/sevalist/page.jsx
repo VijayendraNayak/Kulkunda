@@ -21,7 +21,7 @@ const page = () => {
       }
     };
     const fetchdata = async () => {
-      const res = await fetch("/api/seva/admin/noofsevas");
+      const res = await fetch("/api/sevalist/admin/noofsevalists");
       const data = await res.json();
       const len = data.length;
       console.log(length)
@@ -38,7 +38,10 @@ const page = () => {
   });
 
   const handleclick=()=>{
-    router.replace("/Pages/Admin/findseva")
+    router.replace("/Pages/Admin/findsevalist")
+  }
+  const handleaddclick=()=>{
+    router.replace("/Pages/Admin/addseva")
   }
 
   return (
@@ -59,7 +62,14 @@ const page = () => {
             className="bg-orange-500 text-2xl font-semibold text-white p-4 rounded-lg hover:opacity-75 hover:scale-105"
             onClick={handleclick}
           >
-            Find a pending seva
+            Find a seva
+          </button>
+          <button
+            type="button"
+            className="bg-orange-500 text-2xl font-semibold text-white p-4 rounded-lg hover:opacity-75 hover:scale-105"
+            onClick={handleaddclick}
+          >
+            Add new seva
           </button>
           <button
             type="button"

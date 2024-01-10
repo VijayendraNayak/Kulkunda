@@ -17,3 +17,10 @@ exports.Getdata=asyncErrHandler(async(req,res,next)=>{
     if (!sevas){return next(errorHandler(404,"Sevas not found"))}
     res.status(200).json({success:true,message:"Sevas displayed successfully",sevas})
 })
+
+exports.noofsevalist=asyncErrHandler(async(req,res,next)=>{
+    const length = await Sevalist.countDocuments()
+    const sevas = await Sevalist.find()
+    if (!length) { return next(errorHandler(403, "There are no sevas in the database")) }
+    res.status(200).json({ message: "Num of users:", length, sevas })
+})
