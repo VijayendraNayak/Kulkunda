@@ -49,7 +49,6 @@ exports.google = asyncErrHandler(async (req, res, next) => {
     else {
         const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
         const hashedPassword = bcrypt.hashSync(generatedPassword, 10);
-        console.log(req.body)
         const newUser = new User({ name: req.body.name, email: req.body.email, password: hashedPassword, avatar: req.body.avatar });
         await newUser.save();
         const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
@@ -134,4 +133,11 @@ exports.updateRole = asyncErrHandler(async (req, res, next) => {
     user.role = role
     const upuser = await User.findByIdAndUpdate(id, user, { new: true })
     res.status(200).json({ message: "User updated Successfully", upuser })
+})
+
+exports.checkcookies=asyncErrHandler(async(req,res,next)=>{
+    const {cookies}=req;
+    const yourCookie = cookies['access_token'];
+    if(!yourCookie){return next(errorHandler(400,"No cookie"))}
+    res.status(200).json({message:"cookie found successfully",success:true,yourCookie})
 })

@@ -26,7 +26,17 @@ const Newsupdates = () => {
         console.log("The user should be admin to access this page");
       }
     };
+    const checkcookie=async()=>{
+      const res=await fetch("/api/user/checkcookies")
+      const data=await res.json()
+      if (data.success===false){
+        console.log(data.message)
+        router.replace("/Pages/login")
+        return
+      }
+    }
     verifyuser()
+    checkcookie()
   });
 
   const handleChange = (e) => {

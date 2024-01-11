@@ -48,6 +48,16 @@ const Profile = () => {
   useEffect(() => {
     const isLoggedIn = !!localStorage.getItem('userToken');
     if(!isLoggedIn){router.replace("/Pages/login")}
+    const checkcookie=async()=>{
+      const res=await fetch("/api/user/checkcookies")
+      const data=await res.json()
+      if (data.success===false){
+        console.log(data.message)
+        router.replace("/Pages/login")
+        return
+      }
+    }
+    checkcookie()
   }, []);
   
 

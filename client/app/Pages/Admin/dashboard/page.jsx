@@ -26,6 +26,15 @@ const page = () => {
         console.log("The user should be admin to access this page");
       }
     };
+    const checkcookie=async()=>{
+      const res=await fetch("/api/user/checkcookies")
+      const data=await res.json()
+      if (data.success===false){
+        console.log(data.message)
+        router.replace("/Pages/login")
+        return
+      }
+    }
     const fetchdata = async () => {
       const res = await fetch("/api/user/admin/noofuser");
       const data = await res.json();
@@ -45,6 +54,7 @@ const page = () => {
       setsevaLength(len);
     };
     auth();
+    checkcookie();
     fetchdata();
     fetchcontactdata();
     fetchsevadata();

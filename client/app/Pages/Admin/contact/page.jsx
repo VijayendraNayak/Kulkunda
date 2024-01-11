@@ -45,9 +45,19 @@ const AdminContactPage = () => {
       const len = data.length;
       setLength(len);
     };
+    const checkcookie=async()=>{
+      const res=await fetch("/api/user/checkcookies")
+      const data=await res.json()
+      if (data.success===false){
+        console.log(data.message)
+        router.replace("/Pages/login")
+        return
+      }
+    }
     verifyuser();
     fetchData();
     fetchnumdata();
+    checkcookie();
   }, []);
 
   const numberAnimation = useSpring({

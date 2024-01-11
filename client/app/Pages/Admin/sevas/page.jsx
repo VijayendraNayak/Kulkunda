@@ -35,9 +35,19 @@ const page = () => {
       console.log(length);
       setsevalistLength(len);
     };
+    const checkcookie=async()=>{
+      const res=await fetch("/api/user/checkcookies")
+      const data=await res.json()
+      if (data.success===false){
+        console.log(data.message)
+        router.replace("/Pages/login")
+        return
+      }
+    }
     auth();
     fetchdata();
     fetchlistdata();
+    checkcookie()
   }, []);
 
   const sevanumberAnimation = useSpring({
