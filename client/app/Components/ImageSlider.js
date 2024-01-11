@@ -4,6 +4,9 @@ import Image from 'next/image';
 import Slide1 from "/app/assets/image/lake.jpg";
 import Slide2 from "/app/assets/image/ship.jpg";
 import Slide3 from "/app/assets/image/slider2.jpg";
+import { faArrowLeft,faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 
 const images = [Slide1, Slide2,Slide3];
@@ -43,13 +46,13 @@ const ImageSlider = () => {
       </div>
 
       {/* Left arrow */}
-      <div onClick={handlePrevPage} className='z-10 absolute text-white bottom-1/2 left-4 text-2xl  md:left-8 font-semibold cursor-pointer hover:text-blue-500'>
-        <span className='inline-block transition-transform duration-300 ease-in-out transform hover:-translate-x-1'>&lt;-</span>
+      <div onClick={handlePrevPage} className='z-10 absolute text-white bottom-1/2 left-4 text-2xl  md:left-8 font-semibold cursor-pointer hover:text-orange-500'>
+        <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />
       </div>
 
       {/* Right arrow */}
-      <div onClick={handleNextPage} className='z-10 absolute bottom-1/2 text-white right-8 text-2xl  md:right-8 font-semibold cursor-pointer hover:text-blue-500'>
-        <span className='inline-block transition-transform duration-300 ease-in-out transform hover:translate-x-1'>-&gt;</span>
+      <div onClick={handleNextPage} className='z-10 absolute bottom-1/2 text-white right-8 text-2xl  md:right-8 font-semibold cursor-pointer hover:text-orange-500'>
+        <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
       </div>
     </div>
   );

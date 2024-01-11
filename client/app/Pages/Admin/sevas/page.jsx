@@ -37,9 +37,14 @@ const Page = () => {
     fetchData();
   }, []);
 
-  const numberAnimation = useSpring({
+  const sevanumberAnimation = useSpring({
     from: { number: 0 },
-    to: { number: length },
+    to: { number: sevalength },
+    config: { duration: 1000 },
+  });
+  const sevalistnumberAnimation = useSpring({
+    from: { number: 0 },
+    to: { number: sevalistlength },
     config: { duration: 1000 },
   });
 
@@ -61,14 +66,47 @@ const Page = () => {
 
   return (
     <div className="pt-24 pb-20">
-      <div className="flex flex-col">
-        <div className="flex justify-center items-center py-16 gap-4">
-          <animated.span className="text-8xl text-white bg-orange-500 rounded-full p-8">
-            {numberAnimation.number.to((val) => Math.floor(val))}
-          </animated.span>
-          <p className="text-6xl font-bold text-orange-500">Number of Sevas</p>
+      <div className="flex flex-row">
+        <div className="flex-1 border-r border-orange-500">
+          <div className="flex flex-col">
+            <div className="flex justify-center items-center py-16 gap-4">
+              <animated.span className="text-6xl text-white bg-orange-500 rounded-full p-8">
+                {sevanumberAnimation.number.to((val) => Math.floor(val))}
+              </animated.span>
+              <p className="text-3xl font-bold text-orange-500">
+                Number of Booked Sevas
+              </p>
+            </div>
+            <div className="text-orange-500 text-3xl font-semibold flex justify-center underline pb-20">
+              Functions
+            </div>
+            <div className="flex gap-4 justify-around px-12">
+              <button
+                type="button"
+                className="bg-orange-500 text-xl font-semibold text-white p-3 rounded-lg hover:opacity-75 hover:scale-105"
+                onClick={handlesevaclick}
+              >
+                Find a booked seva
+              </button>
+              <button
+                type="button"
+                className="bg-orange-500 text-xl font-semibold text-white p-3 rounded-lg hover:opacity-75 hover:scale-105"
+                onClick={handlesevaclick}
+              >
+                Delete a booked seva
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="text-orange-500 text-5xl font-semibold flex justify-center underline pb-20">
+        <div className="flex-1">
+        <div className="flex flex-col">
+        <div className="flex justify-center items-center py-16 gap-4">
+          <animated.span className="text-6xl text-white bg-orange-500 rounded-full p-8">
+            {sevalistnumberAnimation.number.to((val) => Math.floor(val))}
+          </animated.span>
+          <p className="text-3xl font-bold text-orange-500">Number of Offered Sevas</p>
+        </div>
+        <div className="text-orange-500 text-3xl font-semibold flex justify-center underline pb-20">
           Functions
         </div>
         <div className="flex gap-4 justify-around px-12">
@@ -77,7 +115,7 @@ const Page = () => {
             className="bg-orange-500 text-2xl font-semibold text-white p-4 rounded-lg hover:opacity-75 hover:scale-105"
             onClick={handleFindSevaClick}
           >
-            Find a pending seva
+            Find a seva
           </button>
           <button
             type="button"
