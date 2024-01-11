@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import { useDispatch } from "react-redux";
 import { setSevaName } from '../../Redux/Features/counter/sevaslice';
+import Image from "next/image";
+import Entrance from "/app/assets/image/entrance.jpg";
 
 
 const SevaPage = () => {
@@ -43,6 +45,9 @@ const SevaPage = () => {
 
   return (
     <div className="pt-20">
+      <p className="text-orange-500 text-6xl text-center font-semibold underline">
+        Seva Served Here
+      </p>
       <div className="flex justify-end pr-8 mb-4">
         <label className="text-lg mr-2">Select Language:</label>
         <select
@@ -55,16 +60,14 @@ const SevaPage = () => {
           <option value="hindi">हिंदी</option>
         </select>
       </div>
-      <p className="text-orange-500 text-6xl text-center font-semibold">
-        Sevas
-      </p>
+      
       <div className="flex flex-row">
-        <div className="flex-1 p-2 px-8">
+        <div className="flex-1 p-2 px-8 overflow-y-auto" style={{ maxHeight: '500px' }}>
           {formdata &&
             formdata.map((seva) => (
               <div
                 key={seva._id}
-                className="flex w-full h-28 border-2 border-orange-400 mb-8 rounded-lg bg-orange-100 cursor-pointer relative" // Updated this line
+                className="flex w-full h-28 border-2 border-orange-400 mb-8 rounded-lg bg-orange-100 cursor-pointer relative  hover:scale-105" // Updated this line
               >
                 <div className="flex flex-col">
                   <div className="font-semibold text-xl p-4">
@@ -87,7 +90,17 @@ const SevaPage = () => {
               </div>
             ))}
         </div>
-        <div className="flex-1"></div>
+        <div className="flex-1 relative hidden md:block">
+          <Image
+              src={Entrance}
+              alt="entrance"
+              layout="fill"
+              className="p-5"
+              objectFit="cover"
+              objectPosition="right"
+              priority
+            />
+        </div>
       </div>
     </div>
   );
