@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import { useSpring, animated } from "react-spring";
 import { useRouter } from "next/navigation";
 
-const page = () => {
+const Page = () => {
   const [length, setLength] = useState(0);
   const router = useRouter();
+
   useEffect(() => {
     const auth = () => {
       const isLoggedIn = !!localStorage.getItem("userToken");
@@ -20,15 +21,20 @@ const page = () => {
         console.log("The user should be admin to access this page");
       }
     };
-    const fetchdata = async () => {
-      const res = await fetch("/api/seva/admin/noofsevas");
-      const data = await res.json();
-      const len = data.length;
-      console.log(length)
-      setLength(len);
+
+    const fetchData = async () => {
+      try {
+        const res = await fetch("/api/seva/admin/noofsevas");
+        const data = await res.json();
+        const len = data.length;
+        setLength(len);
+      } catch (error) {
+        console.error("Error fetching Seva data:", error);
+      }
     };
+
     auth();
-    fetchdata();
+    fetchData();
   }, []);
 
   const numberAnimation = useSpring({
@@ -37,12 +43,21 @@ const page = () => {
     config: { duration: 1000 },
   });
 
-  const handleclick=()=>{
-    router.replace("/Pages/Admin/findseva")
-  }
-  const handleaddclick=()=>{
-    router.replace("/Pages/Admin/addseva")
-  }
+  const handleFindSevaClick = () => {
+    router.replace("/Pages/Admin/findseva");
+  };
+
+  const handleAddSevaClick = () => {
+    router.replace("/Pages/Admin/addseva");
+  };
+
+  const handleDeleteSevaClick = () => {
+    router.replace("/Pages/Admin/deleteseva");
+  };
+
+  const handleUserSevaClick = () => {
+    router.replace("/Pages/Admin/userseva");
+  };
 
   return (
     <div className="pt-24 pb-20">
@@ -60,28 +75,35 @@ const page = () => {
           <button
             type="button"
             className="bg-orange-500 text-2xl font-semibold text-white p-4 rounded-lg hover:opacity-75 hover:scale-105"
-            onClick={handleclick}
+            onClick={handleFindSevaClick}
           >
             Find a pending seva
           </button>
           <button
             type="button"
             className="bg-orange-500 text-2xl font-semibold text-white p-4 rounded-lg hover:opacity-75 hover:scale-105"
-            onClick={handleaddclick}
+            onClick={handleAddSevaClick}
           >
             Add new seva
           </button>
           <button
             type="button"
             className="bg-orange-500 text-2xl font-semibold text-white p-4 rounded-lg hover:opacity-75 hover:scale-105"
-            onClick={handleclick}
+            onClick={handleDeleteSevaClick}
           >
             Delete a seva
-          </button>          
+          </button>
+          <button
+            type="button"
+            className="bg-orange-500 text-2xl font-semibold text-white p-4 rounded-lg hover:opacity-75 hover:scale-105"
+            onClick={handleUserSevaClick}
+          >
+            Display user seva
+          </button>
         </div>
       </div>
     </div>
   );
 };
 
-export default page;
+export default Page;
