@@ -87,3 +87,28 @@ exports.UpdateSeva = asyncErrHandler(async (req, res, next) => {
         next(error);
     }
 });
+exports.getSingleSeva = asyncErrHandler(async (req, res, next) => {
+    const { _id, sevanamee, sevanamek, sevanameh, price } = req.body;
+    
+    let query = {};
+  
+    // If _id is provided, prioritize the search by ID
+    if (_id) {
+      query._id = _id;
+    } else {
+      // If _id is not provided, construct a query based on other available fields
+      if (sevanamee) query.sevanamee = sevanamee;
+      if (sevanamek) query.sevanamek = sevanamek;
+      if (sevanameh) query.sevanameh = sevanameh;
+      if (price) query.price = price;
+    }
+  
+    const seva = await Sevalist.find(query);
+  
+    if (!seva) {
+      return next(errorHandler(404, "Seva not found"));
+    }
+  
+    res.status(200).json({ message: "Seva found successfully", seva });
+  });
+  
