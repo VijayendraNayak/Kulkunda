@@ -25,7 +25,6 @@ const Changepass = () => {
   const handlechangepass = async (e) => {
     e.preventDefault();
     try {
-      console.log("here");
       setLoading(true);
       setError(null);
       const res = await fetch("/api/user/password", {
