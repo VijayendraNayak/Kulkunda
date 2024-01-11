@@ -1,19 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-import {
-  ref,
-  getStorage,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage";
-import { app } from "../../../firebase";
+import { useEffect, useState } from "react";
+import { useSpring, animated } from "react-spring";
+import { useRouter } from "next/navigation";
 
-const Newsupdates = () => {
-  const [formdata, setFormdata] = useState();
-  const [create, setCreate] = useState(false);
+const page = () => {
+  const [length, setLength] = useState(0);
+  const router = useRouter();
   useEffect(() => {
-    const verifyuser = () => {
+    const auth = () => {
       const isLoggedIn = !!localStorage.getItem("userToken");
       const userRole = localStorage.getItem("userRole");
       const isAdmin =
@@ -35,115 +29,67 @@ const Newsupdates = () => {
         return
       }
     }
-    verifyuser()
-    checkcookie()
-  });
-
-  const handleChange = (e) => {
-    setFormdata({ ...formdata, [e.target.id]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await fetch("/api/newsupdate/admin/upload", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formdata),
-      });
+    const fetchdata = async () => {
+      const res = await fetch("/api/newsupdate/admin/noofnews");
       const data = await res.json();
-      if (data.success === false) {
-        console.log(data.message);
-        return;
-      }
-      setFormdata(data);
-      setCreate(true);
-    } catch (error) {
-      console.log({ error });
-    }
-  };
-  const handlefileupload = async (file) => {
-    const storage = getStorage(app);
-    const filename = new Date().getTime() + file.name;
-    const storageref = ref(storage, filename);
-    const uploadTask = uploadBytesResumable(storageref, file);
+      const len = data.length;
+      setLength(len);
+    };
+    auth();
+    fetchdata();
+    checkcookie();
+  }, []);
 
-    uploadTask.on("state_changed", () => {
-      getDownloadURL(uploadTask.snapshot.ref).then((DownloadURL) => {
-        setFormdata({ ...formdata, avatar: DownloadURL });
-      });
-    });
-  };
+  const numberAnimation = useSpring({
+    from: { number: 0 },
+    to: { number: length },
+    config: { duration: 1000 },
+  });
+  const handleclick=()=>{
+    router.replace("/Pages/Admin/findnewsupdate")
+  }
+  const handlecreateclick=()=>{
+    router.replace("/Pages/Admin/newsupdateform")
+  }
 
   return (
-    <div className="pt-28 pb-10">
-      <div className="h-screen">
-        <div className="flex justify-center gap-4 flex-col">
-          <p
-            className={`${
-              create ? "flex" : "hidden"
-            } text-3xl font-semibold text-green-500 flex justify-center`}
-          >
-            News Updated successfully
-          </p>
+    <div className="pt-24 pb-20">
+      <div className="flex flex-col">
+        <div className="flex justify-center items-center py-16 gap-4">
+          <animated.span className="text-8xl text-white bg-orange-500 rounded-full p-8">
+            {numberAnimation.number.to((val) => Math.floor(val))}
+          </animated.span>
+          <p className="text-6xl font-bold text-orange-500">Number of News & Updates</p>
         </div>
-        <p
-          className={`flex justify-center text-6xl font-semibold text-orange-500 pb-6 ${
-            create ? "hidden" : "flex"
-          }`}
-        >
-          Upload News
-        </p>
-        <div
-          className={`p-6 mx-auto justify-center border-2  border-orange-500 gap-4 bg-orange-100 rounded-lg max-w-3xl  ${
-            create ? "hidden" : "flex"
-          }`}
-        >
-          <div className="flex flex-col gap-4 justify-center bg-orange-100 w-full">
-            <form className="flex flex-col gap-4 ">
-              <input
-                type="text"
-                placeholder="Headline"
-                className="border p-3 rounded-lg hover:shadow-lg hover:scale-105"
-                id="headline"
-                onChange={handleChange}
-              />
-              <textarea
-                placeholder="Description/News"
-                className="border p-3 rounded-lg hover:shadow-lg hover:scale-105 resize-none"
-                id="description"
-                rows={5} // Set the number of rows
-                cols={50} // Set the number of columns
-                onChange={handleChange}
-                style={{ width: "100%", height: "200px" }} // Set the width and height using inline style
-              />
-              <input
-                type="file"
-                className=" p-3 "
-                id="avatar"
-                onChange={handlefileupload}
-              />
-              <input
-                type="string"
-                placeholder="refferences"
-                className="border p-3 rounded-lg hover:shadow-lg hover:scale-105"
-                id="refferences"
-                onChange={handleChange}
-              />
-            </form>
-            <button
-              className="bg-gradient-to-r from-yellow-500  to-orange-500 text-white p-3 font-semibold text-xl hover:shadow-lg hover:scale-105"
-              onClick={handleSubmit}
-            >
-              Upload News
-            </button>
-          </div>
+        <div className="text-orange-500 text-5xl font-semibold flex justify-center underline pb-20">
+          Functions
+        </div>
+        <div className="flex gap-4 justify-around px-12">
+          <button
+            type="button"
+            className="bg-orange-500 text-2xl font-semibold text-white p-4 rounded-lg hover:opacity-75 hover:scale-105"
+            onClick={handleclick}
+          >
+            Find an News
+          </button>
+          <button
+            type="button"
+            className="bg-orange-500 text-2xl font-semibold text-white p-4 rounded-lg hover:opacity-75 hover:scale-105"
+            onClick={handlecreateclick}
+          >
+            Upload a news
+          </button>
+          <button
+            type="button"
+            className="bg-orange-500 text-2xl font-semibold text-white p-4 rounded-lg hover:opacity-75 hover:scale-105"
+            onClick={handleclick}
+          >
+            Delete an News
+          </button>
         </div>
       </div>
     </div>
   );
 };
 
-export default dynamic(() => Promise.resolve(Newsupdates), { ssr: false });
+export default page;
