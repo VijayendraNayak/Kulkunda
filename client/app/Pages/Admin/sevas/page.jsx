@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { useSpring, animated } from "react-spring";
 import { useRouter } from "next/navigation";
 
-const Page = () => {
-  const [length, setLength] = useState(0);
+const page = () => {
+  const [sevalength, setsevaLength] = useState(0);
+  const [sevalistlength, setsevalistLength] = useState(0);
   const router = useRouter();
-
   useEffect(() => {
     const auth = () => {
       const isLoggedIn = !!localStorage.getItem("userToken");
@@ -21,20 +21,33 @@ const Page = () => {
         console.log("The user should be admin to access this page");
       }
     };
-
-    const fetchData = async () => {
-      try {
-        const res = await fetch("/api/seva/admin/noofsevas");
-        const data = await res.json();
-        const len = data.length;
-        setLength(len);
-      } catch (error) {
-        console.error("Error fetching Seva data:", error);
-      }
+    const fetchdata = async () => {
+      const res = await fetch("/api/seva/admin/noofsevas");
+      const data = await res.json();
+      const len = data.length;
+      console.log(length);
+      setsevaLength(len);
     };
-
+    const fetchlistdata = async () => {
+      const res = await fetch("/api/sevalist/admin/noofsevalists");
+      const data = await res.json();
+      const len = data.length;
+      console.log(length);
+      setsevalistLength(len);
+    };
+    const checkcookie=async()=>{
+      const res=await fetch("/api/user/checkcookies")
+      const data=await res.json()
+      if (data.success===false){
+        console.log(data.message)
+        router.replace("/Pages/login")
+        return
+      }
+    }
     auth();
-    fetchData();
+    fetchdata();
+    fetchlistdata();
+    checkcookie()
   }, []);
 
   const sevanumberAnimation = useSpring({
@@ -48,21 +61,15 @@ const Page = () => {
     config: { duration: 1000 },
   });
 
-  const handleFindSevaClick = () => {
+  const handlesevaclick = () => {
     router.replace("/Pages/Admin/findseva");
   };
-
-  const handleAddSevaClick = () => {
+  const handleaddclick = () => {
     router.replace("/Pages/Admin/addseva");
   };
-
-  const handleDeleteSevaClick = () => {
-    router.replace("/Pages/Admin/deleteseva");
-  };
-
-  const handleUserSevaClick = () => {
-    router.replace("/Pages/Admin/userseva");
-  };
+  const handlesevalistclick=()=>{
+    router.replace("/Pages/Admin/findsevalist")
+  }
 
   return (
     <div className="pt-24 pb-20">
@@ -112,36 +119,38 @@ const Page = () => {
         <div className="flex gap-4 justify-around px-12">
           <button
             type="button"
-            className="bg-orange-500 text-2xl font-semibold text-white p-4 rounded-lg hover:opacity-75 hover:scale-105"
-            onClick={handleFindSevaClick}
+            className="bg-orange-500 text-xl font-semibold text-white p-3 rounded-lg hover:opacity-75 hover:scale-105"
+            onClick={handlesevalistclick}
           >
             Find a seva
           </button>
           <button
             type="button"
-            className="bg-orange-500 text-2xl font-semibold text-white p-4 rounded-lg hover:opacity-75 hover:scale-105"
-            onClick={handleAddSevaClick}
+            className="bg-orange-500 text-xl font-semibold text-white p-3 rounded-lg hover:opacity-75 hover:scale-105"
+            onClick={handleaddclick}
           >
             Add new seva
           </button>
           <button
             type="button"
-            className="bg-orange-500 text-2xl font-semibold text-white p-4 rounded-lg hover:opacity-75 hover:scale-105"
-            onClick={handleDeleteSevaClick}
+            className="bg-orange-500 text-xl font-semibold text-white p-3 rounded-lg hover:opacity-75 hover:scale-105"
+            onClick={handlesevalistclick}
           >
             Delete a seva
           </button>
           <button
             type="button"
-            className="bg-orange-500 text-2xl font-semibold text-white p-4 rounded-lg hover:opacity-75 hover:scale-105"
-            onClick={handleUserSevaClick}
+            className="bg-orange-500 text-xl font-semibold text-white p-3 rounded-lg hover:opacity-75 hover:scale-105"
+            onClick={handlesevalistclick}
           >
-            Display user seva
+            Update a seva
           </button>
+        </div>
+      </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default Page;
+export default page;
