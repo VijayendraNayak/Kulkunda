@@ -131,7 +131,7 @@ const FindNewsUpdates = () => {
   };
 
   return (
-    <div className="pt-28 h-screen">
+    <div className="pt-28" style={{ maxHeight: "calc(100vh - 100px)" }}>
       <form className="flex items-center justify-between max-w-lg mx-auto bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-4 rounded-full">
         <select
           value={searchCategory}
@@ -174,6 +174,13 @@ const FindNewsUpdates = () => {
                 </div>
                 <div className="mb-2">Description: {newsUpdate.description}</div>
                 <div className="mb-2">References: {newsUpdate.reffernces}</div>
+                
+                {/* Display avatar if available */}
+                {newsUpdate.avatar && newsUpdate.avatar.length > 0 && (
+                  <div className="mb-2">
+                    Avatar: <img src={newsUpdate.avatar[0]} alt="Avatar" />
+                  </div>
+                )}
               </div>
             ))}
           </div>

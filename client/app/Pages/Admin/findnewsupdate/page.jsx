@@ -141,6 +141,11 @@ const FindNewsUpdates = () => {
                 </div>
                 <div className="mb-2">Description: {newsUpdate.description}</div>
                 <div className="mb-2">References: {newsUpdate.reffernces}</div>
+                {newsUpdate.avatar && newsUpdate.avatar.length > 0 && (
+                  <div className="mb-2">
+                    Avatar: <img src={newsUpdate.avatar[0]} alt="Avatar" />
+                  </div>
+                )}
                 <div className="mt-4 flex justify-between">
                   <button
                     className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
