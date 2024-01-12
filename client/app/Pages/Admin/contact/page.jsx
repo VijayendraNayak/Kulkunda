@@ -2,9 +2,11 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSpring, animated } from "react-spring";
+import Loader from "../../../Components/Loader";
 
 const AdminContactPage = () => {
   const [contactForms, setContactForms] = useState([]);
+  const [loader, setLoader] = useState(false);
   const [error, setError] = useState(null);
   const [alert, setAlert] = useState(null);
   const [expandedId, setExpandedId] = useState(null);
@@ -12,6 +14,7 @@ const AdminContactPage = () => {
   const router = useRouter();
 
   useEffect(() => {
+    setLoader(true)
     const verifyuser = () => {
       const isLoggedIn = !!localStorage.getItem("userToken");
       const userRole = localStorage.getItem("userRole");
@@ -24,19 +27,24 @@ const AdminContactPage = () => {
         router.replace("/Pages/login");
         console.log("The user should be admin to access this page");
       }
+      setLoader(false)
     };
 
     const fetchData = async () => {
       try {
+        setLoader(true)
         const response = await fetch("/api/contact/forms");
         if (!response.ok) {
           throw new Error("Failed to fetch contact forms");
+          setLoader(false)
         }
         const data = await response.json();
+        setLoader(false)
         setContactForms(data.contactForms);
       } catch (error) {
         console.error("Error fetching contact forms:", error);
         setError("Failed to fetch contact forms. Please try again."); // Set error state
+        setLoader(false)
       }
     };
     const fetchnumdata = async () => {
@@ -46,13 +54,16 @@ const AdminContactPage = () => {
       setLength(len);
     };
     const checkcookie=async()=>{
+      setLoader(true)
       const res=await fetch("/api/user/checkcookies")
       const data=await res.json()
       if (data.success===false){
         console.log(data.message)
         router.replace("/Pages/login")
+        setLoader(false)
         return
       }
+      setLoader(false)
     }
     verifyuser();
     fetchData();
@@ -72,13 +83,16 @@ const AdminContactPage = () => {
 
   const handleDelete = async (contactId) => {
     try {
+      setLoader(true)
       const response = await fetch(`/api/contact/delete/${contactId}`, {
         method: "DELETE",
       });
       if (!response.ok) {
         throw new Error("Failed to delete contact form");
+        setLoader(false)
       }
       // If deletion is successful, refetch the updated contact forms
+      setLoader(false)
       fetchData();
       setAlert("Contact deleted successfully");
       setTimeout(() => {
@@ -87,6 +101,7 @@ const AdminContactPage = () => {
     } catch (error) {
       console.error("Error deleting contact form:", error);
       setAlert("Failed to delete contact form. Please try again.");
+      setLoader(false)
       setTimeout(() => {
         setAlert(null);
       }, 3000); // Clear the alert after 3 seconds
@@ -96,6 +111,7 @@ const AdminContactPage = () => {
   return (
     <div className="pt-24 pb-20 flex flex-col">
       <div>
+        {loader && <Loader/>}
         <div className="flex flex-col">
           <div className="flex justify-center items-center py-16 gap-4">
             <animated.span className="text-8xl text-white bg-orange-500 rounded-full p-8">

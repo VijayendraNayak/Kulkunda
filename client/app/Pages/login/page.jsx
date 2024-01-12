@@ -114,7 +114,7 @@ const Login = () => {
     }
   };
   return (
-    <div className="pt-40 p-10 flex ">
+    <div className="pt-20 p-10 flex ">
       {loading && <Loader />}
       <div className="flex-1 relative">
         <Image

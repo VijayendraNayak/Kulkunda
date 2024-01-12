@@ -58,7 +58,7 @@ const UserHeader = ({ loading }) => {
             <span className="text-orange-500 text-2xl">Basaveshwara</span>
           </div>
         </Link>
-        <ul className={`lg:flex md:flex gap-6 lg:items-center `}>
+        <ul className={`lg:flex md:flex gap-6 lg:items-center font-semibold`}>
           <Link href="/Pages/Admin/dashboard">
             <li className="hover:underline text-orange-700 hidden sm:flex">
               Dashboard
@@ -84,6 +84,11 @@ const UserHeader = ({ loading }) => {
               NewsUpdates
             </li>
           </Link>
+          <Link href="/Pages/Admin/gallery">
+            <li className="hover:underline text-orange-700 hidden sm:flex">
+              Gallery
+            </li>
+          </Link>
           <Link href="/Pages/Admin/adminprof">
             <img
               className=" rounded-full w-10 h-10 hidden sm:flex"
@@ -106,7 +111,7 @@ const UserHeader = ({ loading }) => {
                 <span className="text-orange-500">Basaveshwara</span>
               </h1>
             </Link>
-            <ul className={`flex-col items-center gap-6 `}>
+            <ul className={`flex-col items-center gap-6 font-semibold`}>
               <Link href="/Pages/Admin/dashboard">
                 <li className="hover:underline text-orange-700 sm:hidden">
                   Dashboard
@@ -125,6 +130,16 @@ const UserHeader = ({ loading }) => {
               <Link href="/Pages/Admin/contact">
                 <li className="hover:underline text-orange-700 sm:hidden">
                   Contact Querries
+                </li>
+              </Link>
+              <Link href="/Pages/Admin/newsupdates">
+                <li className="hover:underline text-orange-700 hidden sm:flex">
+                  NewsUpdates
+                </li>
+              </Link>
+              <Link href="/Pages/Admin/gallery">
+                <li className="hover:underline text-orange-700 hidden sm:flex">
+                  Gallery
                 </li>
               </Link>
               <Link href="/Pages/Admin/adminprof">

@@ -2,8 +2,7 @@
 "use client";
 import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import NewsUpdatesForm from "../newsupdateform/page"; 
-import { useRouter } from "next/router";// Adjust the path as per your actual file structure
+import NewsUpdatesForm from "../newsupdateform/page"; // Adjust the path as per your actual file structure
 const FindNewsUpdates = () => {
   // State for search parameters, news data, search result status, and selected search category
   const [searchTerm, setSearchTerm] = useState("");
@@ -141,11 +140,6 @@ const FindNewsUpdates = () => {
                 </div>
                 <div className="mb-2">Description: {newsUpdate.description}</div>
                 <div className="mb-2">References: {newsUpdate.reffernces}</div>
-                {newsUpdate.avatar && newsUpdate.avatar.length > 0 && (
-                  <div className="mb-2">
-                    Avatar: <img src={newsUpdate.avatar[0]} alt="Avatar" />
-                  </div>
-                )}
                 <div className="mt-4 flex justify-between">
                   <button
                     className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"

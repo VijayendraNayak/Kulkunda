@@ -13,10 +13,10 @@ exports.getSevas = async (req, res) => {
 };
 
 exports.createSeva = async (req, res) => {
-  const { sevaName, name, dateOfSeva } = req.body; // Added 'name' field
+  const { sevaName, name, dateOfSeva,phonenumber,userid } = req.body; // Added 'name' field
 
   try {
-    const newSeva = new Seva({ sevaName, name, dateOfSeva }); // Updated model instantiation
+    const newSeva = new Seva({ sevaName, name, dateOfSeva,phonenumber,userid }); // Updated model instantiation
     await newSeva.save();
     res.json(newSeva);
   } catch (error) {

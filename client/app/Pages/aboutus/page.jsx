@@ -1,15 +1,23 @@
 "use client";
-import {useState} from "react";
-
+import { useState } from "react";
+import Loader from "../../Components/Loader"
 const page = () => {
-  const [lang,setLang]=useState("english")
+  const [lang, setLang] = useState("english");
+  const [loader, setLoader] = useState(false);
 
-  const handleonclick=()=>{
-    if(lang==="english"){setLang("kannada")}
-    else{setLang("english")}
-  }
+  const handleonclick = () => {
+    setLoader(true);
+    if (lang === "english") {
+      setLang("kannada");
+      setLoader(false);
+    } else {
+      setLang("english");
+      setLoader(false);
+    }
+  };
   return (
     <div className="pt-10 pb-10 lg:pt-20 ">
+      {loader && <Loader/>}
       <div className="flex justify-between items-center pb-5">
         <p className="text-3xl lg:text-5xl text-center font-semibold text-orange-500 p-4">
           About Us
@@ -19,11 +27,15 @@ const page = () => {
           className="border-2 border-orange-500 bg-orange-300 px-5 py-3 rounded-full ml-auto mr-10 hover:bg-orange-400"
           onClick={handleonclick}
         >
-          {lang==="english"?"ಕನ್ನಡ":"English"}
+          {lang === "english" ? "ಕನ್ನಡ" : "English"}
         </button>
       </div>
-      
-      <div className={`flex flex-col gap-4 px-4 md:px-8 ${lang==="english"?"flex":"hidden"}`}>
+
+      <div
+        className={`flex flex-col gap-4 px-4 md:px-8 ${
+          lang === "english" ? "flex" : "hidden"
+        }`}
+      >
         {/* Section 1 */}
         <div className="flex flex-col md:flex-row gap-2 border-2 border-orange-500 bg-orange-100 w-full md:h-60 rounded-3xl p-2">
           <div className="w-full md:w-3/4 p-2 gap-2 flex flex-col">
@@ -155,7 +167,11 @@ const page = () => {
       </div>
 
       {/* Kannada  */}
-      <div className={`flex flex-col gap-4 px-4 md:px-8 ${lang==="kannada"?"flex":"hidden"}`}>
+      <div
+        className={`flex flex-col gap-4 px-4 md:px-8 ${
+          lang === "kannada" ? "flex" : "hidden"
+        }`}
+      >
         <div className="flex flex-col md:flex-row gap-2 border-2 border-orange-500 bg-orange-100 w-full  rounded-3xl p-2">
           <div className="w-full md:w-3/4 p-2 gap-2 flex flex-col">
             <span className="text-lg md:text-2xl lg:text-4xl font-semibold text-center ">

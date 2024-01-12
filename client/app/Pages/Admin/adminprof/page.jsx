@@ -21,13 +21,14 @@ import {
 import { app } from "../../../firebase";
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
-import Loader from "../../../Components/Loader";
+import Loader from "../../../Components/Loader"; // Import Loader only once
 import dynamic from "next/dynamic";
 
 const Profile = () => {
   const { currentUser, loading, error } = useSelector((state) => state.user);
   const [formdata, setFormdata] = useState({});
   const [file, setFile] = useState(null);
+  const [loader, setLoader] = useState(false);
   const dispatch = useDispatch();
   const fileref = useRef(null);
   const router = useRouter();
@@ -47,6 +48,7 @@ const Profile = () => {
   }, [file]);
 
   useEffect(() => {
+    setLoader(true)
     const auth = () => {
       const isLoggedIn = !!localStorage.getItem("userToken");
       const userRole = localStorage.getItem("userRole");
@@ -71,6 +73,7 @@ const Profile = () => {
     }
     auth();
     checkcookie();
+    setLoader(false)
   });
 
   const handleChange = (e) => {
@@ -92,6 +95,7 @@ const Profile = () => {
 
   const handleSubmit = async (e) => {
     try {
+      setLoader(true)
       dispatch(updateStart());
       const res = await fetch(`/api/user/update`, {
         method: "PUT",
@@ -111,10 +115,12 @@ const Profile = () => {
     } catch (error) {
       dispatch(updateFailure(error));
     }
+    setLoader(false)
   };
 
   const handlelogout = async () => {
     try {
+      setLoader(true)
       dispatch(signoutStart());
       const res = await fetch("/api/user/logout");
       const data = await res.json();
@@ -128,11 +134,12 @@ const Profile = () => {
     } catch (error) {
       dispatch(signoutFailure(error));
     }
+    setLoader(false)
   };
 
   return (
     <div className=" flex sm:flex-row flex-col pt-28 p-10 justify-center">
-      {loading && <Loader />}
+      {(loading||loader) && <Loader />}
         <div className="flex flex-col lg:flex-row gap-4 items-center ">
           <div className="">
             <input

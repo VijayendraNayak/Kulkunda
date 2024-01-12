@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
+import Modal from "react-modal";
 
 const FindUser = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -8,6 +9,14 @@ const FindUser = () => {
   const [found, setFound] = useState(false);
   const [remove, setRemove] = useState(false);
   const [searchCategory, setSearchCategory] = useState("sevanamee");
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [editedData, setEditedData] = useState({
+    sevanamee: "",
+    sevanamek: "",
+    sevanameh: "",
+    price: 0,
+    // Add more fields as needed
+  });
 
   const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
@@ -60,34 +69,46 @@ const FindUser = () => {
     setRemove(false);
   };
 
-  const handleUpdate = (sevaId) => {
-    // Implement update logic, for example, redirect to the update page with sevaId
-    console.log(`Update clicked for Seva ID: ${sevaId}`);
+  const openModal = () => {
+    setModalIsOpen(true);
   };
 
-  const handleDelete = async (sevaId) => {
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
+  const handleEdit = (seva) => {
+    setEditedData({
+      sevanamee: seva.sevanamee || "",
+      sevanamek: seva.sevanamek || "",
+      sevanameh: seva.sevanameh || "",
+      price: seva.price || 0,
+      // Update with more fields as needed
+    });
+    openModal();
+  };
+
+  const handleUpdate = async (sevaId) => {
     try {
-      const res = await fetch(`/api/sevalist/admin/deleteseva/${sevaId}`, {
-        method: "DELETE",
+      const res = await fetch(`/api/sevalist/admin/updateseva/${sevaId}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify(editedData),
       });
 
       const data = await res.json();
 
       if (data.success) {
-        // Successfully deleted
-        console.log(`Seva ID ${sevaId} deleted successfully`);
-        // You may also update the UI to reflect the deletion
-        setSevaList(sevaList.filter(seva => seva._id !== sevaId));
+        console.log(`Seva ID ${sevaId} updated successfully`);
+        handleSearch();
+        closeModal(); // Close the modal after successful update
       } else {
-        console.error("Deletion failed:", data.message);
-        // Handle deletion failure
+        console.error("Update failed:", data.message);
       }
     } catch (error) {
-      console.error("Error during deletion:", error);
-      // Handle error
+      console.error("Error during update:", error);
     }
   };
 
@@ -132,22 +153,17 @@ const FindUser = () => {
         {found && sevaList.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {sevaList.map((seva, index) => (
-              <div
-                key={index}
-                className="bg-white p-6 rounded-md shadow-md"
-              >
-                {/* Display Seva Attributes */}
+              <div key={index} className="bg-white p-6 rounded-md shadow-md">
                 <div className="font-bold mb-2">Name (Hindi): {seva.sevanameh}</div>
                 <div className="mb-2">Name (Kannada): {seva.sevanamek}</div>
                 <div className="mb-2">Name (English): {seva.sevanamee}</div>
                 <div>Price: {seva.price}</div>
-                {/* Add more attributes as needed */}
                 <div className="mt-4 flex justify-between">
                   <button
                     className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                    onClick={() => handleUpdate(seva._id)}
+                    onClick={() => handleEdit(seva)}
                   >
-                    Update
+                    Edit
                   </button>
                   <button
                     className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
@@ -161,6 +177,32 @@ const FindUser = () => {
           </div>
         )}
       </div>
+
+      {/* Modal for editing data */}
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        className="Modal"
+        overlayClassName="Overlay"
+      >
+        <h2>Edit Seva</h2>
+        <form>
+          {/* Render a form with input fields for each property in editedData */}
+          <label>
+            Name (English):
+            <input
+              type="text"
+              value={editedData.sevanamee}
+              onChange={(e) =>
+                setEditedData({ ...editedData, sevanamee: e.target.value })
+              }
+            />
+          </label>
+          {/* Add more fields as needed */}
+          <button onClick={() => handleUpdate(editedData._id)}>Update</button>
+          <button onClick={closeModal}>Cancel</button>
+        </form>
+      </Modal>
     </div>
   );
 };
