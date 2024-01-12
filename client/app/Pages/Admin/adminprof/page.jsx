@@ -21,9 +21,8 @@ import {
 import { app } from "../../../firebase";
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
-import Loader from "../../../Components/Loader";
+import Loader from "../../../Components/Loader"; // Import Loader only once
 import dynamic from "next/dynamic";
-import Loader from "../../../Components/Loader";
 
 const Profile = () => {
   const { currentUser, loading, error } = useSelector((state) => state.user);
