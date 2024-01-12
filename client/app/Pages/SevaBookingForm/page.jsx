@@ -4,24 +4,32 @@ import Image from "next/image";
 import Temple from "/app/assets/image/poster.jpg";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import Loader from "../../Components/Loader";
 
 const SevaBookingForm = () => {
   const { sevaName } = useSelector((state) => state.seva);
   const { currentUser } = useSelector((state) => state.user);
   const router=useRouter();
   const [showAlert, setShowAlert] = useState(false);
+  const [loader, setLoader] = useState(false);
+
   
   useEffect(() => {
+    setLoader(true)
     const isLoggedIn = !!localStorage.getItem('userToken');
     if(!isLoggedIn){router.replace("/Pages/login")}
+    setLoader(false)
     const checkcookie=async()=>{
+      setLoader(true)
       const res=await fetch("/api/user/checkcookies")
       const data=await res.json()
       if (data.success===false){
         console.log(data.message)
         router.replace("/Pages/login")
+        setLoader(false)
         return
       }
+      setLoader(false)
     }
     checkcookie()
   }, []);
@@ -56,6 +64,7 @@ const SevaBookingForm = () => {
 
   return (
     <div className="flex flex-col md:flex-row">
+      {loading && <Loader/>}
       <div className="w-full md:w-1/3 p-8 min-h-screen ">
         <h2 className="text-3xl font-bold tracking-tight mb-6 mt-10 text-center">
           Seva Booking Form

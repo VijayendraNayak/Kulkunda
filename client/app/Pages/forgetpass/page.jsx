@@ -4,8 +4,11 @@ import { useRouter } from "next/navigation";
 import { IoIosEye } from "react-icons/io";
 import { IoIosEyeOff } from "react-icons/io";
 import { useSelector } from "react-redux";
+import Loader from "../../Components/Loader";
+
 
 const Changepass = () => {
+  const [loader, setLoader] = useState(false);
   const [showpassword, setShowpassword] = useState(false);
   const [showpassword1, setShowpassword1] = useState(false);
   const { phoneNumber } = useSelector((state) => state.phone);
@@ -34,6 +37,7 @@ const Changepass = () => {
     e.preventDefault();
     try {
       setLoading(true);
+      setLoader(true);
       setError(null);
       const res = await fetch("/api/user/forgetpass", {
         method: "POST",
@@ -47,10 +51,12 @@ const Changepass = () => {
       if (data.success === false) {
         setError(data.message);
         setLoading(false);
+        setLoader(false);
         return;
       }
       setError(false);
       setLoading(false);
+      setLoader(false);
       setFormdata(data.user);
       if (data.role === "admin") {
         router.replace("/Pages/Admin/dashboard");
@@ -69,6 +75,7 @@ const Changepass = () => {
   };
   return (
     <div className="py-28 px-10 md:py-16 md:px-8 lg:py-20 lg:px-16 xl:py-28 xl:px-20 mt-5">
+      {loader &&<Loader/>}
       <p className="pb-10 text-center text-5xl font-semibold text-orange-500">
         Forget Password
       </p>

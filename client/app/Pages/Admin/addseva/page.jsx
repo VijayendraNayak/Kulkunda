@@ -4,22 +4,52 @@ import { useDispatch } from "react-redux";
 import { setSevaName } from "../../../Redux/Features/counter/sevaslice";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
+import Loader from "../../../Components/Loader";
 
 const Addseva = () => {
   const [formdata, setFormdata] = useState();
+  const [loader, setLoader] = useState(false);
   const [create, setCreate] = useState(false);
-  const router =  useRouter ();
+  const router = useRouter();
   const dispatch = useDispatch();
   const handleChange = (e) => {
     setFormdata({ ...formdata, [e.target.id]: e.target.value });
   };
-
+  useEffect(() => {
+    setLoader(true)
+    const auth = () => {
+      const isLoggedIn = !!localStorage.getItem("userToken");
+      const userRole = localStorage.getItem("userRole");
+      const isAdmin =
+        userRole === "admin" && userRole !== null && userRole !== undefined;
+      if (!isLoggedIn) {
+        router.replace("/Pages/login");
+      }
+      if (!isAdmin) {
+        router.replace("/Pages/login");
+        console.log("The user should be admin to access this page");
+      }
+    };
+    const checkcookie=async()=>{
+      const res=await fetch("/api/user/checkcookies")
+      const data=await res.json()
+      if (data.success===false){
+        console.log(data.message)
+        router.replace("/Pages/login")
+        return
+      }
+    }
+    auth();
+    checkcookie();
+    setLoader(false)
+  });
   const handleonclick = () => {
     router.replace("/Pages/Admin/addseva");
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoader(true);
       const res = await fetch("/api/sevalist/admin/addseva", {
         method: "POST",
         headers: {
@@ -29,12 +59,13 @@ const Addseva = () => {
       });
       const data = await res.json();
       if (data.success === false) {
-        console.log(data.message);
+        setLoader(false);
         return;
       }
       setFormdata(data);
       dispatch(setSevaName(data.sevanamee));
       setCreate(true);
+      setLoader(false);
     } catch (error) {
       console.log({ error });
     }
@@ -43,6 +74,7 @@ const Addseva = () => {
   return (
     <div className="pt-28 pb-10">
       <div className="h-screen">
+        {loader && <Loader/>}
         <div className="flex justify-center gap-4 flex-col">
           <p
             className={`${
@@ -61,7 +93,11 @@ const Addseva = () => {
             Add More Sevas
           </button>
         </div>
-        <p className={`flex justify-center text-6xl font-semibold text-orange-500 pb-6 ${create ? "hidden" : "flex"}`} >
+        <p
+          className={`flex justify-center text-6xl font-semibold text-orange-500 pb-6 ${
+            create ? "hidden" : "flex"
+          }`}
+        >
           Create Seva
         </p>
         <div

@@ -31,6 +31,8 @@ const Profile = () => {
   const dispatch = useDispatch();
   const fileref = useRef(null);
   const router = useRouter();
+  const [loader, setLoader] = useState(false);
+
   useEffect(() => {
     setFormdata({
       name: currentUser?.name || "", // Use optional chaining here
@@ -46,18 +48,24 @@ const Profile = () => {
   }, [file]);
 
   useEffect(() => {
+    setLoader(true)
     const isLoggedIn = !!localStorage.getItem('userToken');
     if(!isLoggedIn){router.replace("/Pages/login")}
+    setLoader(false)
     const checkcookie=async()=>{
+      setLoader(true)
       const res=await fetch("/api/user/checkcookies")
       const data=await res.json()
       if (data.success===false){
         console.log(data.message)
         router.replace("/Pages/login")
+        setLoader(false)
         return
       }
+      setLoader(false)
     }
     checkcookie()
+    setLoader(false)
   }, []);
   
 
@@ -66,6 +74,7 @@ const Profile = () => {
   };
 
   const handlefileupload = async (file) => {
+    setLoader(true)
     const storage = getStorage(app);
     const filename = new Date().getTime() + file.name;
     const storageref = ref(storage, filename);
@@ -76,6 +85,7 @@ const Profile = () => {
         setFormdata({ ...formdata, avatar: DownloadURL });
       });
     });
+    setLoader(false)
   };
 
   const handleSubmit = async (e) => {
@@ -120,7 +130,7 @@ const Profile = () => {
 
   return (
     <div className=" flex sm:flex-row flex-col pt-28 ">
-      {loading && <Loader/>}
+      {(loading ||loader )&& <Loader/>}
       <div className="flex-1 p-10 ">
         <div className="flex flex-col lg:flex-row gap-4 items-center ">
           <div className="">

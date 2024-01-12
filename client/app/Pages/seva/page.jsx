@@ -1,32 +1,35 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useRouter } from 'next/navigation';
-import { useDispatch,useSelector } from "react-redux";
-import { setSevaName } from '../../Redux/Features/counter/sevaslice';
+import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { setSevaName } from "../../Redux/Features/counter/sevaslice";
 import Image from "next/image";
 import Entrance from "/app/assets/image/entrance.jpg";
-
+import Loader from "../../Components/Loader";
 
 const SevaPage = () => {
   const [language, setLanguage] = useState("english");
   const [formdata, setFormdata] = useState(null);
-  const [sevaname,setSevaname]=useState(null)
-  const {sevaName}=useSelector((state)=>state.seva)
+  const [sevaname, setSevaname] = useState(null);
+  const [loader, setLoader] = useState(false);
   const router = useRouter();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getdata = async () => {
       try {
+        setLoader(true);
         const res = await fetch("/api/sevalist/getdata");
         const data = await res.json();
         if (data.success === false) {
-          console.log(data.message);
+          setLoader(false);
           return;
         }
         setFormdata(data.sevas);
+        setLoader(false)
       } catch (error) {
         console.error("Error fetching Seva data:", error);
+        setLoader(false)
       }
     };
     getdata();
@@ -35,15 +38,18 @@ const SevaPage = () => {
   const handleLanguageChange = (selectedLanguage) => {
     setLanguage(selectedLanguage);
   };
-  
+
   const handleBookSeva = (name) => {
-    router.replace('/Pages/SevaBookingForm');
-    setSevaname(name)
-    dispatch(setSevaName(name))
+    router.replace("/Pages/SevaBookingForm");
+    setSevaname(name);
+    dispatch(setSevaName(name));
   };
 
   return (
     <div className="pt-20">
+      {
+        loader && <Loader/>
+      }
       <p className="text-orange-500 text-6xl text-center font-semibold underline">
         Seva Served Here
       </p>
@@ -59,9 +65,12 @@ const SevaPage = () => {
           <option value="hindi">हिंदी</option>
         </select>
       </div>
-      
+
       <div className="flex flex-row">
-        <div className="flex-1 p-2 px-8 overflow-y-auto" style={{ maxHeight: '500px' }}>
+        <div
+          className="flex-1 p-2 px-8 overflow-y-auto"
+          style={{ maxHeight: "500px" }}
+        >
           {formdata &&
             formdata.map((seva) => (
               <div
@@ -82,7 +91,7 @@ const SevaPage = () => {
                 </div>
                 <button
                   className="bg-green-500 text-white px-2 py-1 rounded-tr-lg rounded-bl-lg opacity-100 absolute top-0 right-0" // Updated this line
-                  onClick={()=>handleBookSeva(seva.sevanamee)}
+                  onClick={() => handleBookSeva(seva.sevanamee)}
                 >
                   Book
                 </button>
@@ -91,14 +100,14 @@ const SevaPage = () => {
         </div>
         <div className="flex-1 relative hidden md:block">
           <Image
-              src={Entrance}
-              alt="entrance"
-              layout="fill"
-              className="p-5"
-              objectFit="cover"
-              objectPosition="right"
-              priority
-            />
+            src={Entrance}
+            alt="entrance"
+            layout="fill"
+            className="p-5"
+            objectFit="cover"
+            objectPosition="right"
+            priority
+          />
         </div>
       </div>
     </div>
