@@ -85,6 +85,24 @@ exports.getSingleSeva = asyncErrHandler(async (req, res, next) => {
   res.status(200).json({ message: "Seva found successfully", seva })
 })
 
+exports.getSevaByUserId = asyncErrHandler(async (req, res, next) => {
+  const { userId, _id } = req.params;
+
+  try {
+    const seva = await Seva.findOne({ _id: _id, userId });
+    
+    if (!seva) {
+      return next(errorHandler(404, "Seva not found for the given user"));
+    }
+
+    res.status(200).json({ message: "Seva found successfully", seva });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
 exports.deleteSeva = asyncErrHandler(async (req, res, next) => {
   const {id}=req.body;
   const seva = await Seva.findById(id)

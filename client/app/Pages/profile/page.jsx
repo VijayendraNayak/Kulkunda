@@ -26,18 +26,46 @@ import dynamic from "next/dynamic";
 
 const Profile = () => {
   const { currentUser, loading, error } = useSelector((state) => state.user);
+  const [sevas, setSevas] = useState([]);
   const [formdata, setFormdata] = useState({});
   const [file, setFile] = useState(null);
+  const [userId, setUserId] = useState('');
   const dispatch = useDispatch();
   const fileref = useRef(null);
   const router = useRouter();
   useEffect(() => {
+    const id = currentUser?.userId || '';
+    setUserId(id);
     setFormdata({
       name: currentUser?.name || "", // Use optional chaining here
       email: currentUser?.email || "",
       avatar: currentUser?.avatar || "",
     });
   }, [currentUser]);
+
+  useEffect(() => {
+    // Fetch sevas for a specific user when the component mounts
+    const fetchUserSevas = async () => {
+      try {
+        const response = await fetch(`/api/seva/user/${userId}`); // Adjust the API endpoint as needed
+        const data = await response.json();
+
+        if (response.ok) {
+          setSevas(data.sevas);
+        } else {
+          console.error('Error fetching sevas:', data.error);
+        }
+      } catch (error) {
+        console.error('Error fetching sevas:', error);
+      }
+    };
+
+    fetchUserSevas();
+  }, [userId]); // Include userId in the dependency array to refetch when userId changes
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   useEffect(() => {
     if (file) {
@@ -182,6 +210,13 @@ const Profile = () => {
         <p className="text-red-500 text-center font-semibold">{error}</p>
       )}
       <div className="flex-1">My sevas</div>
+      <ul>
+        {sevas.map((seva) => (
+          <li key={seva._id}>
+            Seva Name: {seva.sevaName}, User Name: {seva.userName}, Date: {seva.dateOfSeva}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
