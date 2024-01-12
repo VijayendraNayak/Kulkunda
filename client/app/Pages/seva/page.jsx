@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { setSevaName } from '../../Redux/Features/counter/sevaslice';
 import Image from "next/image";
 import Entrance from "/app/assets/image/entrance.jpg";
@@ -11,6 +11,7 @@ const SevaPage = () => {
   const [language, setLanguage] = useState("english");
   const [formdata, setFormdata] = useState(null);
   const [sevaname,setSevaname]=useState(null)
+  const {sevaName}=useSelector((state)=>state.seva)
   const router = useRouter();
   const dispatch=useDispatch()
 
@@ -35,13 +36,11 @@ const SevaPage = () => {
     setLanguage(selectedLanguage);
   };
   
-  const handleBookSeva = () => {
+  const handleBookSeva = (name) => {
     router.replace('/Pages/SevaBookingForm');
-    setSevaname("mangalarathi")
-    dispatch(setSevaName(sevaname))
+    setSevaname(name)
+    dispatch(setSevaName(name))
   };
-  console.log(sevaname)
-  
 
   return (
     <div className="pt-20">
@@ -83,7 +82,7 @@ const SevaPage = () => {
                 </div>
                 <button
                   className="bg-green-500 text-white px-2 py-1 rounded-tr-lg rounded-bl-lg opacity-100 absolute top-0 right-0" // Updated this line
-                  onClick={handleBookSeva}
+                  onClick={()=>handleBookSeva(seva.sevanamee)}
                 >
                   Book
                 </button>
