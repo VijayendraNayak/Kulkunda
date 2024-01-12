@@ -15,6 +15,7 @@ const page = () => {
   const [sevalength, setsevaLength] = useState(0);
   const [sevalistlength, setsevalistLength] = useState(0);
   const [newslength, setnewsLength] = useState(0);
+  const [gallerylength, setgalleryLength] = useState(0);
   const { currentUser } = useSelector((state) => state.user);
   useEffect(() => {
     setLoader(true);
@@ -70,6 +71,12 @@ const page = () => {
       const len = data.length;
       setnewsLength(len);
     };
+    const fetchimagesdata = async () => {
+      const res = await fetch("/api/gallery/admin/noofimg");
+      const data = await res.json();
+      const len = data.length;
+      setgalleryLength(len);
+    };
     auth();
     checkcookie();
     fetchdata();
@@ -77,6 +84,7 @@ const page = () => {
     fetchsevadata();
     fetchsevalistdata();
     fetchnewsdata();
+    fetchimagesdata();
     setLoader(false);
   }, []);
 
@@ -103,6 +111,11 @@ const page = () => {
   const newsnumberAnimation = useSpring({
     from: { number: 0 },
     to: { number: newslength },
+    config: { duration: 1000 },
+  });
+  const imagenumberAnimation = useSpring({
+    from: { number: 0 },
+    to: { number: gallerylength },
     config: { duration: 1000 },
   });
   return (
@@ -203,6 +216,20 @@ const page = () => {
               <span className="text-[4em] font-bold">
                 <animated.span className="text-6xl text-white bg-transparent rounded-full p-4">
                   {newsnumberAnimation.number.to((val) => Math.floor(val))}
+                </animated.span>
+              </span>
+            </div>
+          </Link>
+          <Link href="/Pages/Admin/gallery">
+            <div className="flex flex-col items-center w-44 bg-pink-500 hover:bg-pink-700 text-white xl:p-4 lg:p-3 p-2 rounded-lg cursor-pointer">
+              <span className="text-center text-slate-100 xl:text-[1em] lg:text-[0.74em] sm:text-[0.75em] text-[0.9rem]">
+                Number of
+                <br />
+                Images
+              </span>
+              <span className="text-[4em] font-bold">
+                <animated.span className="text-6xl text-white bg-transparent rounded-full p-4">
+                  {imagenumberAnimation.number.to((val) => Math.floor(val))}
                 </animated.span>
               </span>
             </div>
