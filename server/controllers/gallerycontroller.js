@@ -1,5 +1,5 @@
 const { asyncErrHandler } = require('../middleware/asyncerrorHandler')
-const Gallery = require('../models/newsupdatesmodel')
+const Gallery = require('../models/gallerymodel')
 const { errorHandler } = require('../utils/errorHandler')
 
 exports.uploadimage = asyncErrHandler(async (req, res, next) => {

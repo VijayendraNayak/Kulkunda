@@ -70,14 +70,14 @@ const page = () => {
             className="bg-orange-500 text-2xl font-semibold text-white p-4 rounded-lg hover:opacity-75 hover:scale-105"
             onClick={handleclick}
           >
-            Upload images
+            Edit the Gallery
           </button>
           <button
             type="button"
             className="bg-orange-500 text-2xl font-semibold text-white p-4 rounded-lg hover:opacity-75 hover:scale-105"
             onClick={handlecreateclick}
           >
-            Edit the Gallery
+            Upload Images
           </button>
         </div>
       </div>

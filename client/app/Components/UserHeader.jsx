@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
@@ -54,7 +54,7 @@ const UserHeader = ({ loading }) => {
             <span className="text-orange-500 text-2xl">Basaveshwara</span>
           </div>
         </Link>
-        <ul className={`lg:flex md:flex gap-6 lg:items-center `}>
+        <ul className={`lg:flex md:flex gap-6 lg:items-center font-semibold`}>
           <Link href="/">
             <li className="hover:underline text-orange-700 hidden sm:flex">
               Home
@@ -66,16 +66,16 @@ const UserHeader = ({ loading }) => {
             </li>
           </Link>
           <Link href="/Pages/aboutus">
-          <li className="hover:underline text-orange-700 hidden sm:flex">
-            About
-          </li>
+            <li className="hover:underline text-orange-700 hidden sm:flex">
+              About
+            </li>
           </Link>
           <Link href="/Pages/contactus">
             <li className="hover:underline text-orange-700 hidden sm:flex">
               Contact
             </li>
           </Link>
-          {currentUser ? (  
+          {currentUser ? (
             <Link href="/Pages/profile">
               <img
                 className=" rounded-full w-10 h-10 hidden sm:flex"
@@ -89,7 +89,7 @@ const UserHeader = ({ loading }) => {
                 Sign in
               </li>
             </Link>
-           )} 
+          )}
         </ul>
         <button
           className=" sm:hidden text-orange-700 focus:outline-none"
@@ -105,9 +105,11 @@ const UserHeader = ({ loading }) => {
                 <span className="text-orange-500">Basaveshwara</span>
               </h1>
             </Link>
-            <ul className={`flex-col items-center gap-6 `}>
+            <ul className={`flex-col items-center gap-6 font-semibold`}>
               <Link href="/">
-                <li className="hover:underline text-orange-700 sm:hidden">Home</li>
+                <li className="hover:underline text-orange-700 sm:hidden">
+                  Home
+                </li>
               </Link>
               <Link href="/Pages/seva">
                 <li className="hover:underline text-orange-700 sm:hidden">
@@ -124,21 +126,21 @@ const UserHeader = ({ loading }) => {
                   Contact
                 </li>
               </Link>
-              {currentUser ? (  
-            <Link href="/Pages/profile">
-              <img
-                className=" rounded-full w-10 h-10 hidden sm:flex"
-                src={currentUser.avatar}
-                alt="profile"
-              />
-            </Link>
-          ) : (
-            <Link href="/Pages/login">
-              <li className="hover:underline text-orange-700 hidden sm:flex">
-                Sign in
-              </li>
-            </Link>
-           )} 
+              {currentUser ? (
+                <Link href="/Pages/profile">
+                  <img
+                    className=" rounded-full w-10 h-10 hidden sm:flex"
+                    src={currentUser.avatar}
+                    alt="profile"
+                  />
+                </Link>
+              ) : (
+                <Link href="/Pages/login">
+                  <li className="hover:underline text-orange-700 hidden sm:flex">
+                    Sign in
+                  </li>
+                </Link>
+              )}
             </ul>
           </div>
         )}
@@ -147,4 +149,4 @@ const UserHeader = ({ loading }) => {
   );
 };
 
-export default dynamic (() => Promise.resolve(UserHeader), {ssr: false})
+export default dynamic(() => Promise.resolve(UserHeader), { ssr: false });
