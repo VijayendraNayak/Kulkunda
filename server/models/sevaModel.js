@@ -5,7 +5,7 @@ const sevaSchema = new mongoose.Schema({
   username: { type: String, required: true }, // New field
   sevadate: { type: Date, required: true },
   phonenumber: { type: Number, required: true },
-  userid: { type: String, required: true },
+  userId: { type: String, required: true },
 });
 
 const Seva = mongoose.model('Seva', sevaSchema);

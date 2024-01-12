@@ -219,15 +219,19 @@ const Profile = () => {
       {error && (
         <p className="text-red-500 text-center font-semibold">{error}</p>
       )}
-      <div className="flex-1">My sevas</div>
-      <ul>
-        {sevas.map((seva) => (
-          <li key={seva._id}>
-            Seva Name: {seva.sevaName}, User Name: {seva.userName}, Date: {seva.dateOfSeva}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <h2>User Sevas:</h2>
+    <ul>
+      {sevas.map((seva) => (
+        <li key={seva._id}>
+          <p>Seva Name: {seva.sevaName}</p>
+          <p>User Name: {seva.userName}</p>
+          <p>Phone Number: {seva.phoneNumber}</p>
+          <p>Seva Date: {seva.sevaDate}</p>
+          {/* Add more details as needed */}
+        </li>
+      ))}
+    </ul>
+  </div>
   );
 };
 

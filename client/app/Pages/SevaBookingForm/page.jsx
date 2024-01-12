@@ -64,7 +64,7 @@ const SevaBookingForm = () => {
 
   return (
     <div className="flex flex-col md:flex-row">
-      {loading && <Loader/>}
+      {loader && <Loader/>}
       <div className="w-full md:w-1/3 p-8 min-h-screen ">
         <h2 className="text-3xl font-bold tracking-tight mb-6 mt-10 text-center">
           Seva Booking Form

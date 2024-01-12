@@ -25,20 +25,20 @@ exports.createSeva = async (req, res) => {
   }
 };
 
-exports.getSeva = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const seva = await Seva.findById(id);
-    if (!seva) {
-      res.status(404).json({ error: 'Seva not found' });
-    } else {
-      res.json(seva);
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-};
+// exports.getSeva = async (req, res) => {
+//   const { _id } = req.params;
+//   try {
+//     const seva = await Seva.findById(_id);
+//     if (!seva) {
+//       res.status(404).json({ error: 'Seva not found' });
+//     } else {
+//       res.json(seva);
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// };
 
 exports.updateSeva = async (req, res) => {
   const { id } = req.params;
@@ -56,20 +56,20 @@ exports.updateSeva = async (req, res) => {
   }
 };
 
-exports.deleteSeva = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const deletedSeva = await Seva.findByIdAndDelete(id);
-    if (!deletedSeva) {
-      res.status(404).json({ error: 'Seva not found' });
-    } else {
-      res.json(deletedSeva);
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-};
+// exports.deleteSeva = async (req, res) => {
+//   const { id } = req.params;
+//   try {
+//     const deletedSeva = await Seva.findByIdAndDelete(id);
+//     if (!deletedSeva) {
+//       res.status(404).json({ error: 'Seva not found' });
+//     } else {
+//       res.json(deletedSeva);
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// };
 
 exports.numberOfSevas = asyncErrHandler(async (req, res, next) => {
   const length = await Seva.countDocuments()
@@ -86,21 +86,24 @@ exports.getSingleSeva = asyncErrHandler(async (req, res, next) => {
 })
 
 exports.getSevaByUserId = asyncErrHandler(async (req, res, next) => {
-  const { userId, _id } = req.params;
-
+  const { userId } = req.params;
+  console.log(userId)
   try {
-    const seva = await Seva.findOne({ _id: _id, userId });
-    
-    if (!seva) {
-      return next(errorHandler(404, "Seva not found for the given user"));
+    const sevas = await Seva.find({ userId });  // Using userId directly in the query
+    if (sevas.length > 0) {
+      // Documents matching the userId were found
+      console.log(sevas);
+      res.status(200).json({ message: "Sevas found successfully", sevas });
+    } else {
+      // No documents found for the specified userId
+      return next(errorHandler(404, "Sevas not found for the given user"));
     }
-
-    res.status(200).json({ message: "Seva found successfully", seva });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 
 exports.deleteSeva = asyncErrHandler(async (req, res, next) => {
