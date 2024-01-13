@@ -133,7 +133,7 @@ const Profile = () => {
       }
       dispatch(updateSuccess(data.user));
       console.log("here");
-      router.replace("/");
+      window.location.reload()
     } catch (error) {
       dispatch(updateFailure(error));
     }
