@@ -111,4 +111,18 @@ exports.getSingleSeva = asyncErrHandler(async (req, res, next) => {
   
     res.status(200).json({ message: "Seva found successfully", seva });
   });
-  
+  exports.getSingleSevaById = asyncErrHandler(async (req, res, next) => {
+    const sevaId = req.params.id;
+
+    if (!sevaId) {
+        return next(errorHandler(400, "Invalid Seva ID"));
+    }
+
+    const seva = await Sevalist.findById(sevaId);
+
+    if (!seva) {
+        return next(errorHandler(404, "Seva not found"));
+    }
+
+    res.status(200).json({ success: true, message: "Seva found successfully", seva });
+});

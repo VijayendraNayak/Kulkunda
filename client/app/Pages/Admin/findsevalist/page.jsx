@@ -1,22 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import Modal from "react-modal";
+import { useRouter } from "next/navigation";
 
 const FindUser = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sevaList, setSevaList] = useState([]);
   const [found, setFound] = useState(false);
-  const [remove, setRemove] = useState(false);
   const [searchCategory, setSearchCategory] = useState("sevanamee");
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [editedData, setEditedData] = useState({
-    sevanamee: "",
-    sevanamek: "",
-    sevanameh: "",
-    price: 0,
-    // Add more fields as needed
-  });
+  const router = useRouter(); // Initialize the Next.js router
 
   const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
@@ -56,7 +49,6 @@ const FindUser = () => {
 
       setSevaList(data.seva);
       setFound(true);
-      setRemove(false);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -66,50 +58,32 @@ const FindUser = () => {
     setSearchTerm("");
     setFound(false);
     setSevaList([]);
-    setRemove(false);
   };
 
-  const openModal = () => {
-    setModalIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalIsOpen(false);
-  };
-
-  const handleEdit = (seva) => {
-    setEditedData({
-      sevanamee: seva.sevanamee || "",
-      sevanamek: seva.sevanamek || "",
-      sevanameh: seva.sevanameh || "",
-      price: seva.price || 0,
-      // Update with more fields as needed
-    });
-    openModal();
-  };
-
-  const handleUpdate = async (sevaId) => {
+  const handleDelete = async (sevaId) => {
     try {
-      const res = await fetch(`/api/sevalist/admin/updateseva/${sevaId}`, {
-        method: "PUT",
+      const res = await fetch(`/api/sevalist/admin/deleteseva/${sevaId}`, {
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(editedData),
       });
 
       const data = await res.json();
 
       if (data.success) {
-        console.log(`Seva ID ${sevaId} updated successfully`);
-        handleSearch();
-        closeModal(); // Close the modal after successful update
+        console.log(`Seva ID ${sevaId} deleted successfully`);
+        handleSearch(); // Refresh the search results after deletion
       } else {
-        console.error("Update failed:", data.message);
+        console.error("Deletion failed:", data.message);
       }
     } catch (error) {
-      console.error("Error during update:", error);
+      console.error("Error during deletion:", error);
     }
+  };
+
+  const handleEdit = (sevaId) => {
+    router.push(`/Pages/Admin/editsevalist/${sevaId}`);
   };
 
   return (
@@ -145,11 +119,6 @@ const FindUser = () => {
       </form>
 
       <div className="pt-4">
-        {remove && !found && (
-          <p className="text-red-500 font-semibold text-5xl text-center">
-            Query deleted Successfully!!!!
-          </p>
-        )}
         {found && sevaList.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {sevaList.map((seva, index) => (
@@ -158,10 +127,10 @@ const FindUser = () => {
                 <div className="mb-2">Name (Kannada): {seva.sevanamek}</div>
                 <div className="mb-2">Name (English): {seva.sevanamee}</div>
                 <div>Price: {seva.price}</div>
-                <div className="mt-4 flex justify-between">
+                <div className="mt-4 flex justify-center">
                   <button
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                    onClick={() => handleEdit(seva)}
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mr-2"
+                    onClick={() => handleEdit(seva._id)}
                   >
                     Edit
                   </button>
@@ -177,32 +146,6 @@ const FindUser = () => {
           </div>
         )}
       </div>
-
-      {/* Modal for editing data */}
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        className="Modal"
-        overlayClassName="Overlay"
-      >
-        <h2>Edit Seva</h2>
-        <form>
-          {/* Render a form with input fields for each property in editedData */}
-          <label>
-            Name (English):
-            <input
-              type="text"
-              value={editedData.sevanamee}
-              onChange={(e) =>
-                setEditedData({ ...editedData, sevanamee: e.target.value })
-              }
-            />
-          </label>
-          {/* Add more fields as needed */}
-          <button onClick={() => handleUpdate(editedData._id)}>Update</button>
-          <button onClick={closeModal}>Cancel</button>
-        </form>
-      </Modal>
     </div>
   );
 };
