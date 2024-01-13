@@ -31,8 +31,10 @@
     "react-redux": "^9.0.4",
     "react-router-dom": "^6.21.1",
     "react-spring": "^9.7.3",
+    "react-youtube": "^10.1.0",
     "redux-persist": "^6.0.0",
     "slick-carousel": "^1.8.1",
+    "styled-components": "^6.1.8",
     "universal-cookie": "^7.0.1"
   },
   "devDependencies": {
