@@ -2,34 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { RiDeleteBin6Line } from "react-icons/ri";
 
 const page = () => {
   const router = useRouter();
   const [formdata, setFormdata] = useState([]);
   useEffect(() => {
-    const auth = () => {
-      const isLoggedIn = !!localStorage.getItem("userToken");
-      const userRole = localStorage.getItem("userRole");
-      const isAdmin =
-        userRole === "admin" && userRole !== null && userRole !== undefined;
-      if (!isLoggedIn) {
-        router.replace("/Pages/login");
-      }
-      if (!isAdmin) {
-        router.replace("/Pages/login");
-        console.log("The user should be admin to access this page");
-      }
-    };
-    const checkcookie = async () => {
-      const res = await fetch("/api/user/checkcookies");
-      const data = await res.json();
-      if (data.success === false) {
-        console.log(data.message);
-        router.replace("/Pages/login");
-        return;
-      }
-    };
+    
     const fetchdata = async () => {
       const res = await fetch("/api/gallery/admin/noofimg");
       const data = await res.json();
@@ -39,9 +17,7 @@ const page = () => {
       }
       setFormdata(data.gallery);
     };
-    auth();
     fetchdata();
-    checkcookie();
   }, []);
   return (
     <div className="container mx-auto py-20 px-10">

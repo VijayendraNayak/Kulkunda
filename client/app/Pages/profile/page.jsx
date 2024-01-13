@@ -150,7 +150,7 @@ const Profile = () => {
       }
       dispatch(signoutSuccess(data));
       router.replace("/Pages/login");
-      localStorage.clear();
+      window.location.reload()
     } catch (error) {
       dispatch(signoutFailure(error));
     }

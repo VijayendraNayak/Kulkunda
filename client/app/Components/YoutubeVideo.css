@@ -1,0 +1,38 @@
+/* YoutubeVideo.css */
+
+.youtube-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio for responsive sizing */
+    height: 0;
+    overflow: hidden;
+  }
+  
+  .youtube-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Responsive styles for small devices (up to 600px) */
+  @media (max-width: 600px) {
+    .youtube-container {
+      padding-bottom: 75%; /* Adjust the aspect ratio for small screens */
+    }
+  }
+  
+  /* Responsive styles for medium devices (601px to 1024px) */
+  @media (min-width: 601px) and (max-width: 1024px) {
+    .youtube-container {
+      padding-bottom: 66.67%; /* Adjust the aspect ratio for medium screens */
+    }
+  }
+  
+  /* Responsive styles for large devices (1025px and above) */
+  @media (min-width: 1025px) {
+    .youtube-container {
+      padding-bottom: 56.25%; /* Reset to the original aspect ratio for large screens */
+    }
+  }
+  

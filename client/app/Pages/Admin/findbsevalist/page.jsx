@@ -6,13 +6,6 @@ const AdminSevaPage = () => {
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    setLoader(true);
-
-    const verifyUser = () => {
-      // ... (existing verifyUser logic)
-    };
-
     const fetchBookedSevas = async () => {
       try {
         setLoader(true);
@@ -30,15 +23,12 @@ const AdminSevaPage = () => {
       }
     };
 
-    const checkCookie = async () => {
-      // ... (existing checkCookie logic)
-    };
-
-    verifyUser();
+useEffect(() => {
+    setLoader(true);
     fetchBookedSevas();
-    checkCookie();
   }, []);
 
+  
   const handleDelete = async (sevaId) => {
     try {
       setLoader(true);

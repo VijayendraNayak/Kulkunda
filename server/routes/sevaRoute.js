@@ -4,7 +4,7 @@ const sevaController = require('../controllers/sevaController');
 const { isAuthenticated, authorizeRoles } = require('../middleware/Authenticated');
 
 // router.get('/',sevaController.getSevas);
-router.post('/', sevaController.createSeva);
+router.post('/submit',isAuthenticated, sevaController.createSeva);
 // router.get('/:id', sevaController.getSeva);
 router.put('/:id',isAuthenticated, authorizeRoles('admin'), sevaController.updateSeva);
 // router.delete('/:id',isAuthenticated, authorizeRoles('admin'), sevaController.deleteSeva);
@@ -13,5 +13,6 @@ router.post('/admin/singleseva',isAuthenticated, authorizeRoles('admin'), sevaCo
 router.post('/admin/deleteseva',isAuthenticated, authorizeRoles('admin'), sevaController.deleteSeva);
 router.get('/user/:userId', isAuthenticated, authorizeRoles('user'), sevaController.getSevaByUserId);
 router.get('/admin/allbookedsevas',isAuthenticated, authorizeRoles('admin'), sevaController.getSevas);
+router.post('/admin/delete/:id',isAuthenticated, authorizeRoles('admin'), sevaController.deleteSeva);
 
 module.exports = router;

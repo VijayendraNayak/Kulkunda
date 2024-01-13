@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import NewsUpdatesForm from "../newsupdateform/page"; 
-import { useRouter } from "next/router";// Adjust the path as per your actual file structure
+import { useRouter } from "next/navigation";// Adjust the path as per your actual file structure
+
 const FindNewsUpdates = () => {
   // State for search parameters, news data, search result status, and selected search category
   const [searchTerm, setSearchTerm] = useState("");
@@ -16,7 +17,9 @@ const FindNewsUpdates = () => {
   const openEditForm = (newsUpdate) => {
     setSelectedNewsUpdate(newsUpdate);
   };
-  
+
+  const router = useRouter();
+
   // Handle input changes for search parameters
   const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
@@ -97,6 +100,11 @@ const FindNewsUpdates = () => {
     }
   };
 
+  // Handle navigating to the update page
+  const handleEdit = (newsId) => {
+    router.push(`/Pages/Admin/updatenews/${newsId}`);
+  };
+
   return (
     <div className="pt-28 h-screen">
       <form className="flex items-center justify-between max-w-lg mx-auto bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-4 rounded-full">
@@ -146,7 +154,7 @@ const FindNewsUpdates = () => {
                     Avatar: <img src={newsUpdate.avatar[0]} alt="Avatar" />
                   </div>
                 )}
-                <div className="mt-4 flex justify-between">
+                <div className="mt-4">
                   <button
                     className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
                     onClick={() => handleDelete(newsUpdate._id)}
@@ -154,8 +162,8 @@ const FindNewsUpdates = () => {
                     Delete
                   </button>
                   <button
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                    onClick={() => openEditForm(newsUpdate)}
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 ml-2"
+                    onClick={() => handleEdit(newsUpdate._id)}
                   >
                     Edit
                   </button>
@@ -165,15 +173,14 @@ const FindNewsUpdates = () => {
           </div>
         )}
       </div>
-       {/* Pass the selected news update to the NewsUpdatesForm component */}
-    {selectedNewsUpdate && (
-      <NewsUpdatesForm
-        selectedNewsUpdate={selectedNewsUpdate}
-        onClose={() => setSelectedNewsUpdate(null)} // Close the form when needed
-      />
-    )}
-  </div>
-   
+      {/* Pass the selected news update to the NewsUpdatesForm component */}
+      {selectedNewsUpdate && (
+        <NewsUpdatesForm
+          selectedNewsUpdate={selectedNewsUpdate}
+          onClose={() => setSelectedNewsUpdate(null)} // Close the form when needed
+        />
+      )}
+    </div>
   );
 };
 

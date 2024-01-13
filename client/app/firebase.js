@@ -1,19 +1,20 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+const dotenv = require("dotenv");
+dotenv.config({ path: "client/config.env" });
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyCAf3_nItP9NS8t__PZ1OiLmDAt_-JK-z8",
-  authDomain: "kulkunda-temple-project.firebaseapp.com",
-  projectId: "kulkunda-temple-project",
-  storageBucket: "kulkunda-temple-project.appspot.com",
-  messagingSenderId: "509123099353",
-  appId: "1:509123099353:web:44ea7f6e2253c363005cc8",
-  measurementId: "G-9L3499K2P1"
+  apiKey: "AIzaSyDbdZWAsF4W4dJEnOC330nmRDKxjLikbzc",
+  authDomain: "kulkunda-basaveshwara.firebaseapp.com",
+  projectId: "kulkunda-basaveshwara",
+  storageBucket: "kulkunda-basaveshwara.appspot.com",
+  messagingSenderId: "529539806098",
+  appId: "1:529539806098:web:759cd3089dd73fad9d074b"
 };
 
 // Initialize Firebase
