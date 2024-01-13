@@ -1,47 +1,72 @@
-"use client"
-import React from 'react';
+"use client";
 
-const Gallery = () => {
-  const images = [
-    'Enter the url',
-    'https://placekitten.com/300/200',
-    
-  ];
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
+const page = () => {
+  const router = useRouter();
+  const [formdata, setFormdata] = useState([]);
+  useEffect(() => {
+    const auth = () => {
+      const isLoggedIn = !!localStorage.getItem("userToken");
+      const userRole = localStorage.getItem("userRole");
+      const isAdmin =
+        userRole === "admin" && userRole !== null && userRole !== undefined;
+      if (!isLoggedIn) {
+        router.replace("/Pages/login");
+      }
+      if (!isAdmin) {
+        router.replace("/Pages/login");
+        console.log("The user should be admin to access this page");
+      }
+    };
+    const checkcookie = async () => {
+      const res = await fetch("/api/user/checkcookies");
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        router.replace("/Pages/login");
+        return;
+      }
+    };
+    const fetchdata = async () => {
+      const res = await fetch("/api/gallery/admin/noofimg");
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        return;
+      }
+      setFormdata(data.gallery);
+    };
+    auth();
+    fetchdata();
+    checkcookie();
+  }, []);
   return (
-    <div style={styles.container}>
-      <h1 className='mt-20 font-semibold underline text-2xl ' style={styles.heading}>Gallery</h1>
-      <div style={styles.gallery}>
-        {images.map((imageUrl, index) => (
-          <img key={index} src={imageUrl} alt={`Image ${index + 1}`} style={styles.image} />
+    <div className="container mx-auto py-20 px-10">
+      <div className="font-semibold text-6xl text-orange-500 text-center pb-10">
+        Gallery
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        {formdata.map((image) => (
+          <div
+            key={image._id}
+            className="relative overflow-hidden rounded-lg shadow-md aspect-w-1 aspect-h-1 hover:opacity-80"
+          >
+            <img
+              src={image.avatar}
+              alt={image.title}
+              className="object-cover w-full h-full transition-opacity duration-300 ease-in-out hover:opacity-75"
+            />
+            <div className="p-4">
+              <p className="text-lg font-semibold">{image.title}</p>
+            </div>
+          </div>
         ))}
       </div>
     </div>
   );
 };
 
-const styles = {
-  container: {
-    maxWidth: '1200px',
-    margin: 'auto',
-    padding: '20px',
-  },
-  heading: {
-    fontSize: '2rem',
-    marginBottom: '20px',
-    textAlign: 'center',
-  },
-  gallery: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-    gap: '20px',
-  },
-  image: {
-    width: '100%',
-    height: 'auto',
-    borderRadius: '8px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-  },
-};
-
-export default Gallery;
+export default page;
