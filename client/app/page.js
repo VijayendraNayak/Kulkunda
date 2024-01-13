@@ -19,7 +19,7 @@ const Page = () => {
         <div className='w-full lg:w-1/3 md:w-1/2 hidden lg:block ml-20'>
           <Image
             src={Temple}
-            className='ml-20 mt-5'
+            className='ml-20 mt-5 rounded-lg'
             alt="register background image"
             objectFit="cover"
             width={250}
@@ -50,8 +50,8 @@ const Page = () => {
         <div className='w-full lg:w-1/3 md:w-1/2 hidden lg:block'>
           <Image
               src={Temple6}
-              className=' p-10'
-              alt="register background image"
+              className='p-10 rounded-lg'
+              alt="home image 2"
               objectFit="cover"
               width={500}
               height={250}
