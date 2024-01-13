@@ -7,6 +7,7 @@ import Image from "next/image";
 import Entrance from "/app/assets/image/entrance.jpg";
 import Loader from "../../Components/Loader";
 
+
 const SevaPage = () => {
   const [language, setLanguage] = useState("english");
   const [formdata, setFormdata] = useState(null);
