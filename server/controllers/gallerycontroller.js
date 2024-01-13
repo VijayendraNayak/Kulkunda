@@ -13,3 +13,10 @@ exports.noofimg = asyncErrHandler(async (req, res, next) => {
     if (!length) { return next(errorHandler(403, "There are no Images in the database")) }
     res.status(200).json({ message: "Num of Images:", length, gallery })
 })
+exports.deleteimg = async (req, res, next) => {
+    let image = await Gallery.findById(req.params.id)
+    if (!image) { return next(404,"Image not found") }
+    await Gallery.findByIdAndDelete(req.params.id).then(() => {
+        res.status(200).json({ succses: true, message: "Image deleted successfully" })
+    })
+}
