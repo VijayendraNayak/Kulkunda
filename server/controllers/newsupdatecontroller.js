@@ -77,3 +77,19 @@ exports.updateNews = asyncErrHandler(async (req, res, next) => {
 
   res.status(200).json({ message: "News updated successfully", success: true, updatedNews });
 });
+const mongoose = require('mongoose');
+
+exports.getNewsById = asyncErrHandler(async (req, res, next) => {
+  const {newsId}  = req.params;
+
+  // Validate if newsId is a valid ObjectId
+
+
+  const news = await NewsUpdates.findById(newsId);
+
+  if (!news) {
+    return next(errorHandler(404, "News not found"));
+  }
+
+  res.status(200).json({ message: "News retrieved successfully by ID", news });
+});
