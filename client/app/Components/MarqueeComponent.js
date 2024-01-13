@@ -26,16 +26,16 @@ const MarqueeComponent = () => {
   }, []);
 
   return (
-    <div id="maindiv">
+    <div id="maindiv" className="overflow-hidden h-20 md:h-32 lg:h-40">
         <div id="div1" className="marquee-content">
-            <Link href="/Pages/news">
+            <Link href="/Pages/News">
                 <p className="text-black-500 cursor-pointer hover:scale-100 hover:underline">
                 Seva and Darshana
               </p>
             </Link>
         </div>
         <div id="div2" className="marquee-content">
-            <Link href="/Pages/news">
+            <Link href="/Pages/News">
                 <p className="text-black-500 cursor-pointer hover:scale-100 hover:underline">
                    New User?
                 </p>

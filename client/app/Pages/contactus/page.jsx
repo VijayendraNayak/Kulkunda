@@ -105,6 +105,9 @@ setLoader(false)
               Phone Numbers
             </h3>
             <div className="flex items-center">
+              <p className="text-gray-700">President: 9448624775 </p>
+            </div>
+            <div className="flex items-center mt-2">
               <p className="text-gray-700">Mobile: 9482624747</p>
             </div>
             <div className="flex items-center mt-2">
@@ -125,7 +128,7 @@ setLoader(false)
                 <path d="M10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z" />
                 <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z" />
               </svg>
-              <p className="text-gray-700">abc@gmail.com</p>
+              <p className="text-gray-700">shreebasaveshwaratemplekulkund@gmail.com</p>
             </div>
           </div>
         </div>
@@ -144,13 +147,12 @@ setLoader(false)
       </div>
 
       <div className="w-full md:w-1/2 p-8  min-h-screen ">
-        <h2 className="text-3xl font-bold tracking-tight mb-6">Enquire form</h2>
         {/*enquire form*/}
         <form
           action="#"
           method="POST"
           onSubmit={handleSubmit}
-          className="w-full max-w-md p-8 bg-orange-100 rounded-lg shadow-lg"
+          className="w-full max-w-md p-8 bg-orange-100 rounded-lg shadow-lg mt-8"
         >
           <h2 className="text-3xl font-bold tracking-tight mb-6">
             Enquire form

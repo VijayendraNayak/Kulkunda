@@ -75,6 +75,11 @@ const UserHeader = ({ loading }) => {
               Contact
             </li>
           </Link>
+          <Link href="/Pages/gallery">
+            <li className="hover:underline text-orange-700 hidden sm:flex">
+              Gallery
+            </li>
+          </Link>
           {currentUser ? (
             <Link href="/Pages/profile">
               <img
