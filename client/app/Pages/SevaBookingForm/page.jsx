@@ -34,33 +34,57 @@ const SevaBookingForm = () => {
     checkcookie()
   }, []);
   
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState(
+    {sevaName: sevaName,
+    username: "", 
+    phonenumber: "",
+    sevadate: "",
+    userId: "",
+});
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
+    setFormData({ ...formData, [e.target.id]: e.target.value });
   };
-
-  const handleSubmit = (e) => {
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Handle form submission logic here
-    // You can send the form data to your server or perform other actions
+    try {
+      setLoader(true);
 
-    // For demonstration purposes, we'll just show an alert
-    setShowAlert(true);
-    // You can also hide the alert after a certain time using setTimeout
-    setTimeout(() => {
-      setShowAlert(false);
-    }, 5000);
-  };
-   useEffect(() => {
-    if (currentUser) {
-      setFormData((prevData) => ({ ...prevData, userid: currentUser._id }));
+      // Assuming you have an endpoint on your server to handle Seva booking
+      const response = await fetch("/api/seva/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          sevaName,
+          userId: currentUser._id, 
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to book Seva");
+      }
+
+      setShowAlert(true);
+
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 5000);
+    } catch (error) {
+      console.error("Error booking Seva:", error.message);
+    } finally {
+      setLoader(false);
     }
-  }, [currentUser]);
+  };
+
+  useEffect(() => {
+    if (currentUser) {
+      setFormData((prevData) => ({ ...prevData, userId: currentUser._id }));
+    }
+  }, [currentUser]);  
 
   return (
     <div className="flex flex-col md:flex-row">
@@ -87,7 +111,7 @@ const SevaBookingForm = () => {
                 <input
                   type="text"
                   name="sevaName"
-                  id="sevaname"
+                  id="sevaName"
                   value={sevaName ? sevaName : " "}
                   className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 hover:scale-105 hover:shadow-lg"
                   disabled
@@ -96,7 +120,7 @@ const SevaBookingForm = () => {
             </div>
             <div className="sm:col-span-2">
               <label
-                htmlFor="userName"
+                htmlFor="username"
                 className="block text-sm font-semibold leading-6 text-gray-900"
               >
                 User Name
@@ -104,9 +128,9 @@ const SevaBookingForm = () => {
               <div className="mt-2.5">
                 <input
                   type="text"
-                  name="userName"
+                  name="username"
                   id="username"
-                  value={formData.userName}
+                  value={formData.username}
                   className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 hover:scale-105 hover:shadow-lg"
                   onChange={handleChange}
                 />
@@ -114,17 +138,17 @@ const SevaBookingForm = () => {
             </div>
             <div className="sm:col-span-2">
               <label
-                htmlFor="phoneNumber"
+                htmlFor="phonenumber"
                 className="block text-sm font-semibold leading-6 text-gray-900"
               >
                 Phone Number
               </label>
               <div className="relative mt-2.5">
                 <input
-                  type="tel"
-                  name="phoneNumber"
+                  type="text"
+                  name="phonenumber"
                   id="phonenumber"
-                  value={formData.phoneNumber}
+                  value={formData.phonenumber}
                   className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 hover:scale-105 hover:shadow-lg"
                   onChange={handleChange}
                 />
@@ -132,7 +156,7 @@ const SevaBookingForm = () => {
             </div>
             <div className="sm:col-span-2">
               <label
-                htmlFor="sevaDate"
+                htmlFor="sevadate"
                 className="block text-sm font-semibold leading-6 text-gray-900"
               >
                 Seva Date
@@ -140,9 +164,9 @@ const SevaBookingForm = () => {
               <div className="mt-2.5">
                 <input
                   type="date"
-                  name="sevaDate"
+                  name="sevadate"
                   id="sevadate"
-                  value={formData.sevaDate}
+                  value={formData.sevadate}
                   className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 hover:scale-105 hover:shadow-lg"
                   onChange={handleChange}
                 />
