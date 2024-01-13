@@ -13,10 +13,16 @@ exports.getSevas = async (req, res) => {
 };
 
 exports.createSeva = async (req, res) => {
-  const { sevaName, name, dateOfSeva,phonenumber,userid } = req.body; // Added 'name' field
+  const { sevaname, username, phonenumber, sevadate, userId } = req.body;
+
+  // Check if all required fields are present
+  if (!sevaname || !username || !phonenumber || !sevadate || !userId) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
 
   try {
-    const newSeva = new Seva({ sevaName, name, dateOfSeva,phonenumber,userid }); // Updated model instantiation
+    // Assuming _id is not provided in the request body, MongoDB will generate it
+    const newSeva = new Seva({ sevaname, username, phonenumber, sevadate: new Date(sevadate), userId });
     await newSeva.save();
     res.json(newSeva);
   } catch (error) {
@@ -24,6 +30,8 @@ exports.createSeva = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+
 
 // exports.getSeva = async (req, res) => {
 //   const { _id } = req.params;
@@ -56,20 +64,24 @@ exports.updateSeva = async (req, res) => {
   }
 };
 
-// exports.deleteSeva = async (req, res) => {
-//   const { id } = req.params;
-//   try {
-//     const deletedSeva = await Seva.findByIdAndDelete(id);
-//     if (!deletedSeva) {
-//       res.status(404).json({ error: 'Seva not found' });
-//     } else {
-//       res.json(deletedSeva);
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   }
-// };
+exports.deleteSeva = asyncErrHandler(async (req, res ) => {
+  const sevaId = req.params.id;
+
+  try {
+    // Check if the seva with the given ID exists
+    const seva = await Seva.findById(sevaId);
+    if (!seva) {
+      return res.status(404).json({ error: 'Seva not found' });
+    }
+
+    // Delete the seva
+    await Seva.findByIdAndDelete(sevaId);
+    res.status(200).json({ success: true, message: 'Seva deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting seva:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 exports.numberOfSevas = asyncErrHandler(async (req, res, next) => {
   const length = await Seva.countDocuments()
@@ -106,10 +118,10 @@ exports.getSevaByUserId = asyncErrHandler(async (req, res, next) => {
 
 
 
-exports.deleteSeva = asyncErrHandler(async (req, res, next) => {
-  const {id}=req.body;
-  const seva = await Seva.findById(id)
-  if (!seva) { return next(errorHandler(404, "The seva doesnot exist")) }
-  await Seva.findByIdAndDelete(id)
-  res.status(200).json({ success:true,message: "Seva deleted successfully" })
-})
+// exports.deleteSeva = asyncErrHandler(async (req, res, next) => {
+//   const {id}=req.body;
+//   const seva = await Seva.findById(id)
+//   if (!seva) { return next(errorHandler(404, "The seva doesnot exist")) }
+//   await Seva.findByIdAndDelete(id)
+//   res.status(200).json({ success:true,message: "Seva deleted successfully" })
+// })
