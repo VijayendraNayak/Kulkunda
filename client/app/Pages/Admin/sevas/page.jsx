@@ -69,6 +69,9 @@ const page = () => {
   };
   const handlesevalistclick=()=>{
     router.replace("/Pages/Admin/findsevalist")
+  };
+  const handlebookedclick=()=>{
+    router.replace("/Pages/Admin/findbsevalist")
   }
 
   return (
@@ -101,6 +104,12 @@ const page = () => {
                 onClick={handlesevaclick}
               >
                 Delete a booked seva
+              </button>
+              <button
+                type="button"
+                className="bg-orange-500 text-xl font-semibold text-white p-3 rounded-lg hover:opacity-75 hover:scale-105"
+                onClick={handlebookedclick}
+              >All Booked Sevas
               </button>
             </div>
           </div>

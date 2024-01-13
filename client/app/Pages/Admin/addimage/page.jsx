@@ -48,25 +48,40 @@ const addimage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     try {
-      const res = await fetch("/api/gallery/admin/upload", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formdata),
+      const imagePromises = formdata.avatar.map(async (image) => {
+        const res = await fetch("/api/gallery/admin/upload", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ avatar: [image] }), // Send only the current image in the array
+        });
+  
+        const data = await res.json();
+  
+        if (data.success === false) {
+          return Promise.reject(data);
+        }
+  
+        return data;
       });
-      const data = await res.json();
-      if (data.success === false) {
-        return;
-      }
-      setFormdata(data);
+  
+      const imageDataArray = await Promise.all(imagePromises);
+  
+      // Process the imageDataArray if needed
+  
       setCreate(true);
-      router.replace("/Pages/Admin/dashboard")
+      router.replace("/Pages/Admin/dashboard");
     } catch (error) {
-      console.log({ error });
+      console.error("Error uploading images:", error);
+      // Handle error as needed
     }
   };
+  
+
+
   const handleimagesubmit = () => {
     setUploading(true);
     if (files.length > 0 && files.length + formdata.avatar.length < 7) {
@@ -94,6 +109,8 @@ const addimage = () => {
       setUploading(false);
     }
   };
+
+
   const storefiles = async (file) => {
     return new Promise((resolve, reject) => {
       const storage = getStorage(app);
