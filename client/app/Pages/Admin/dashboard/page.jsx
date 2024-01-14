@@ -72,7 +72,7 @@ const page = () => {
       setnewsLength(len);
     };
     const fetchimagesdata = async () => {
-      const res = await fetch("/api/gallery/admin/noofimg");
+      const res = await fetch("/api/gallery/noofimg");
       const data = await res.json();
       const len = data.length;
       setgalleryLength(len);

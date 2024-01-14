@@ -31,7 +31,7 @@ const page = () => {
       }
     };
     const fetchdata = async () => {
-      const res = await fetch("/api/gallery/admin/noofimg");
+      const res = await fetch("/api/gallery/noofimg");
       const data = await res.json();
       if (data.success === false) {
         console.log(data.message);

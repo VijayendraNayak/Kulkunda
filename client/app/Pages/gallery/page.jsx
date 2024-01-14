@@ -9,7 +9,7 @@ const page = () => {
   useEffect(() => {
     
     const fetchdata = async () => {
-      const res = await fetch("/api/gallery/admin/noofimg");
+      const res = await fetch("/api/gallery/noofimg");
       const data = await res.json();
       if (data.success === false) {
         console.log(data.message);
@@ -19,6 +19,7 @@ const page = () => {
     };
     fetchdata();
   }, []);
+
   return (
     <div className="container mx-auto py-20 px-10">
       <div className="font-semibold text-6xl text-orange-500 text-center pb-10">
