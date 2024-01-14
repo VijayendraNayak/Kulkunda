@@ -1,10 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,  useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setSevaName } from "../../../Redux/Features/counter/sevaslice";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import Loader from "../../../Components/Loader";
+
 
 const Addseva = () => {
   const [formdata, setFormdata] = useState();
@@ -44,7 +45,7 @@ const Addseva = () => {
     setLoader(false)
   });
   const handleonclick = () => {
-    router.replace("/Pages/Admin/addseva");
+    window.location.reload();
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
