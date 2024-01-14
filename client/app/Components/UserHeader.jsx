@@ -80,6 +80,11 @@ const UserHeader = ({ loading }) => {
               Gallery
             </li>
           </Link>
+          <Link href="/Pages/News">
+            <li className="hover:underline text-orange-700 hidden sm:flex">
+              News&Updates
+            </li>
+          </Link>
           {currentUser ? (
             <Link href="/Pages/profile">
               <img
@@ -129,6 +134,16 @@ const UserHeader = ({ loading }) => {
               <Link href="/Pages/contactus">
                 <li className="hover:underline text-orange-700 sm:hidden">
                   Contact
+                </li>
+              </Link>
+              <Link href="/Pages/gallery">
+                <li className="hover:underline text-orange-700 hidden sm:flex">
+                  Gallery
+                </li>
+              </Link>
+              <Link href="/Pages/News">
+                <li className="hover:underline text-orange-700 hidden sm:flex">
+                  News&Updates
                 </li>
               </Link>
               {currentUser ? (

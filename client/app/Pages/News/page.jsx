@@ -39,12 +39,16 @@ const FindNewsUpdates = () => {
     };
 
     fetchNewsUpdates();
-  }, [searchCategory]);  // Added searchCategory as a dependency to re-run when it changes
+  }, [searchCategory]); // Added searchCategory as a dependency to re-run when it changes
 
   // Handle input changes for search parameters
   const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
   };
+
+  useEffect(() => {
+    handleSearchDefault();
+  }, []);
 
   // Handle changes in the selected search category
   const handleCategoryChange = (e) => {
@@ -59,10 +63,8 @@ const FindNewsUpdates = () => {
       // Build the request body based on the selected search category
       const requestBody = {
         [searchCategory]: searchTerm,
-        description:
-          searchCategory === "description" ? searchTerm : undefined,
-        reffernces:
-          searchCategory === "reffernces" ? searchTerm : undefined,
+        description: searchCategory === "description" ? searchTerm : undefined,
+        reffernces: searchCategory === "reffernces" ? searchTerm : undefined,
       };
 
       // Fetch news updates based on the search criteria
@@ -131,8 +133,8 @@ const FindNewsUpdates = () => {
   };
 
   return (
-    <div className="pt-28" style={{ maxHeight: "calc(100vh - 100px)" }}>
-      <form className="flex items-center justify-between max-w-lg mx-auto bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-4 rounded-full">
+    <div className="py-28 px-10">
+      <form className="flex items-center justify-between max-w-lg mx-auto bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 p-4 rounded-full">
         <select
           value={searchCategory}
           onChange={handleCategoryChange}
@@ -166,19 +168,21 @@ const FindNewsUpdates = () => {
           </p>
         )}
         {found && newsUpdatesList.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="flex justify-center gap-4">
             {newsUpdatesList.map((newsUpdate, index) => (
               <div key={index} className="bg-white p-6 rounded-md shadow-md">
                 <div className="font-bold mb-2">
                   Headline: {newsUpdate.headline}
                 </div>
-                <div className="mb-2">Description: {newsUpdate.description}</div>
+                <div className="mb-2">
+                  Description: {newsUpdate.description}
+                </div>
                 <div className="mb-2">References: {newsUpdate.reffernces}</div>
-                
+
                 {/* Display avatar if available */}
                 {newsUpdate.avatar && newsUpdate.avatar.length > 0 && (
                   <div className="mb-2">
-                    Avatar: <img src={newsUpdate.avatar[0]} alt="Avatar" />
+                    Image: <img src={newsUpdate.avatar[0]} alt="Avatar" />
                   </div>
                 )}
               </div>

@@ -30,7 +30,7 @@ const page = () => {
       }
     }
     const fetchdata = async () => {
-      const res = await fetch("/api/gallery/admin/noofimg");
+      const res = await fetch("/api/gallery/noofimg");
       const data = await res.json();
       const len = data.length;
       setLength(len);

@@ -4,6 +4,6 @@ const router = express.Router();
 const { isAuthenticated, authorizeRoles } = require('../middleware/Authenticated');
 
 router.post("/admin/upload", isAuthenticated, authorizeRoles('admin'), uploadimage)
-router.get("/admin/noofimg", isAuthenticated, authorizeRoles('admin'), noofimg)
+router.get("/noofimg", isAuthenticated, noofimg)
 router.delete("/admin/delete/:id", isAuthenticated, authorizeRoles('admin'), deleteimg)
 module.exports = router;

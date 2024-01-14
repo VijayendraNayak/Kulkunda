@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 const dotenv = require("dotenv");
-dotenv.config({ path: "client/config.env" });
+dotenv.config({ path: "client/config/config.env" });
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
