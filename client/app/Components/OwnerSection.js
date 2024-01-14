@@ -6,22 +6,22 @@ import Image from 'next/image';
 const ownersData = [
   {
     id: 1,
-    name: 'Owner 1',
-    src: require('../assets/image/car.webp'), // Replace with your image path
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    name: 'ಗಣೇಶ್ ದೀಕ್ಷಿತ್   Ganesh Dixith  ',
+    src: require('../assets/image/profile.jpg'), // Replace with your image path
+    description: 'ಅರ್ಚಕರು  Priest',
   },
   {
     id: 2,
-    name: 'Owner 2',
-    src: require('../assets/image/car.webp'), // Replace with your image path
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    name: 'ಗಿರಿಧರ್ ಸ್ಕಂದ    Giridhar Skanda ',
+    src: require('../assets/image/profile.jpg'), // Replace with your image path
+    description: 'ಅಧ್ಯಕ್ಷರು   President   ',
   },
-  {
-    id: 3,
-    name: 'Owner 3',
-    src: require('../assets/image/car.webp'), // Replace with your image path
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-  },
+  // {
+  //   id: 3,
+  //   name: 'Owner 3',
+  //   src: require('../assets/image/car.webp'), // Replace with your image path
+  //   description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+  // },
 ];
 
 const OwnerSection = () => {
@@ -40,7 +40,7 @@ const OwnerSection = () => {
           key={owner.id}
           style={{
             textAlign: 'center',
-            margin: '30px',
+            margin: '25px',
           }}
         >
           <Image

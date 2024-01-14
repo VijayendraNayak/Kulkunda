@@ -30,14 +30,14 @@ const MarqueeComponent = () => {
         <div id="div1" className="marquee-content">
             <Link href="/Pages/News">
                 <p className="text-black-500 cursor-pointer hover:scale-100 hover:underline">
-                Seva and Darshana
+                Seva and Darshana  ಸೇವೆ ಮತ್ತು ದರ್ಶನ
               </p>
             </Link>
         </div>
         <div id="div2" className="marquee-content">
             <Link href="/Pages/News">
                 <p className="text-black-500 cursor-pointer hover:scale-100 hover:underline">
-                   New User?
+                   New User?  ಹೊಸ ಬಳಕೆದಾರರೇ?
                 </p>
             </Link>
       </div>
