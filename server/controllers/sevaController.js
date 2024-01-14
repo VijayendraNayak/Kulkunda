@@ -19,16 +19,8 @@ exports.createSeva = async (req, res) => {
   if (!sevaname || !username || !phonenumber || !sevadate || !userId) {
     return res.status(400).json({ error: 'All fields are required' });
   }
-
-  try {
-    // Assuming _id is not provided in the request body, MongoDB will generate it
-    const newSeva = new Seva({ sevaname, username, phonenumber, sevadate: new Date(sevadate), userId });
-    await newSeva.save();
-    res.json(newSeva);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
+  const newSeva = await Seva.create({ sevaname, username, phonenumber, sevadate: new Date(sevadate), userId });
+  res.status(200).json({ message: "form sumbmitted successfully", success: true, newSeva })
 };
 
 
@@ -64,7 +56,7 @@ exports.updateSeva = async (req, res) => {
   }
 };
 
-exports.deleteSeva = asyncErrHandler(async (req, res ) => {
+exports.deleteSeva = asyncErrHandler(async (req, res) => {
   const sevaId = req.params.id;
 
   try {
@@ -91,7 +83,7 @@ exports.numberOfSevas = asyncErrHandler(async (req, res, next) => {
 });
 
 exports.getSingleSeva = asyncErrHandler(async (req, res, next) => {
-  const {id}=req.body;
+  const { id } = req.body;
   const seva = await Seva.findById(id)
   if (!seva) { return next(errorHandler(404, "Seva not found")) }
   res.status(200).json({ message: "Seva found successfully", seva })
