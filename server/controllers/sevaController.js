@@ -1,6 +1,6 @@
 const { asyncErrHandler } = require('../middleware/asyncerrorHandler');
 const Seva = require('../models/sevaModel');
-const { errorHandler } = require('../utils/errorHandler');
+const { errorHandler } = require('../Utils/errorHandler');
 
 exports.getSevas = async (req, res) => {
   try {

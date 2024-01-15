@@ -1,6 +1,6 @@
 const { asyncErrHandler } = require('../middleware/asyncerrorHandler');
 const Contact = require('../models/contactModel');
-const { errorHandler } = require('../utils/errorHandler');
+const { errorHandler } = require('../Utils/errorHandler');
 const validator = require('validator');
 
 // Controller for submitting the contact form
