@@ -1,6 +1,6 @@
 const { asyncErrHandler } = require('../middleware/asyncerrorHandler')
 const User = require('../models/usermodel')
-const { errorHandler } = require('../utils/errorHandler')
+const { errorHandler } = require('../Utils/errorHandler')
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const expiresInDays = 5;

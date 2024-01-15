@@ -1,6 +1,6 @@
 const { asyncErrHandler } = require('../middleware/asyncerrorHandler');
 const NewsUpdates = require('../models/newsupdatesmodel');
-const { errorHandler } = require('../utils/errorHandler');
+const { errorHandler } = require('../Utils/errorHandler');
 
 exports.uploadnews = asyncErrHandler(async (req, res, next) => {
   const news = await NewsUpdates.create(req.body);

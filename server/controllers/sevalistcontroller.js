@@ -1,6 +1,6 @@
 const { asyncErrHandler } = require("../middleware/asyncerrorHandler");
 const Sevalist = require('../models/sevalistmodel');
-const { errorHandler } = require("../utils/errorHandler");
+const { errorHandler } = require("../Utils/errorHandler");
 
 
 exports.Addseva=asyncErrHandler(async(req,res,next)=>{
